@@ -1,0 +1,19 @@
+first boot the device
+
+data
+{"NodeStatus": 1, "Timestamp": 1551073120, "SensorNodeId": "b6840348", "NodeRole": 130, "GatewayId": "AICN", "SourceAddress": "4719492"}
+data
+{"GatewayId": "AICN", "SensorNodeId": "b6840348", "NodeStatus": 1, "SourceAddress": "4719492", "Timestamp": 1551073120}
+data
+{"Temperature": 19.18, "IAQaccuracyStatic": 0, "GatewayId": "AICN", "AirQualityStatic": 25, "Humidity": 35.880000000000003, "Ambient_light": 421, "Pressure": 1008, "Timestamp": 1551073120, "SensorNodeId": "b6840348", "BatteryLevel": 100, "SourceAddress": "4719492", "Movement": 0}
+
+click at booted device
+data
+{"Timestamp": 1551073256, "SensorNodeId": "b6840348", "Objects": 2, "User": 1, "GatewayId": "AICN", "SourceAddress": "4719492", "Hall": 2}
+
+power off device
+
+data
+{"Timestamp": 1551073352, "SensorNodeId": "b6840348", "Objects": 2, "User": 1, "GatewayId": "AICN", "SourceAddress": "4719492", "Hall": 2}
+data
+{"GatewayId": "AICN", "SensorNodeId": "b6840348", "NodeStatus": 2, "SourceAddress": "4719492", "Timestamp": 1551073360}

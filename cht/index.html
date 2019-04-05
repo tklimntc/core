@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<HTML LANG="EN">
+	<HEAD>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<style type="text/css">
+			#chart svg {
+				height: 400px;
+			}
+		</style>
+		<link href="/nv.d3.css" rel="stylesheet" type="text/css"/>
+		<link href="/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+		<!--<link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/dashboard/">-->
+			<!-- Bootstrap core CSS -->
+		<!--<link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+		<style>
+			.bd-placeholder-img {
+				font-size: 1.125rem;
+				text-anchor: middle;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+		
+			@media (min-width: 768px) {
+				.bd-placeholder-img-lg {
+					font-size: 3.5rem;
+				}
+			}
+			.container-fluid{
+				margin-top:40px;
+			}
+		</style>
+		<script src="/jquery.js"></script>
+		<script src="/socket.io.js"></script>
+		<script src="/d3.min.js"></script>
+		<script src="/nv.d3.min.js"></script>
+		<script src="/popper.min.js"></script>
+		<script src="/bootstrap.min.js"></script>
+		<script src="/bootstrap.bundle.min.js"></script>
+		<script src="/index.js"></script>
+	</HEAD>
+	<META name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<BODY onload="init()">
+		<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+			<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">NEXTURECOM</a>
+			<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+			<ul class="navbar-nav px-3">
+				<li class="nav-item text-nowrap">
+					<a class="nav-link" href="#">Sign out</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+					<div class="sidebar-sticky">
+						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+							<span>Dashboard</span>
+							<a class="d-flex align-items-center text-muted" href="#">
+							<span data-feather="plus-circle"></span>
+							</a>
+						</h6>
+						<ul class="nav flex-column">
+							<li class="nav-item">
+							<a class="nav-link active" href="#">
+								<span data-feather="home"></span>
+								Dashboard <span class="sr-only">(current)</span>
+							</a>
+							</li>
+						</ul>
+						<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+							<span>Configure</span>
+							<a class="d-flex align-items-center text-muted" href="#">
+							<span data-feather="plus-circle"></span>
+							</a>
+						</h6>
+						<ul class="nav flex-column mb-2">
+							<li class="nav-item">
+							<a class="nav-link" href="#"  data-toggle="modal" data-target="#myModal">
+								<span data-feather="file"></span>
+								Node Settings
+							</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+						<h1 class="h2">Dashboard</h1>
+					</div>
+					<div id="chart"><svg></svg></div>
+					<!--<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>-->
+					<div class="btn-toolbar mb-2 mb-md-0">
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Temperature')">
+								                                                                                Temperature</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Humidity')">
+								                                                                                Humidity</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Ambient_light')">
+								                                                                                Ambient_light</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('AirQualityStatic')">
+								                                                                                AirQualityStatic</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Pressure')">
+								                                                                                Pressure</button>
+						</div>
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('IAQaccuracyStatic')">
+								                                                                                IAQaccuracyStatic</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('BatteryLevel')">
+								                                                                                BatteryLevel</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Movement')">
+								                                                                                Movement</button>
+						</div>
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('NodeStatus')">
+								                                                                                NodeStatus</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('NodeRole')">
+								                                                                                NodeRole</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Hall')">
+								                                                                                Hall</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('Objects')">
+								                                                                                Objects</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onClick="selectData('User')">
+								                                                                                User</button>
+						</div>
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onclick="startWorker()">Realtime Start</button> 
+							<button type="button" class="btn btn-sm btn-outline-secondary" onclick="stopWorker()">Realtime Stop</button>
+							<button type="button" class="btn btn-sm btn-outline-secondary" onclick="init()">Refresh</button>
+						</div>
+						<input id="DataRows" class="form-control form-control-dark w-100" type="text" placeholder="Data rows : " aria-label="Search">
+						<!--<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">-->
+						<!--<span id="nodes" data-feather="calendar"></span>-->
+						<!--	nodes-->
+						<!--</button>-->
+						<!--<div class="dropdown">-->
+						<!--	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">-->
+						<!--		Dropdown button-->
+						<!--	</button>-->
+						<!--	<div class="dropdown-menu">-->
+						<!--		<a class="dropdown-item" href="#">Link 1</a>-->
+						<!--		<a class="dropdown-item" href="#">Link 2</a>-->
+						<!--		<a class="dropdown-item" href="#">Link 3</a>-->
+						<!--	</div>-->
+						<!--</div>-->
+					</div>
+					<div>
+						<script>
+							var w;
+							// var e=0;
+							function startWorker() {
+								if(typeof(Worker) !== "undefined") {
+									if(typeof(w) == "undefined") {
+										w = new Worker("worker.js");
+									}
+									w.onmessage = function(event) {
+										// fetching data at DBMS
+									    /* global checkDB */
+									    if(typeof(Data.fetchedData)!="undefined"){
+									    	// console.log(Data.fetchedData)
+											checkDB();
+									    }
+										// document.getElementById("result").innerHTML = e++;
+									};
+								} else {
+									// document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
+								}
+							}
+							function stopWorker() { 
+								if(typeof(w)!="undefined")
+								{
+									w.terminate();
+									w = undefined;
+								}
+							}
+						</script>
+					</div>
+				</main>
+				<div id="myModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+				
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Modal Header</h4>
+							</div>
+							<div class="modal-body">
+								<p>Some text in the modal.</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--<script src="/jquery.js"></script>-->
+		<!--<script src="/socket.io.js"></script>-->
+		<!--<script src="/d3.min.js"></script>-->
+		<!--<script src="/nv.d3.min.js"></script>-->
+		<!--<script src="/popper.min.js"></script>-->
+		<!--<script src="/bootstrap.min.js"></script>-->
+		<!--<script src="/bootstrap.bundle.min.js"></script>-->
+		<!--<script src="/index.js"></script>-->
+		
+		<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+		<!--<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>-->
+		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>-->
+		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>-->
+		<!--<script src="dashboard.js"></script></body>-->
+	</BODY>
+</HTML>

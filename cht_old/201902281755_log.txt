@@ -1,0 +1,255 @@
+Microsoft Windows [Version 10.0.17763.316]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\NTC>docker search ubuntu
+Error response from daemon: Get https://index.docker.io/v1/search?q=ubuntu&n=25: dial tcp: lookup index.docker.io on 192.168.65.1:53: read udp 192.168.65.3:42430->192.168.65.1:53: i/o timeout
+
+C:\Users\NTC>docker search ubuntu
+Error response from daemon: Get https://index.docker.io/v1/search?q=ubuntu&n=25: dial tcp: lookup index.docker.io on 192.168.65.1:53: read udp 192.168.65.3:51219->192.168.65.1:53: i/o timeout
+
+C:\Users\NTC>docker search ubuntu
+Error response from daemon: Get https://index.docker.io/v1/search?q=ubuntu&n=25: dial tcp: lookup index.docker.io on 192.168.65.1:53: read udp 192.168.65.3:59119->192.168.65.1:53: i/o timeout
+
+C:\Users\NTC>docker pull gmacario/build-yocto
+Using default tag: latest
+Error response from daemon: Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+
+C:\Users\NTC>netstat
+
+활성 연결
+
+  프로토콜  로컬 주소           외부 주소              상태
+  TCP    127.0.0.1:49688        209:49691              ESTABLISHED
+  TCP    127.0.0.1:49691        209:49688              ESTABLISHED
+  TCP    127.0.0.1:53486        209:49350              TIME_WAIT
+  TCP    172.30.1.37:51738      lb-192-30-253-124-iad:https  ESTABLISHED
+  TCP    172.30.1.37:51912      52.230.3.194:https     ESTABLISHED
+  TCP    172.30.1.37:51939      ti-in-f188:5228        ESTABLISHED
+  TCP    172.30.1.37:52786      151.101.230.2:https    TIME_WAIT
+  TCP    172.30.1.37:53110      120:https              ESTABLISHED
+  TCP    172.30.1.37:53258      211.115.106.76:http    CLOSE_WAIT
+  TCP    172.30.1.37:53286      211.115.106.203:http   CLOSE_WAIT
+  TCP    172.30.1.37:53312      211.115.106.81:http    CLOSE_WAIT
+^C
+C:\Users\NTC>ipconfig
+
+Windows IP 구성
+
+
+이더넷 어댑터 vEthernet (DockerNAT):
+
+   연결별 DNS 접미사. . . . :
+   IPv4 주소 . . . . . . . . . : 10.0.75.1
+   서브넷 마스크 . . . . . . . : 255.255.255.0
+   기본 게이트웨이 . . . . . . :
+
+무선 LAN 어댑터 로컬 영역 연결* 11:
+
+   미디어 상태 . . . . . . . . : 미디어 연결 끊김
+   연결별 DNS 접미사. . . . :
+
+무선 LAN 어댑터 로컬 영역 연결* 12:
+
+   미디어 상태 . . . . . . . . : 미디어 연결 끊김
+   연결별 DNS 접미사. . . . :
+
+이더넷 어댑터 이더넷 2:
+
+   연결별 DNS 접미사. . . . :
+   링크-로컬 IPv6 주소 . . . . : fe80::6897:ba0a:81e3:5344%20
+   IPv4 주소 . . . . . . . . . : 172.30.1.37
+   서브넷 마스크 . . . . . . . : 255.255.255.0
+   기본 게이트웨이 . . . . . . : 172.30.1.254
+
+무선 LAN 어댑터 Wi-Fi 2:
+
+   미디어 상태 . . . . . . . . : 미디어 연결 끊김
+   연결별 DNS 접미사. . . . : netis
+
+이더넷 어댑터 vEthernet (Default Switch):
+
+   연결별 DNS 접미사. . . . :
+   링크-로컬 IPv6 주소 . . . . : fe80::1128:767:eb0f:665%27
+   IPv4 주소 . . . . . . . . . : 192.168.50.49
+   서브넷 마스크 . . . . . . . : 255.255.255.240
+   기본 게이트웨이 . . . . . . :
+
+C:\Users\NTC>docker ps -a
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
+c68f1b004e73        ntcrndtask/gw:latest   "/bin/bash"         8 minutes ago       Up 8 minutes                            gw
+
+C:\Users\NTC>docker-machine ip gw
+Docker machine "gw" does not exist. Use "docker-machine ls" to list machines. Use "docker-machine create" to add a new one.
+
+C:\Users\NTC>docker-machine ip ntcrndtask/gw
+Docker machine "ntcrndtask/gw" does not exist. Use "docker-machine ls" to list machines. Use "docker-machine create" to add a new one.
+
+C:\Users\NTC>docker-machine ip ntcrndtask/gw:latest
+Docker machine "ntcrndtask/gw:latest" does not exist. Use "docker-machine ls" to list machines. Use "docker-machine create" to add a new one.
+
+C:\Users\NTC>docker-machine
+Usage: docker-machine [OPTIONS] COMMAND [arg...]
+
+Create and manage machines running Docker.
+
+Version: 0.16.1, build cce350d7
+
+Author:
+  Docker Machine Contributors - <https://github.com/docker/machine>
+
+Options:
+  --debug, -D                                           Enable debug mode
+  --storage-path, -s "C:\Users\NTC\.docker\machine"     Configures storage path [$MACHINE_STORAGE_PATH]
+  --tls-ca-cert                                         CA to verify remotes against [$MACHINE_TLS_CA_CERT]
+  --tls-ca-key                                          Private key to generate certificates [$MACHINE_TLS_CA_KEY]
+  --tls-client-cert                                     Client cert to use for TLS [$MACHINE_TLS_CLIENT_CERT]
+  --tls-client-key                                      Private key used in client TLS auth [$MACHINE_TLS_CLIENT_KEY]
+  --github-api-token                                    Token to use for requests to the Github API [$MACHINE_GITHUB_API_TOKEN]
+  --native-ssh                                          Use the native (Go-based) SSH implementation. [$MACHINE_NATIVE_SSH]
+  --bugsnag-api-token                                   BugSnag API token for crash reporting [$MACHINE_BUGSNAG_API_TOKEN]
+  --help, -h                                            show help
+  --version, -v                                         print the version
+
+Commands:
+  active                Print which machine is active
+  config                Print the connection config for machine
+  create                Create a machine
+  env                   Display the commands to set up the environment for the Docker client
+  inspect               Inspect information about a machine
+  ip                    Get the IP address of a machine
+  kill                  Kill a machine
+  ls                    List machines
+  provision             Re-provision existing machines
+  regenerate-certs      Regenerate TLS Certificates for a machine
+  restart               Restart a machine
+  rm                    Remove a machine
+  ssh                   Log into or run a command on a machine with SSH.
+  scp                   Copy files between machines
+  mount                 Mount or unmount a directory from a machine with SSHFS.
+  start                 Start a machine
+  status                Get the status of a machine
+  stop                  Stop a machine
+  upgrade               Upgrade a machine to the latest version of Docker
+  url                   Get the URL of a machine
+  version               Show the Docker Machine version or a machine docker version
+  help                  Shows a list of commands or help for one command
+
+Run 'docker-machine COMMAND --help' for more information on a command.
+
+C:\Users\NTC>docker-machine ls
+NAME   ACTIVE   DRIVER   STATE   URL   SWARM   DOCKER   ERRORS
+
+C:\Users\NTC>ping localhost:8181
+Ping 요청에서 localhost:8181 호스트를 찾을 수 없습니다. 이름을 확인하고 다시 시도하십시오.
+
+C:\Users\NTC>ping localhost
+
+Ping NTC-DESKTOP-TK [::1] 32바이트 데이터 사용:
+::1의 응답: 시간<1ms
+::1의 응답: 시간<1ms
+::1의 응답: 시간<1ms
+::1의 응답: 시간<1ms
+
+::1에 대한 Ping 통계:
+    패킷: 보냄 = 4, 받음 = 4, 손실 = 0 (0% 손실),
+왕복 시간(밀리초):
+    최소 = 0ms, 최대 = 0ms, 평균 = 0ms
+
+C:\Users\NTC>ping localhost:8182
+Ping 요청에서 localhost:8182 호스트를 찾을 수 없습니다. 이름을 확인하고 다시 시도하십시오.
+
+C:\Users\NTC>ping localhost:8888
+Ping 요청에서 localhost:8888 호스트를 찾을 수 없습니다. 이름을 확인하고 다시 시도하십시오.
+
+C:\Users\NTC>ipconfig
+
+Windows IP 구성
+
+
+이더넷 어댑터 vEthernet (DockerNAT):
+
+   연결별 DNS 접미사. . . . :
+   IPv4 주소 . . . . . . . . . : 10.0.75.1
+   서브넷 마스크 . . . . . . . : 255.255.255.0
+   기본 게이트웨이 . . . . . . :
+
+무선 LAN 어댑터 로컬 영역 연결* 11:
+
+   미디어 상태 . . . . . . . . : 미디어 연결 끊김
+   연결별 DNS 접미사. . . . :
+
+무선 LAN 어댑터 로컬 영역 연결* 12:
+
+   미디어 상태 . . . . . . . . : 미디어 연결 끊김
+   연결별 DNS 접미사. . . . :
+
+이더넷 어댑터 이더넷 2:
+
+   연결별 DNS 접미사. . . . :
+   링크-로컬 IPv6 주소 . . . . : fe80::6897:ba0a:81e3:5344%20
+   IPv4 주소 . . . . . . . . . : 172.30.1.37
+   서브넷 마스크 . . . . . . . : 255.255.255.0
+   기본 게이트웨이 . . . . . . : 172.30.1.254
+
+무선 LAN 어댑터 Wi-Fi 2:
+
+   미디어 상태 . . . . . . . . : 미디어 연결 끊김
+   연결별 DNS 접미사. . . . : netis
+
+이더넷 어댑터 vEthernet (Default Switch):
+
+   연결별 DNS 접미사. . . . :
+   링크-로컬 IPv6 주소 . . . . : fe80::1128:767:eb0f:665%27
+   IPv4 주소 . . . . . . . . . : 192.168.50.49
+   서브넷 마스크 . . . . . . . : 255.255.255.240
+   기본 게이트웨이 . . . . . . :
+
+C:\Users\NTC>docker ps
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS                                            NAMES
+d0c2e3e27fae        ntcrndtask/gw:latest   "/bin/bash"         23 minutes ago      Up 23 minutes       0.0.0.0:8181->8181/tcp, 0.0.0.0:8888->8888/tcp   gw
+
+C:\Users\NTC>docker commit -c -p d0c2e3e27fae ntcrndtask/gw:latest
+Error response from daemon: -p is not a valid change command
+
+C:\Users\NTC>docker commit -c d0c2e3e27fae ntcrndtask/gw:latest
+Error response from daemon: No such container: ntcrndtask/gw:latest
+
+C:\Users\NTC>docker commit -c -p ntcrndtask/gw:latest
+Error response from daemon: No such container: ntcrndtask/gw:latest
+
+C:\Users\NTC>docker commit -c ntcrndtask/gw:latest
+"docker commit" requires at least 1 and at most 2 arguments.
+See 'docker commit --help'.
+
+Usage:  docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+Create a new image from a container's changes
+
+C:\Users\NTC>docker commit ntcrndtask/gw:latest -c
+invalid reference format
+
+C:\Users\NTC>docker commit -c gw
+"docker commit" requires at least 1 and at most 2 arguments.
+See 'docker commit --help'.
+
+Usage:  docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+
+Create a new image from a container's changes
+
+C:\Users\NTC>docker commit d0c2e3e27fae ntcrndtask/gw
+sha256:32272502a1db2336b7961dfa2b639aeb7fe99acd8193f064a5bb842e51d3fe06
+
+C:\Users\NTC>docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                            NAMES
+d0c2e3e27fae        465b6a0a9abc        "/bin/bash"         26 minutes ago      Up 26 minutes       0.0.0.0:8181->8181/tcp, 0.0.0.0:8888->8888/tcp   gw
+
+C:\Users\NTC>docker images
+REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
+ntcrndtask/gw              latest              32272502a1db        9 seconds ago       1.02GB
+ubuntu001                  latest              465b6a0a9abc        24 hours ago        864MB
+ntcrndtask/gw              <none>              465b6a0a9abc        24 hours ago        864MB
+<none>                     <none>              847d22e7d81f        24 hours ago        864MB
+ubuntu                     latest              47b19964fb50        3 weeks ago         88.1MB
+docker4w/nsenter-dockerd   latest              2f1c802f322f        4 months ago        187kB
+
+C:\Users\NTC>
