@@ -7,6 +7,7 @@ var mysql = require('mysql');
 var key = require('./key.js')
 var connection = mysql.createConnection(key);
 var port=80;
+var defaultSelectionQuery = "";
 io.on('connection', function(socket){
     console.log('socket connect : '+ socket.id);
     socket.on('connection', function(){
@@ -16,29 +17,44 @@ io.on('connection', function(socket){
     socket.on('firstData', function(msg){
         // prevent crakin
         // to do when data requested
-        connection.query(msg, function (error, results, fields) {
-            if (error) throw error;
+        connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
             // connected!
             socket.emit('firstData', results);
-        });
+        }});
     });
     socket.on('data', function(msg){
         // prevent crakin
         // to do when data requested
-        connection.query(msg, function (error, results, fields) {
-            if (error) throw error;
+        connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
             // connected!
             socket.emit('data', results);
-        });
+        }});
     });
-    socket.on('nodeConfig', function(msg){
-        // prevent crakin
-        // to do when data requested
-        connection.query(msg, function (error, results, fields) {
-            if (error) throw error;
-            // connected!
-            socket.emit('nodeConfig', results);
-        });
+    socket.on('nodename', function(msg){
+        var truth = typeof(msg)!="undefined" && msg!=null
+        // console.log(msg)
+        if(typeof(msg)!="undefined" && msg!=null && msg.length > 6){
+            var query = msg.substr(0,6)
+            if(query=="SELECT" || query=="select"){
+                connection.query("SELECT * FROM mobiusdb.nodename group by name order by name;", function (error, results, fields) { if (error) { console.log( error ) } else {
+                    socket.emit('nodename', results);
+                }});
+            }
+            if(query=="INSERT" || query=="insert" || query=="REPLACE" || query=="replace"){
+                connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
+                    connection.query("SELECT * FROM mobiusdb.nodename group by name order by name;", function (error, results, fields) {
+                        if (error) { console.log( error ) } else {
+                            socket.emit('nodename', results);
+                    }});
+                }});
+            }
+        }
+        else{
+            connection.query("SELECT * FROM mobiusdb.nodename group by name order by name;", function (error, results, fields) {
+                if (error) { console.log( error ) } else {
+                    socket.emit('nodename', results);
+            }});
+        }
     });
 });
 http.listen(port, function(){
