@@ -1,1 +1,0 @@
-node D:\core\server.js -l 0.0.0.0 -p 8080 -a "root":"q34tq34t"
