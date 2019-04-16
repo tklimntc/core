@@ -1,0 +1,57 @@
+#chart svg {
+	height: 400px;
+}
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media (min-width: 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+.container-fluid{
+	margin-top:40px;
+}
+
+#logo{
+    background-image: url(/logo.png);
+    background-size: 210px 40px ;
+}
+#graphComment{
+	
+}
+#searchbarComment{
+    top: -70px;
+    position: relative;
+}
+
+.app-header__logo .logo-src, .app-header.header-text-light .app-header__logo .logo-src, .app-header.header-text-dark .app-header__logo .logo-src, .app-sidebar.sidebar-text-light .app-header__logo .logo-src {
+    height: 40px !important;
+    width: 150px !important;
+    background: url(assets/images/logos.png);
+    background-size:     contain !important;
+    background-repeat:   no-repeat !important;
+    background-position: center center !important;
+}
+
+/*.app-header.header-text-light .app-header__logo .logo-src {*/
+/*    background: url(assets/images/logo.png)*/
+/*}*/
+
+/*.app-header.header-text-dark .app-header__logo .logo-src {*/
+/*    background: url(assets/images/logos.png);*/
+/*    background-size:     contain;*/
+/*    background-repeat:   no-repeat;*/
+/*    background-position: center center;*/
+/*}*/
+
+/*.app-sidebar.sidebar-text-light .app-header__logo .logo-src {*/
+/*    background: url(assets/images/logo.png)*/
+/*}*/
+
