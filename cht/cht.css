@@ -1,6 +1,43 @@
-#chart svg {
-	height: 400px;
+#chart, #chart svg{
+	height: 400px !important;
+	width:100% !important;
 }
+
+#chart, #chart svg, #chart svg g.nvd3.nv-wrap.nv-lineChart {
+	height: 100%;
+	width:100% !important;
+}
+
+#nodeNameList, #sensorList {
+    overflow: auto;
+    max-height: 80% !important;
+    min-height: 500px;
+}
+
+#dateCenterHolder {
+    min-width: 38px;
+}
+
+#TooltipDemo {
+    bottom:3px;
+}
+
+div.app-header__content.header-mobile-open {
+    height: 123px !important;
+}
+
+/*<div id="chart">*/
+/*<div id="graphComment">　그래프</div>*/
+/*<svg class="nvd3-svg">*/
+/*<g class="nvd3 nv-wrap nv-lineChart" */
+
+.form-controls{
+    width:calc(100% - 47px) !important;
+    height: 28px !important;
+    margin: 0 0 0 0 !important;
+    display: inline-block;
+}
+
 .bd-placeholder-img {
 	font-size: 1.125rem;
 	text-anchor: middle;

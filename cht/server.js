@@ -30,6 +30,14 @@ io.on('connection', function(socket){
             socket.emit('data', results);
         }});
     });
+    socket.on('getLastDataTime', function(msg){
+        // prevent crakin
+        // to do when data requested
+        connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
+            // connected!
+            socket.emit('getLastDataTime', results);
+        }});
+    });
     socket.on('nodename', function(msg){
         var truth = typeof(msg)!="undefined" && msg!=null
         // console.log(msg)

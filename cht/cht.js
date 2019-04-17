@@ -9,9 +9,34 @@ var Data = {};
 var defaultDataRows = 150;
 var defaultRadix = 10;
 function init(){
-	console.log('ssss')
-	firstFetchDB();
+	// initDateForm();
+	// initDataRows();
+	getLastDataTime();
 }
+
+init();
+
+function getLastDataTime(){
+	socket.emit("getLastDataTime","SELECT time FROM mobiusdb.sensdb ORDER BY time DESC LIMIT 1");
+}
+
+function initDateForm(){
+	/* global startDate */
+	/* global endDate */
+	startDate.value = getDay(new Date,0,0,-3);
+	endDate.value = getDay(new Date);
+}
+
+function initDataRows(){
+	/* global DataRows */
+	DataRows.value = 150;
+	return false;
+}
+
+// $("#DataRows").on("click",function(event){
+//     event.stopPropagation();
+// });
+
 function dataInit(){
 	// Data = {};
 	Data.fetchedData = null;
@@ -63,22 +88,45 @@ function pushData(data, selecteddata, selectedData, i){
 		}
 	}
 	if(count==0){
-		var nodeName = document.getElementById("n"+data[i].SensorNodeId);
+		var nodeName = document.getElementById("n"+data[i].SensorNodeId+"input");
 		if(nodeName==null){
-			document.getElementById("nodeNameList").insertAdjacentHTML("beforeend", "<input id=\"n"+data[i].SensorNodeId+"\" class=\"form-control form-control-dark w-100\" type=\"text\" placeholder=\""+data[i].SensorNodeId+"\" aria-label=\"Search\"></input>");
-			document.getElementById("n"+data[i].SensorNodeId).addEventListener("keyup", function (evt) {
-			    renameNode(data[i].SensorNodeId,document.getElementById("n"+data[i].SensorNodeId).value);
+			document.getElementById("nodeNameList").insertAdjacentHTML("beforeend", 
+			"<div id=\"n"+data[i].SensorNodeId+"div\" style=\"margin-left: 11px;\" class=\"custom-checkbox custom-control\">"+
+			"<input type=\"checkbox\" id=\"n"+data[i].SensorNodeId+"checkbox\" class=\"custom-control-input\">"+
+			"<label id=\"n"+data[i].SensorNodeId+"label\" class=\"custom-control-label\" for=\"n"+data[i].SensorNodeId+"checkbox\">"+
+			"<input id=\"n"+data[i].SensorNodeId+"input\" type=\"text\" class=\"form-control form-controls\" placeholder=\""+data[i].SensorNodeId+"\" required=\"\">"+
+			"<button onclick=\"saveRenameNode(n"+data[i].SensorNodeId+"input.placeholder,n"+data[i].SensorNodeId+"input.value)\" id=\"n"+data[i].SensorNodeId+"button\" class=\"mb-2 mr-2 btn-transition btn btn-outline-dark\" style=\"padding: 0; margin: -5px 0px 0px 7px !important;\">"+
+			"<a href=\"javascript:void(0);\" class=\"nav-link\" style=\"padding: 5px;\">"+
+			"<i class=\"nav-link-icon fa fa-edit\" style=\"margin: 0; width: 16px;\"></i></a></button></label></div>");
+			// "<input id=\"n"+data[i].SensorNodeId+"\" class=\"form-control form-control-dark w-100\" type=\"text\" placeholder=\""+data[i].SensorNodeId+"\" aria-label=\"Search\"></input>");
+			document.getElementById("n"+data[i].SensorNodeId+"input").addEventListener("keyup", function (evt) {
+			    renameNode(data[i].SensorNodeId,document.getElementById("n"+data[i].SensorNodeId+"input").value);
+			}, false);
+			document.getElementById("n"+data[i].SensorNodeId+"button").addEventListener("onclick", function (evt) {
+			    renameNode(data[i].SensorNodeId,document.getElementById("n"+data[i].SensorNodeId+"input").value);
 			}, false);
 		}
 		else{
 		}
 		var nodeName = localStorage.getItem(data[i].SensorNodeId);
 		if (nodeName!=null){
-			document.getElementById("n"+data[i].SensorNodeId).defaultValue = nodeName;
+			document.getElementById("n"+data[i].SensorNodeId+"input").defaultValue = nodeName;
 		}
 		selectedData.push({key:localStorage.getItem(data[i].SensorNodeId) || data[i].SensorNodeId,key_org:data[i].SensorNodeId,values:[{x:data[i].Time,y:selecteddata}]});
 	}
 }
+
+function getDay(inputDate, inputYear, inputMonth, inputDay){
+	var now = new Date(inputDate||null);
+	if(typeof(inputYear)!="undefined"){ now.setYear(now.getFullYear()+inputYear) }
+	if(typeof(inputMonth)!="undefined"){ now.setMonth(now.getMonth()+inputMonth) }
+	if(typeof(inputDay)!="undefined"){ now.setDate(now.getDate()+inputDay) }
+	var day = ("00" + now.getDate()).slice(-2);
+	var month = ("00" + (now.getMonth()+ 1)).slice(-2);
+	var today = ("0000" + now.getFullYear()).slice(-4)+"-"+(month)+"-"+(day) ;
+	return today;
+}
+
 function storeNodeName(){
 	var nodeNameList = document.getElementById("nodeNameList")
 	// /* global nodeNameList */
@@ -94,6 +142,16 @@ function storeNodeName(){
 	}
 	socket.emit("nodename",insertSQL);
 }
+
+function saveRenameNode(id,name){
+	renameNode(id,name);
+	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
+		insertSQL+= "(\""+id+"\",\""+name+"\") ";
+		insertSQL+= "ON DUPLICATE KEY UPDATE name=VALUES(name);";
+	socket.emit("nodename",insertSQL);
+	console.log(insertSQL);
+}
+
 function renameNode(id,name){
 	/* global localStorage */
 	// console.log(id+"/"+name)
@@ -105,18 +163,25 @@ function renameNode(id,name){
 			}
 		}
 	}
-	for (var i = 0 ; i < nodeNameList.childElementCount ; i++){
+	// if (typeof(document.getElementById("n"+id+"input"))!="undefined"){
+	// 	document.getElementById("n"+id+"input").value = name;
+	// 	// document.getElementById(id+"label").innerHTML = name;
+	// }
+	for (var i = 0 ; i < nodeNameList.getElementsByTagName('input').length ; i++){
 		if(nodeNameList.getElementsByTagName('input')[i].id.substr(1,8)==id){
 			nodeNameList.getElementsByTagName('input')[i].value=name
+			// nodeNameList.getElementsByTagName('label')[i].textContent=name
 		}
 	}
 	selectData()
 }
+
 function renameNodes(){
 	for(var i = 0 ; i < Data.nodeNameList.length ; i++){
 		renameNode(Data.nodeNameList[i].serial,Data.nodeNameList[i].name);
 	}
 }
+
 function releaseData(){
 	var data = Data.fetchedData;
 	for (var i = data.length-1; i >= 0 ; i--){
@@ -268,13 +333,14 @@ function firstFetchDB(){
 	             " time as Time "+
 	             ",value as JSON, JSON_EXTRACT(value,\"$.Timestamp\") as times ";
 	FromStmt =   "FROM mobiusdb.sensdb ";
-	WhereStmt =  "WHERE 1=1 ";
+	WhereStmt =  "WHERE time<='"+endDate.value+"' AND time>'"+startDate.value+"' ";
 	// specific case for our data capture
 	// WhereStmt =  "WHERE time < \"2019-02-14\" ";
 	EtcStmt =    "ORDER BY time DESC LIMIT "+String(datarows)+" ";
 	// specific case for our data capture
 	//EtcStmt =    "ORDER BY time DESC LIMIT 8000 ";
 	AllFetchSQL = SelectStmt + FromStmt + WhereStmt + EtcStmt;
+	console.log(AllFetchSQL)
 	socket.emit('firstData',AllFetchSQL);
 	socket.emit('nodename');
 }
@@ -317,3 +383,15 @@ socket.on('nodename', function(data){
 	Data.nodeNameList = data;
 	renameNodes()
 });
+socket.on('getLastDataTime', function(data){
+	setFirstDate(data);
+});
+
+function setFirstDate(date){
+	console.log(date)
+	if(startDate.value=="" || endDate.value==""){
+		startDate.value = getDay(date[0].time,0,0,-3)
+		endDate.value = getDay(date[0].time)
+	}
+	firstFetchDB();
+}

@@ -25,7 +25,7 @@
     <link href="/main.css" rel="stylesheet">
 	<link href="/cht.css" rel="stylesheet" type="text/css"/>
 </head>
-    <body onload="init()">
+    <body>
         <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
             <div class="app-header header-shadow">
                 <div class="app-header__logo">
@@ -59,41 +59,43 @@
                     </span>
                 </div>    <div class="app-header__content">
                     <div class="app-header-left">
+                    </div>
+                    <div class="app-header-right">
                         <ul class="header-menu nav">
                             <li class="nav-item">
-                                <a href="javascript:void(0);" class="nav-link">
+                                <!--href="javascript:initDateForm();"-->
+                                <a class="nav-link">
                                     <i class="nav-link-icon fa fa-calendar"> </i>
-                                    Date<input name="email" id="exampleEmail11" placeholder="yyyy-mm-dd a placeholder" type="date" class="form-control">~<input name="email" id="exampleEmail11" placeholder="yyyy-mm-dd" type="date" class="form-control">
+                                    　<input name="startdate" id="startDate" placeholder="yyyy-mm-dd" type="date" class="form-control">
+                                    　<label id="dateCenterHolder" for="">　~　</label>
+                                    　<input name="enddate" id="endDate" placeholder="yyyy-mm-dd" type="date" class="form-control">
                                 </a>
                             </li>
                             <li class="dropdown nav-item">
-                                <a href="javascript:void(0);" class="nav-link">
+                                <!--href="javascript:initDataRows();"-->
+                                <a class="nav-link">
                                     <i class="nav-link-icon fa fa-database"> </i>
-                                    <input id="DataRows" class="d-inline-block form-control form-control-dark w-100" type="text" placeholder="Data rows : " aria-label="Search">
+                                    　<input id="DataRows" class="d-inline-block form-control form-control-dark w-100" type="number" placeholder="Data rows : " aria-label="Search">
                                 </a>
                             </li>
                             <li class="btn-group nav-item">
                                 <a href="javascript:void(0);" class="nav-link">
-                                    <button class="mb-2 mr-2 btn-transition btn btn-outline-dark" style="margin:0 !important; padding:6px;" ><i class="nav-link-icon fa fa-search" style="margin:0; width:16px;"></i></button>
+                                    <button onclick="init()" class="mb-2 mr-2 btn-transition btn btn-outline-dark" style="margin:0 !important; padding:6px;" ><i class="nav-link-icon fa fa-search" style="margin:0; width:16px;"></i></button>
                                 </a>
                             </li>
-                        </ul>        </div>
-                    <div class="app-header-right">
+                        </ul>        
                         <div class="header-btn-lg pr-0">
                             <div class="widget-content p-0">
                                 <div class="widget-content-wrapper">
                                     <div class="widget-content-left">
                                         <div class="btn-group">
                                             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                                <img width="42" class="rounded-circle" src="/assets/images/node.png" alt="">
+                                                <img width="42" class="rounded-circle" src="/assets/images/node.png" alt>
                                                 <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                             </a>
-                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                            <div id="nodeNameList" tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                                 <h6 tabindex="-1" class="dropdown-header">Nodes</h6>
                                                 <div tabindex="-1" class="dropdown-divider"></div>
-                                                <div style="margin-left: 11px;" class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox1" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox1"><input><button class="mb-2 mr-2 btn-transition btn btn-outline-dark" style="padding: 0; margin: -5px 0px 0px 7px !important;"><a href="javascript:void(0);" class="nav-link" style="padding: 5px;"><i class="nav-link-icon fa fa-edit" style="margin: 0; width: 16px;"></i></a></button></label></div>
-                                                <div style="margin-left: 11px;" class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox2" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox2"><input><button class="mb-2 mr-2 btn-transition btn btn-outline-dark" style="padding: 0; margin: -5px 0px 0px 7px !important;"><a href="javascript:void(0);" class="nav-link" style="padding: 5px;"><i class="nav-link-icon fa fa-edit" style="margin: 0; width: 16px;"></i></a></button></label></div>
-                                                <div style="margin-left: 11px;" class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox3" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox3"><input><button class="mb-2 mr-2 btn-transition btn btn-outline-dark" style="padding: 0; margin: -5px 0px 0px 7px !important;"><a href="javascript:void(0);" class="nav-link" style="padding: 5px;"><i class="nav-link-icon fa fa-edit" style="margin: 0; width: 16px;"></i></a></button></label></div>
                                             </div>
                                         </div>
                                         <div class="btn-group">
@@ -101,13 +103,25 @@
                                                 <img width="42" class="rounded-circle" src="/assets/images/temp.png" alt="">
                                                 <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                             </a>
-                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                            <div id="sensorList" tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                                 <h6 tabindex="-1" class="dropdown-header">Sensors</h6>
-                                                <button type="button" tabindex="0" class="dropdown-item">User Account</button>
-                                                <button type="button" tabindex="0" class="dropdown-item">Settings</button>
-                                                <button type="button" tabindex="0" class="dropdown-item">Actions</button>
-                                                <div tabindex="-1" class="dropdown-divider"></div>
-                                                <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                                                <div tabindex="-2" class="dropdown-divider"></div>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('Temperature')">온도</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('Humidity')">습도</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('Ambient_light')">조도</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('AirQualityStatic')">공기</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('Pressure')">기압</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('IAQaccuracyStatic')">실내</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('BatteryLevel')">전력</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('Movement')">진동</button>
+                                                <button type="button" tabindex="0" class="dropdown-item" onclick="selectData('Hall')">자력</button>
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">GatewayId</button>-->
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">SensorNodeId</button>-->
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">SourceAddress</button>-->
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">NodeStatus</button>-->
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">NodeRole</button>-->
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">Objects</button>-->
+                                                <!--<button type="button" tabindex="0" class="dropdown-item" onclick=" ">User</button>-->
                                             </div>
                                         </div>
                                     </div>
@@ -126,7 +140,8 @@
                                     <!--</div>-->
                                 </div>
                             </div>
-                        </div>        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="ui-theme-settings">
@@ -633,13 +648,14 @@
                             <div class="tab-content">
                                 <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
                                     <div class="row">
-                                        <div id="chart"><div id="graphComment">　온도(℃)</div><svg></svg><div id="searchbarComment">　탐색BAR</div></div>
+                                        <div id="chart"><div id="graphComment">　그래프</div><svg></svg><div id="searchbarComment">　탐색BAR</div></div>
                                     </div>
                                 </div>
                                 <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
                                     <div class="row">
-                                        <div class="col-md-9">
-                                            <div class="main-card mb-3 card">
+                                        <!--<div class="col-md-3">-->
+                                            <!--<div class="main-card mb-3 card">-->
+                                            <div class="main-card card">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Line Chart</h5>
                                                     <div style="height: 365px">
@@ -647,33 +663,34 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="main-card mb-3 card">
-                                                <div class="card-body">
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-3">-->
+                                        <!--    <div class="main-card mb-3 card">-->
+                                        <!--        <div class="card-body">-->
                                                     <!--<h5 class="card-title">Vertical Bars</h5>-->
                                                     <!--<canvas id="canvas"></canvas>-->
-                                                </div>
-                                            </div>
-                                            <div class="main-card mb-3 card">
-                                                <div class="card-body">
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--    <div class="main-card mb-3 card">-->
+                                        <!--        <div class="card-body">-->
                                                     <!--<h5 class="card-title">Stacked Bars</h5>-->
                                                     <!--<canvas id="stacked-bars-chart"></canvas>-->
-                                                </div>
-                                            </div>
-                                            <div class="main-card mb-3 card">
-                                                <div class="card-body">
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--    <div class="main-card mb-3 card">-->
+                                        <!--        <div class="card-body">-->
                                                     <!--<h5 class="card-title">Vertical Bars</h5>-->
                                                     <!--<canvas id="canvas"></canvas>-->
-                                                </div>
-                                            </div>
-                                            <div class="main-card mb-3 card">
-                                                <div class="card-body">
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--    <div class="main-card mb-3 card">-->
+                                        <!--        <div class="card-body">-->
                                                     <!--<h5 class="card-title">Stacked Bars</h5>-->
                                                     <!--<canvas id="stacked-bars-chart"></canvas>-->
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!--        </div>-->
+                                        <!--    </div>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -718,13 +735,13 @@
                 </div>
             </div>
         </div>
-		<script src="/jquery.js"></script>
+		<!--<script src="/jquery.js"></script>-->
 		<script src="/socket.io.js"></script>
 		<script src="/d3.min.js"></script>
 		<script src="/nv.d3.min.js"></script>
 		<script src="/popper.min.js"></script>
-		<script src="/bootstrap.min.js"></script>
-		<script src="/bootstrap.bundle.min.js"></script>
+		<!--<script src="/bootstrap.min.js"></script>-->
+		<!--<script src="/bootstrap.bundle.min.js"></script>-->
         <script src="/main.js"></script>
 		<script src="/cht.js"></script>
     </body>
