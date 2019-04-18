@@ -11,26 +11,21 @@ var defaultRadix = 10;
 function init(){
 	getLastDataTime();
 }
-
 init();
-
 function getLastDataTime(){
 	socket.emit("getLastDataTime","SELECT time FROM mobiusdb.sensdb ORDER BY time DESC LIMIT 1");
 }
-
 function initDateForm(){
 	/* global startDate */
 	/* global endDate */
 	startDate.value = getDay(new Date,0,0,-3);
 	endDate.value = getDay(new Date);
 }
-
 function initDataRows(){
 	/* global DataRows */
 	DataRows.value = 150;
 	return false;
 }
-
 function dataInit(){
 	Data = {};
 	Data.fetchedData = null;
@@ -109,7 +104,6 @@ function pushData(data, selecteddata, selectedData, i){
 		selectedData.push({key:localStorage.getItem(data[i].SensorNodeId) || data[i].SensorNodeId,key_org:data[i].SensorNodeId,values:[{x:data[i].Time,y:selecteddata}]});
 	}
 }
-
 function getDay(inputDate, inputYear, inputMonth, inputDay){
 	var now = new Date(inputDate||null);
 	if(typeof(inputYear)!="undefined"){ now.setYear(now.getFullYear()+inputYear) }
@@ -120,7 +114,6 @@ function getDay(inputDate, inputYear, inputMonth, inputDay){
 	var today = ("0000" + now.getFullYear()).slice(-4)+"-"+(month)+"-"+(day) ;
 	return today;
 }
-
 function storeNodeName(){
 	/* global nodeNameList */
 	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
@@ -135,7 +128,6 @@ function storeNodeName(){
 	}
 	socket.emit("nodename",insertSQL);
 }
-
 function saveRenameNode(id,name){
 	renameNode(id,name);
 	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
@@ -144,7 +136,6 @@ function saveRenameNode(id,name){
 	socket.emit("nodename",insertSQL);
 	console.log(insertSQL);
 }
-
 function renameNode(id,name){
 	/* global localStorage */
 	for (var i = 0 ; i < Data.dataList.length ; i++){
@@ -162,25 +153,21 @@ function renameNode(id,name){
 	}
 	selectData()
 }
-
 function renameNodes(){
 	for(var i = 0 ; i < Data.nodeNameList.length ; i++){
 		renameNode(Data.nodeNameList[i].serial,Data.nodeNameList[i].name);
 	}
 }
-
 function setDivider(){
 	if(isNaN(DivideRows.value) || DivideRows.value < 1) {
 		DivideRows.value = 1
 	}
 }
-
 function innerRefreshData(){
 	setDivider();
 	releaseData();
 	selectData();
 }
-
 function releaseData(){
 	/* global DivideRows */
 	var data = Data.fetchedData;
@@ -264,14 +251,12 @@ function drawChart(){
 	  return chart;
 	});
 }
-
 function getSelectedData(){
 	if(typeof(Data.selectedDataName)=="undefined"){
 		Data.selectedDataName = "Temperature";
 	}
 	return Data.selectedDataName;
 }
-
 function selectData(selectedDataName) {
 	if(typeof(selectedDataName)=="undefined"){
 		selectedDataName = getSelectedData();
@@ -313,7 +298,6 @@ function selectData(selectedDataName) {
 	changeSubtitle(selectedDataName);
 	changeDescription(selectedDataName);
 }
-
 function changeSubtitle(selectedDataName){
 	/* global title */
 	/* global graphComment */
@@ -321,7 +305,6 @@ function changeSubtitle(selectedDataName){
 	graphComment.innerText = "　　"+getWordKr(selectedDataName);
 	title.style.color=getTitleFontColor(selectedDataName);
 }
-
 function getTitleFontColor(engName){
 	var korName = "";
 	if ( engName == "Temperature")			{ korName = "#ff0033";}
@@ -342,13 +325,11 @@ function getTitleFontColor(engName){
 	if ( engName == "Objects")				{ korName = "#000000";}
 	return korName;
 }
-
 function changeDescription(selectedDataName){
 	/* global dataDescription */
 	dataDescription.innerText = getDescKr(selectedDataName);
 	
 }
-
 function getDescKr(engName){
 	var korName = "";
 	if ( engName == "Temperature") { korName = "차트는 기온을 셀시우스 온도(℃) 단위로 나타내며, 물의 삼중점을 0.01 °C, 물의 끓는점을 99.9839 °C로 하여 등분하여 나타낸다. 물질의 차고 더운 정도를 뜻한다.";}
@@ -369,7 +350,6 @@ function getDescKr(engName){
 	if ( engName == "Objects") { korName = "객체 ";}
 	return korName;
 }
-
 function getWordKr(engName){
 	var korName = "";
 	if ( engName == "Temperature") { korName = "온도 ℃";}
@@ -390,11 +370,9 @@ function getWordKr(engName){
 	if ( engName == "Objects") { korName = "객체 ";}
 	return korName;
 }
-
 function getLastTimestamp(){
 	return Data.lastTimeStamp;
 }
-
 function firstFetchDB(){
 	/* global defaultRadix */
 	var datarows = parseInt(document.getElementById('DataRows').value, defaultRadix);
@@ -467,7 +445,6 @@ function setDefaultDate(){
 	AllFetchSQL = SelectStmt + FromStmt + WhereStmt;
 	socket.emit("getRowsBetweenDate",AllFetchSQL);
 }
-
 function setFirstDate(date){
 	Data.lastDate = date;
 	if(startDate.value=="" || endDate.value==""){
@@ -477,6 +454,5 @@ function setFirstDate(date){
 	if((new Date(startDate.value)).getTime() > (new Date(endDate.value)).getTime()){
 		startDate.value = getDay(new Date(endDate.value),0,0,-3);
 	}
-	
 	firstFetchDB();
 }

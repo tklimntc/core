@@ -15,40 +15,27 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
     });
     socket.on('firstData', function(msg){
-        // prevent crakin
-        // to do when data requested
         connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
-            // connected!
             socket.emit('firstData', results);
         }});
     });
     socket.on('data', function(msg){
-        // prevent crakin
-        // to do when data requested
         connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
-            // connected!
             socket.emit('data', results);
         }});
     });
     socket.on('getLastDataTime', function(msg){
-        // prevent crakin
-        // to do when data requested
         connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
-            // connected!
             socket.emit('getLastDataTime', results);
         }});
     });
     socket.on('getRowsBetweenDate', function(msg){
-        // prevent crakin
-        // to do when data requested
         connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
-            // connected!
             socket.emit('getRowsBetweenDate', results);
         }});
     });
     socket.on('nodename', function(msg){
         var truth = typeof(msg)!="undefined" && msg!=null
-        // console.log(msg)
         if(typeof(msg)!="undefined" && msg!=null && msg.length > 6){
             var query = msg.substr(0,6)
             if(query=="SELECT" || query=="select"){

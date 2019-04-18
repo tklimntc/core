@@ -2,87 +2,57 @@
 	height: 540px !important;
 	width:100% !important;
 }
-
 #chart svg {
 	height: 520px !important;
 	width:100% !important;
 }
-
 .app-page-title {
     padding: 25px;
     margin: -30px -30px 0px;
     position: relative;
 }
-
 .title-dashboard {
     font-size: xx-large;
     font-weight:bold;
     position:inline;
 }
-
 .page-title-subheading {
     font-size: x-large !important;
     font-weight:bold;
     position:inline;
 }
-
 .app-main__outer {
     padding:0px !important;
 }
-
 .nav {
     flex-wrap: wrap ;
 }
-
-/*.nv-focusWrap.nvd3-svg {*/
-/*    margin-top:20px;*/
-/*    padding-top:20px;*/
-/*}*/
-
-/*.nv-focus {*/
-/*    margin-bottom:20px;*/
-/*    padding-bottom:20px;*/
-/*}*/
-
 g.nv-focusWrap.nvd3-svg {
     
 }
-
 #chart, #chart svg, #chart svg .nvd3.nv-wrap.nv-lineChart {
 	height: 100% ;
 	width:100% ;
 }
-
 #nodeNameList, #sensorList {
     overflow: auto;
     max-height: 80% !important;
     min-height: 500px;
 }
-
 #dateCenterHolder {
-    min-width: 38px;
 }
-
 #TooltipDemo {
     bottom:3px;
 }
-
 div.app-header__content.header-mobile-open {
     height: 123px !important;
 }
-
-/*<div id="chart">*/
-/*<div id="graphComment">　그래프</div>*/
-/*<svg class="nvd3-svg">*/
-/*<g class="nvd3 nv-wrap nv-lineChart" */
-
 .form-controls{
     width:calc(100% - 47px) !important;
     height: 28px !important;
     margin: 0 0 0 0 !important;
     display: inline-block;
 }
-
 .bd-placeholder-img {
 	font-size: 1.125rem;
 	text-anchor: middle;
@@ -91,7 +61,6 @@ div.app-header__content.header-mobile-open {
 	-ms-user-select: none;
 	user-select: none;
 }
-
 @media (min-width: 768px) {
 	.bd-placeholder-img-lg {
 		font-size: 3.5rem;
@@ -100,7 +69,6 @@ div.app-header__content.header-mobile-open {
 .container-fluid{
 	margin-top:40px;
 }
-
 #logo{
     background-image: url(/logo.png);
     background-size: 210px 40px ;
@@ -112,7 +80,6 @@ div.app-header__content.header-mobile-open {
     top: -70px;
     position: relative;
 }
-
 .app-header__logo .logo-src, .app-header.header-text-light .app-header__logo .logo-src, .app-header.header-text-dark .app-header__logo .logo-src, .app-sidebar.sidebar-text-light .app-header__logo .logo-src {
     height: 40px !important;
     width: 150px !important;
@@ -121,19 +88,3 @@ div.app-header__content.header-mobile-open {
     background-repeat:   no-repeat !important;
     background-position: center center !important;
 }
-
-/*.app-header.header-text-light .app-header__logo .logo-src {*/
-/*    background: url(assets/images/logo.png)*/
-/*}*/
-
-/*.app-header.header-text-dark .app-header__logo .logo-src {*/
-/*    background: url(assets/images/logos.png);*/
-/*    background-size:     contain;*/
-/*    background-repeat:   no-repeat;*/
-/*    background-position: center center;*/
-/*}*/
-
-/*.app-sidebar.sidebar-text-light .app-header__logo .logo-src {*/
-/*    background: url(assets/images/logo.png)*/
-/*}*/
-
