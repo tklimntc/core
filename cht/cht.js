@@ -342,19 +342,20 @@ function getDescKr(engName){
 	if ( engName == "Movement") { korName = "차트는 진동 센서를 숫자 단위로 나타낸다. 현재 진동이 없으면 0, 있으면 4가 측정된다. ";}
 	if ( engName == "Hall") { korName = "차트는 자력센서 측정값을 숫자 단위로 나타낸다.";}
 
-	if ( engName == "SensorNodeId") { korName = "센서노드ID ";}
-	if ( engName == "SourceAddress") { korName = "소스주소 ";}
-	if ( engName == "NodeStatus") { korName = "노드상태 ";}
-	if ( engName == "NodeRole") { korName = "노드역할 ";}
-	if ( engName == "GatewayId") { korName = "게이트웨이ID ";}
-	if ( engName == "Objects") { korName = "객체 ";}
+	if ( engName == "SensorNodeId") { korName = "센서노드ID, 센서 노드의 고유 시리얼 넘버를 나타낸다. ";}
+	if ( engName == "SourceAddress") { korName = "소스주소, 임시로 변하는 센서 노드의 네트워크 상 주소를 나타낸다. ";}
+	if ( engName == "NodeStatus") { korName = "노드상태, 센서노드의 상태를 상태 별 임의 지정된 숫자로 표시한다. ";}
+	if ( engName == "NodeRole") { korName = "노드역할, 센서 노드의 역할을 역할 별 임의 지정된 숫자로 표시한다. ";}
+	if ( engName == "GatewayId") { korName = "게이트웨이ID, 게이트웨이의 ID를 표시한다. ";}
+	if ( engName == "Objects") { korName = "객체, 객체 값을 숫자로 표시한다. ";}
+	if ( engName == "User") { korName = "사용자, 사용자의 동작을 숫자로 표시한다. ";}
 	return korName;
 }
 function getWordKr(engName){
 	var korName = "";
 	if ( engName == "Temperature") { korName = "온도 ℃";}
 	if ( engName == "Humidity") { korName = "습도 %";}
-	if ( engName == "AirQualityStatic") { korName = "공기(VoC) ㎍/㎡";}
+	if ( engName == "AirQualityStatic") { korName = "공기질(VOC) ㎍/㎡";}
 	if ( engName == "Pressure") { korName = "기압 hPa";}
 	if ( engName == "Ambient_light") { korName = "조도 lx";}
 	if ( engName == "IAQaccuracyStatic") { korName = "실내 공기 질 ";}
@@ -368,6 +369,7 @@ function getWordKr(engName){
 	if ( engName == "NodeRole") { korName = "노드역할 ";}
 	if ( engName == "GatewayId") { korName = "게이트웨이ID ";}
 	if ( engName == "Objects") { korName = "객체 ";}
+	if ( engName == "User") { korName = "사용자 ";}
 	return korName;
 }
 function getLastTimestamp(){
