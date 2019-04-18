@@ -27,7 +27,7 @@ function initDataRows(){
 	return false;
 }
 function dataInit(){
-	Data = {};
+	// Data = {};
 	Data.fetchedData = null;
 	Data.AirQualityStatic	=[];
 	Data.Ambient_light		=[];
@@ -66,6 +66,7 @@ function dataInit(){
 	Data.dataList.push(Data.Hall				);
 	Data.dataList.push(Data.Objects				);
 	Data.dataList.push(Data.User				);
+	Data.selectedDataName = Data.selectedDataName;//||null;
 }
 function pushData(data, selecteddata, selectedData, i){
 	if (typeof(selecteddata)=="undefined"){return;}
@@ -221,6 +222,7 @@ function drawChart(){
     /* global d3 */
     /* global nodeNameList */
     var tempData = [];
+    // if (Data.selectedData==null) return;
     for ( var i = 0 ; i < Data.selectedData.length ; i++ ){
     	for (var j = 0 ; j < nodeNameList.getElementsByClassName("custom-checkbox").length ; j++ ){
 			if( nodeNameList.getElementsByClassName("custom-checkbox")[j].getElementsByTagName("input")[0].id == "n"+Data.selectedData[i].key_org+"checkbox" && nodeNameList.getElementsByClassName("custom-checkbox")[j].getElementsByTagName("input")[0].checked ){
