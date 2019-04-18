@@ -336,10 +336,10 @@ function getDescKr(engName){
 	var korName = "";
 	if ( engName == "Temperature") { korName = "차트는 기온을 셀시우스 온도(℃) 단위로 나타내며, 물의 삼중점을 0.01 °C, 물의 끓는점을 99.9839 °C로 하여 등분하여 나타낸다. 물질의 차고 더운 정도를 뜻한다.";}
 	if ( engName == "Humidity") { korName = "차트는 공기중 습도를 퍼센트(%) 단위로 나타내며, 공기 중에 포함되어 있는 수증기의 양 또는 비율을 나타내는 단위를 뜻한다. ";}
-	if ( engName == "AirQualityStatic") { korName = "차트는 공기의 질을 휘발성유기화합물질(VOC)함유량(㎍/㎡) 단위로 나타내며, 공기 중 휘발성 유기 화합물질의 양을 뜻한다. ";}
+	if ( engName == "AirQualityStatic") { korName = "차트는 공기의 질을 휘발성유기화합물질(VOC)함유량(㎍/㎡) 단위로 나타내며, 공기 중 휘발성 유기 화합물질의 양을 뜻한다. 0-50은 좋음, 51~100은 보통, 101~150은 약간 나쁨, 151~200은 나쁨, 201~300은 많이 나쁨, 301~500은 최악을 나타낸다.";}
 	if ( engName == "Pressure") { korName = "차트는 기압을 헥토파스칼(hPa) 단위로 나타내며, 압력에 대한 SI 유도 단위이며 1 제곱미터 당 100 뉴턴의 힘이 작용할 때의 압력을 뜻한다. ";}
 	if ( engName == "Ambient_light") { korName = "차트는 조도를 럭스(lx) 단위로 나타내며 단위면적 (제곱미터)에 비춰지는 빛의 밝기를 뜻한다. ";}
-	if ( engName == "IAQaccuracyStatic") { korName = "차트는 실내 공기 질을 숫자 단위로 나타내며, 0-50은 좋음, 51~100은 보통, 101~150은 약간 나쁨, 151~200은 나쁨, 201~300은 많이 나쁨, 301~500은 최악을 나타낸다. ";}
+	if ( engName == "IAQaccuracyStatic") { korName = "차트는 실내 공기 질을 숫자 단위로 나타낸다. ";}
 	if ( engName == "BatteryLevel") { korName = "차트는 배터리 잔량을 % 단위로 나타낸다. 현재 0%, 50%, 100%가 측정된다.";}
 	if ( engName == "Movement") { korName = "차트는 진동 센서를 숫자 단위로 나타낸다. 현재 진동이 없으면 0, 있으면 4가 측정된다. ";}
 	if ( engName == "Hall") { korName = "차트는 자력센서 측정값을 숫자 단위로 나타낸다.";}
@@ -393,7 +393,6 @@ function firstFetchDB(){
 	socket.emit('firstData',AllFetchSQL);
 	socket.emit('nodename');
 }
-
 function checkDB(){
 	/* global defaultRadix */
 	var datarows = parseInt(document.getElementById('DataRows').value, defaultRadix);
