@@ -1,11 +1,56 @@
-#chart, #chart svg{
-	height: 400px !important;
+#chart, #chart svg {
+	height: 540px !important;
 	width:100% !important;
 }
 
-#chart, #chart svg, #chart svg g.nvd3.nv-wrap.nv-lineChart {
-	height: 100%;
+#chart svg {
+	height: 520px !important;
 	width:100% !important;
+}
+
+.app-page-title {
+    padding: 25px;
+    margin: -30px -30px 0px;
+    position: relative;
+}
+
+.title-dashboard {
+    font-size: xx-large;
+    font-weight:bold;
+    position:inline;
+}
+
+.page-title-subheading {
+    font-size: x-large !important;
+    font-weight:bold;
+    position:inline;
+}
+
+.app-main__outer {
+    padding:0px !important;
+}
+
+.nav {
+    flex-wrap: wrap ;
+}
+
+/*.nv-focusWrap.nvd3-svg {*/
+/*    margin-top:20px;*/
+/*    padding-top:20px;*/
+/*}*/
+
+/*.nv-focus {*/
+/*    margin-bottom:20px;*/
+/*    padding-bottom:20px;*/
+/*}*/
+
+g.nv-focusWrap.nvd3-svg {
+    
+}
+
+#chart, #chart svg, #chart svg .nvd3.nv-wrap.nv-lineChart {
+	height: 100% ;
+	width:100% ;
 }
 
 #nodeNameList, #sensorList {

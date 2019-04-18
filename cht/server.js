@@ -38,6 +38,14 @@ io.on('connection', function(socket){
             socket.emit('getLastDataTime', results);
         }});
     });
+    socket.on('getRowsBetweenDate', function(msg){
+        // prevent crakin
+        // to do when data requested
+        connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
+            // connected!
+            socket.emit('getRowsBetweenDate', results);
+        }});
+    });
     socket.on('nodename', function(msg){
         var truth = typeof(msg)!="undefined" && msg!=null
         // console.log(msg)

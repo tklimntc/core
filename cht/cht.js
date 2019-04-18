@@ -9,8 +9,6 @@ var Data = {};
 var defaultDataRows = 150;
 var defaultRadix = 10;
 function init(){
-	// initDateForm();
-	// initDataRows();
 	getLastDataTime();
 }
 
@@ -33,12 +31,8 @@ function initDataRows(){
 	return false;
 }
 
-// $("#DataRows").on("click",function(event){
-//     event.stopPropagation();
-// });
-
 function dataInit(){
-	// Data = {};
+	Data = {};
 	Data.fetchedData = null;
 	Data.AirQualityStatic	=[];
 	Data.Ambient_light		=[];
@@ -58,6 +52,7 @@ function dataInit(){
 	Data.User				=[];
 	Data.selectedData=null;
 	Data.lastTimeStamp = null;
+	Data.lastDate = null;
 	Data.dataList = [];
 	Data.nodeNameList = [];
 	Data.dataList.push(Data.AirQualityStatic	);
@@ -92,13 +87,12 @@ function pushData(data, selecteddata, selectedData, i){
 		if(nodeName==null){
 			document.getElementById("nodeNameList").insertAdjacentHTML("beforeend", 
 			"<div id=\"n"+data[i].SensorNodeId+"div\" style=\"margin-left: 11px;\" class=\"custom-checkbox custom-control\">"+
-			"<input type=\"checkbox\" id=\"n"+data[i].SensorNodeId+"checkbox\" class=\"custom-control-input\">"+
+			"<input type=\"checkbox\" id=\"n"+data[i].SensorNodeId+"checkbox\" class=\"custom-control-input\" onclick=\"selectData()\" checked>"+
 			"<label id=\"n"+data[i].SensorNodeId+"label\" class=\"custom-control-label\" for=\"n"+data[i].SensorNodeId+"checkbox\">"+
 			"<input id=\"n"+data[i].SensorNodeId+"input\" type=\"text\" class=\"form-control form-controls\" placeholder=\""+data[i].SensorNodeId+"\" required=\"\">"+
 			"<button onclick=\"saveRenameNode(n"+data[i].SensorNodeId+"input.placeholder,n"+data[i].SensorNodeId+"input.value)\" id=\"n"+data[i].SensorNodeId+"button\" class=\"mb-2 mr-2 btn-transition btn btn-outline-dark\" style=\"padding: 0; margin: -5px 0px 0px 7px !important;\">"+
 			"<a href=\"javascript:void(0);\" class=\"nav-link\" style=\"padding: 5px;\">"+
 			"<i class=\"nav-link-icon fa fa-edit\" style=\"margin: 0; width: 16px;\"></i></a></button></label></div>");
-			// "<input id=\"n"+data[i].SensorNodeId+"\" class=\"form-control form-control-dark w-100\" type=\"text\" placeholder=\""+data[i].SensorNodeId+"\" aria-label=\"Search\"></input>");
 			document.getElementById("n"+data[i].SensorNodeId+"input").addEventListener("keyup", function (evt) {
 			    renameNode(data[i].SensorNodeId,document.getElementById("n"+data[i].SensorNodeId+"input").value);
 			}, false);
@@ -128,8 +122,7 @@ function getDay(inputDate, inputYear, inputMonth, inputDay){
 }
 
 function storeNodeName(){
-	var nodeNameList = document.getElementById("nodeNameList")
-	// /* global nodeNameList */
+	/* global nodeNameList */
 	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
 	for(var i = 0 ; i < nodeNameList.childElementCount ; i++){
 		insertSQL += "( \"" + nodeNameList.getElementsByTagName("input")[i].id.substr(1,8)+"\" ,\""+nodeNameList.getElementsByTagName("input")[i].value+"\")";
@@ -154,7 +147,6 @@ function saveRenameNode(id,name){
 
 function renameNode(id,name){
 	/* global localStorage */
-	// console.log(id+"/"+name)
 	for (var i = 0 ; i < Data.dataList.length ; i++){
 		for (var j = 0 ; j < Data.dataList[i].length ; j++){
 			if (Data.dataList[i][j].key_org == id){
@@ -163,14 +155,9 @@ function renameNode(id,name){
 			}
 		}
 	}
-	// if (typeof(document.getElementById("n"+id+"input"))!="undefined"){
-	// 	document.getElementById("n"+id+"input").value = name;
-	// 	// document.getElementById(id+"label").innerHTML = name;
-	// }
 	for (var i = 0 ; i < nodeNameList.getElementsByTagName('input').length ; i++){
 		if(nodeNameList.getElementsByTagName('input')[i].id.substr(1,8)==id){
-			nodeNameList.getElementsByTagName('input')[i].value=name
-			// nodeNameList.getElementsByTagName('label')[i].textContent=name
+			nodeNameList.getElementsByTagName('input')[i].value=name;
 		}
 	}
 	selectData()
@@ -182,9 +169,26 @@ function renameNodes(){
 	}
 }
 
+function setDivider(){
+	if(isNaN(DivideRows.value) || DivideRows.value < 1) {
+		DivideRows.value = 1
+	}
+}
+
+function innerRefreshData(){
+	setDivider();
+	releaseData();
+	selectData();
+}
+
 function releaseData(){
+	/* global DivideRows */
 	var data = Data.fetchedData;
+	setDivider();
 	for (var i = data.length-1; i >= 0 ; i--){
+		if(0!=i%DivideRows.value || typeof(data[i])=="undefined" || typeof(data[i].JSON)=="undefined"){
+			continue;
+		}
 		data[i]=JSON.parse(data[i].JSON.replace("}",", \"Time\":\""+data[i].Time+"\"}"));
 		data[i].Time = new Date(data[i].Time);
 		data[i].Times = new Date(data[i].Timestamp);
@@ -228,6 +232,15 @@ function releaseData(){
 function drawChart(){
     /* global nv */
     /* global d3 */
+    /* global nodeNameList */
+    var tempData = [];
+    for ( var i = 0 ; i < Data.selectedData.length ; i++ ){
+    	for (var j = 0 ; j < nodeNameList.getElementsByClassName("custom-checkbox").length ; j++ ){
+			if( nodeNameList.getElementsByClassName("custom-checkbox")[j].getElementsByTagName("input")[0].id == "n"+Data.selectedData[i].key_org+"checkbox" && nodeNameList.getElementsByClassName("custom-checkbox")[j].getElementsByTagName("input")[0].checked ){
+				tempData.push(Data.selectedData[i]);
+			}
+    	}
+    }
 	nv.addGraph(function() {
 	  var chart = nv.models.lineWithFocusChart();
 	  chart.xAxis
@@ -243,7 +256,7 @@ function drawChart(){
 	  chart.y2Axis
 	    .tickFormat(d3.format(',.2f'));
 	  d3.select('#chart svg')
-	    .datum(Data.selectedData)
+	    .datum(tempData)
 	    .transition().duration(500)
 	    .call(chart)
 	    ;
@@ -251,12 +264,14 @@ function drawChart(){
 	  return chart;
 	});
 }
+
 function getSelectedData(){
 	if(typeof(Data.selectedDataName)=="undefined"){
 		Data.selectedDataName = "Temperature";
 	}
 	return Data.selectedDataName;
 }
+
 function selectData(selectedDataName) {
 	if(typeof(selectedDataName)=="undefined"){
 		selectedDataName = getSelectedData();
@@ -296,33 +311,90 @@ function selectData(selectedDataName) {
 		 Data.selectedData = Data.User}
 	drawChart();
 	changeSubtitle(selectedDataName);
+	changeDescription(selectedDataName);
 }
+
 function changeSubtitle(selectedDataName){
 	/* global title */
-	title.innerText = "Dashboard-"+getWordKr(selectedDataName)
+	/* global graphComment */
+	title.innerText = getWordKr(selectedDataName);
+	graphComment.innerText = "　　"+getWordKr(selectedDataName);
+	title.style.color=getTitleFontColor(selectedDataName);
 }
+
+function getTitleFontColor(engName){
+	var korName = "";
+	if ( engName == "Temperature")			{ korName = "#ff0033";}
+	if ( engName == "Humidity") 			{ korName = "#0066cc";}
+	if ( engName == "AirQualityStatic") 	{ korName = "#333300";}
+	if ( engName == "Pressure") 			{ korName = "#cc3300";}
+	if ( engName == "Ambient_light")		{ korName = "#b8860b";}
+	if ( engName == "IAQaccuracyStatic")	{ korName = "#cd5c5c";}
+	if ( engName == "BatteryLevel") 		{ korName = "#4b0082";}
+	if ( engName == "Movement") 			{ korName = "#006400";}
+	if ( engName == "Hall") 				{ korName = "#2f4f4f";}
+	
+	if ( engName == "SensorNodeId") 		{ korName = "#000000";}
+	if ( engName == "SourceAddress")		{ korName = "#000000";}
+	if ( engName == "NodeStatus")			{ korName = "#000000";}
+	if ( engName == "NodeRole") 			{ korName = "#000000";}
+	if ( engName == "GatewayId")			{ korName = "#000000";}
+	if ( engName == "Objects")				{ korName = "#000000";}
+	return korName;
+}
+
+function changeDescription(selectedDataName){
+	/* global dataDescription */
+	dataDescription.innerText = getDescKr(selectedDataName);
+	
+}
+
+function getDescKr(engName){
+	var korName = "";
+	if ( engName == "Temperature") { korName = "차트는 기온을 셀시우스 온도(℃) 단위로 나타내며, 물의 삼중점을 0.01 °C, 물의 끓는점을 99.9839 °C로 하여 등분하여 나타낸다. 물질의 차고 더운 정도를 뜻한다.";}
+	if ( engName == "Humidity") { korName = "차트는 공기중 습도를 퍼센트(%) 단위로 나타내며, 공기 중에 포함되어 있는 수증기의 양 또는 비율을 나타내는 단위를 뜻한다. ";}
+	if ( engName == "AirQualityStatic") { korName = "차트는 공기의 질을 휘발성유기화합물질(VOC)함유량(㎍/㎡) 단위로 나타내며, 공기 중 휘발성 유기 화합물질의 양을 뜻한다. ";}
+	if ( engName == "Pressure") { korName = "차트는 기압을 헥토파스칼(hPa) 단위로 나타내며, 압력에 대한 SI 유도 단위이며 1 제곱미터 당 100 뉴턴의 힘이 작용할 때의 압력을 뜻한다. ";}
+	if ( engName == "Ambient_light") { korName = "차트는 조도를 럭스(lx) 단위로 나타내며 단위면적 (제곱미터)에 비춰지는 빛의 밝기를 뜻한다. ";}
+	if ( engName == "IAQaccuracyStatic") { korName = "차트는 실내 공기 질을 숫자 단위로 나타내며, 0-50은 좋음, 51~100은 보통, 101~150은 약간 나쁨, 151~200은 나쁨, 201~300은 많이 나쁨, 301~500은 최악을 나타낸다. ";}
+	if ( engName == "BatteryLevel") { korName = "차트는 배터리 잔량을 % 단위로 나타낸다. 현재 0%, 50%, 100%가 측정된다.";}
+	if ( engName == "Movement") { korName = "차트는 진동 센서를 숫자 단위로 나타낸다. 현재 진동이 없으면 0, 있으면 4가 측정된다. ";}
+	if ( engName == "Hall") { korName = "차트는 자력센서 측정값을 숫자 단위로 나타낸다.";}
+
+	if ( engName == "SensorNodeId") { korName = "센서노드ID ";}
+	if ( engName == "SourceAddress") { korName = "소스주소 ";}
+	if ( engName == "NodeStatus") { korName = "노드상태 ";}
+	if ( engName == "NodeRole") { korName = "노드역할 ";}
+	if ( engName == "GatewayId") { korName = "게이트웨이ID ";}
+	if ( engName == "Objects") { korName = "객체 ";}
+	return korName;
+}
+
 function getWordKr(engName){
 	var korName = "";
-	if ( engName == "AirQualityStatic") { korName = "공기 "}
-	if ( engName == "Ambient_light") { korName = "조도 "}
-	if ( engName == "BatteryLevel") { korName = "전원 "}
-	if ( engName == "GatewayId") { korName = "게이트웨이ID "}
-	if ( engName == "Humidity") { korName = "습도 %"}
-	if ( engName == "IAQaccuracyStatic") { korName = "실내 "}
-	if ( engName == "Movement") { korName = "진동 "}
-	if ( engName == "Pressure") { korName = "기압 ph"}
-	if ( engName == "SensorNodeId") { korName = "센서노드ID "}
-	if ( engName == "SourceAddress") { korName = "소스주소 "}
-	if ( engName == "Temperature") { korName = "온도 ℃"}
-	if ( engName == "NodeStatus") { korName = "노드상태 "}
-	if ( engName == "NodeRole") { korName = "노드역할 "}
-	if ( engName == "Hall") { korName = "자력 "}
-	if ( engName == "Objects") { korName = "객체 "}
-	return korName
+	if ( engName == "Temperature") { korName = "온도 ℃";}
+	if ( engName == "Humidity") { korName = "습도 %";}
+	if ( engName == "AirQualityStatic") { korName = "공기(VoC) ㎍/㎡";}
+	if ( engName == "Pressure") { korName = "기압 hPa";}
+	if ( engName == "Ambient_light") { korName = "조도 lx";}
+	if ( engName == "IAQaccuracyStatic") { korName = "실내 공기 질 ";}
+	if ( engName == "BatteryLevel") { korName = "배터리 잔량 %";}
+	if ( engName == "Movement") { korName = "진동 ";}
+	if ( engName == "Hall") { korName = "자력센서 ";}
+
+	if ( engName == "SensorNodeId") { korName = "센서노드ID ";}
+	if ( engName == "SourceAddress") { korName = "소스주소 ";}
+	if ( engName == "NodeStatus") { korName = "노드상태 ";}
+	if ( engName == "NodeRole") { korName = "노드역할 ";}
+	if ( engName == "GatewayId") { korName = "게이트웨이ID ";}
+	if ( engName == "Objects") { korName = "객체 ";}
+	return korName;
 }
+
 function getLastTimestamp(){
 	return Data.lastTimeStamp;
 }
+
 function firstFetchDB(){
 	/* global defaultRadix */
 	var datarows = parseInt(document.getElementById('DataRows').value, defaultRadix);
@@ -334,16 +406,12 @@ function firstFetchDB(){
 	             ",value as JSON, JSON_EXTRACT(value,\"$.Timestamp\") as times ";
 	FromStmt =   "FROM mobiusdb.sensdb ";
 	WhereStmt =  "WHERE time<='"+endDate.value+"' AND time>'"+startDate.value+"' ";
-	// specific case for our data capture
-	// WhereStmt =  "WHERE time < \"2019-02-14\" ";
 	EtcStmt =    "ORDER BY time DESC LIMIT "+String(datarows)+" ";
-	// specific case for our data capture
-	//EtcStmt =    "ORDER BY time DESC LIMIT 8000 ";
 	AllFetchSQL = SelectStmt + FromStmt + WhereStmt + EtcStmt;
-	console.log(AllFetchSQL)
 	socket.emit('firstData',AllFetchSQL);
 	socket.emit('nodename');
 }
+
 function checkDB(){
 	/* global defaultRadix */
 	var datarows = parseInt(document.getElementById('DataRows').value, defaultRadix);
@@ -366,8 +434,6 @@ socket.on('firstData', function(data){
 	Data.fetchedData = data;
 	releaseData();
 	selectData();
-	// auto start to db push request.
-	// startWorker();
 });
 socket.on('data', function(data){
 	if(data.length){
@@ -377,21 +443,40 @@ socket.on('data', function(data){
 	}
 });
 socket.on('nodename', function(data){
-	// console.log(data)
-	//data    = [{name:"tests",serial:"test"}, ]
-	//data[0] =  {name:"tests",serial:"test"}
 	Data.nodeNameList = data;
-	renameNodes()
+	renameNodes();
 });
 socket.on('getLastDataTime', function(data){
 	setFirstDate(data);
 });
+socket.on('getRowsBetweenDate', function(data){
+	DataRows.value = data[0]["COUNT(*)"];
+	console.log(data)
+});
+function setDefaultDate(){
+	if(startDate.value=="" || endDate.value==""){
+		startDate.value = getDay(Data.lastDate.time,0,0,-3);
+		endDate.value = getDay(Data.lastDate.time);
+	}
+	if((new Date(startDate.value)).getTime() > (new Date(endDate.value)).getTime()){
+		startDate.value = getDay(new Date(endDate.value),0,0,-3);
+	}
+	SelectStmt = "SELECT COUNT(*) ";
+	FromStmt =   "FROM mobiusdb.sensdb ";
+	WhereStmt =  "WHERE time<='"+endDate.value+"' AND time>'"+startDate.value+"'; ";
+	AllFetchSQL = SelectStmt + FromStmt + WhereStmt;
+	socket.emit("getRowsBetweenDate",AllFetchSQL);
+}
 
 function setFirstDate(date){
-	console.log(date)
+	Data.lastDate = date;
 	if(startDate.value=="" || endDate.value==""){
-		startDate.value = getDay(date[0].time,0,0,-3)
-		endDate.value = getDay(date[0].time)
+		startDate.value = getDay(date[0].time,0,0,-3);
+		endDate.value = getDay(date[0].time);
 	}
+	if((new Date(startDate.value)).getTime() > (new Date(endDate.value)).getTime()){
+		startDate.value = getDay(new Date(endDate.value),0,0,-3);
+	}
+	
 	firstFetchDB();
 }
