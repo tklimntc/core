@@ -169,6 +169,7 @@ function innerRefreshData(){
 	releaseData();
 	selectData();
 }
+// 속도 개선을 위한 호출구조 수정 필요. 렌더링 시간도 있지만, releaseData가 다량의 데이터를 다루기 때문에 발생하는 과반수 근접한 상당량의 타임로스가 있다. 
 function releaseData(){
 	/* global DivideRows */
 	var data = Data.fetchedData;
@@ -304,7 +305,7 @@ function changeSubtitle(selectedDataName){
 	/* global title */
 	/* global graphComment */
 	title.innerText = getWordKr(selectedDataName);
-	graphComment.innerText = "　　"+getWordKr(selectedDataName);
+	graphComment.innerText = "　　"+getWordKr(selectedDataName)+" / 시간";
 	title.style.color=getTitleFontColor(selectedDataName);
 }
 function getTitleFontColor(engName){
@@ -345,10 +346,10 @@ Description.Kor.AirQualityStatic =	"<p style=\"color:#000000; background-color:#
 									"<p style=\"color:#ffffff; background-color:#000000;\">301~500:최악</p>";
 Description.Kor.Pressure = "단위:hPa";
 Description.Kor.Ambient_light = "단위:lx";
-Description.Kor.IAQaccuracyStatic = "";
-Description.Kor.BatteryLevel = "단위 : 0%, 50%, 100%";
-Description.Kor.Movement = "단위 : 0(정지), 4(진동)";
-Description.Kor.Hall = "단위 : 0(접근), 2(이탈)";
+Description.Kor.IAQaccuracyStatic = "단위:0, 1, 2, 3";
+Description.Kor.BatteryLevel = "단위:0%, 50%, 100%";
+Description.Kor.Movement = "단위:0(정지), 4(진동)";
+Description.Kor.Hall = "단위:0(접근), 2(이탈)";
 
 function getDescKr(engName){
 	var korName = "";
@@ -450,7 +451,7 @@ socket.on('getLastDataTime', function(data){
 });
 socket.on('getRowsBetweenDate', function(data){
 	DataRows.value = data[0]["COUNT(*)"];
-	console.log(data)
+	// console.log(data)
 });
 function setDefaultDate(){
 	if(startDate.value=="" || endDate.value==""){
@@ -481,4 +482,5 @@ function selectAllData(){
 	for( var i = 1 ; i < nodeNameList.getElementsByClassName("custom-control-input").length ; i++ ){
 		nodeNameList.getElementsByClassName("custom-control-input")[i].checked = nodeNameList.getElementsByClassName("custom-control-input")[0].checked
 	}
+	selectData();
 }
