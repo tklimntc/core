@@ -2,6 +2,10 @@
 	height: 540px !important;
 	width:100% !important;
 }
+#dataDescription {
+    display:inherit;
+    color:#000000;
+}
 #chart svg {
 	height: 520px !important;
 	width:100% !important;
@@ -87,4 +91,69 @@ div.app-header__content.header-mobile-open {
     background-size:     contain !important;
     background-repeat:   no-repeat !important;
     background-position: center center !important;
+}
+
+/*@media (max-width: 1499px) {*/
+/*    .app-page-title .page-title-heading,.app-page-title .page-title-wrapper {*/
+/*        display: inline-flex;*/
+/*    }*/
+    
+/*    .app-header .app-header__logo {*/
+/*        width:auto;*/
+/*        display: flex;*/
+/*    }*/
+    
+/*    .app-header .app-header__content {*/
+/*        visibility: hidden;*/
+/*        opacity: 0;*/
+/*        box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,0.03),0 0.9375rem 1.40625rem rgba(4,9,20,0.03),0 0.25rem 0.53125rem rgba(4,9,20,0.05),0 0.125rem 0.1875rem rgba(4,9,20,0.03);*/
+/*        position: absolute;*/
+/*        left: 5%;*/
+/*        width: 90%;*/
+/*        top: 0;*/
+/*        transition: all .2s;*/
+/*        background: #fff;*/
+/*        border-radius: 50px;*/
+/*        padding: 0 10px;*/
+/*        overflow: hidden*/
+/*    }*/
+    
+/*    .app-header .app-header__menu {*/
+/*        display: flex;*/
+/*        order: 3;*/
+/*    }*/
+    
+/*    .app-header .app-header__mobile-menu {*/
+/*        display: flex;*/
+/*        order: 1;*/
+/*    }*/
+
+/*    .popover,.dropdown-menu {*/
+/*        position: fixed !important;*/
+/*        z-index: 50;*/
+/*        left: 5% !important;*/
+/*        top: 50% !important;*/
+/*        width: 90% !important;*/
+/*        transform: translateY(-50%) !important;*/
+/*        min-width: 10px !important*/
+/*    }*/
+    
+/*    .app-header .app-header__logo {*/
+/*        order: 2;*/
+/*        background: transparent !important;*/
+/*        border: 0 !important;*/
+/*    }*/
+
+/*}*/
+#DataRows {
+    width:92px !important;
+}
+#DivideRows {
+    width:74px !important;
+}
+#startdate, #enddate{
+    width: 163px;
+}
+i.fa.fa-angle-down.ml-2.opacity-8 {
+    margin-left:0px !important;
 }

@@ -118,7 +118,7 @@ function getDay(inputDate, inputYear, inputMonth, inputDay){
 function storeNodeName(){
 	/* global nodeNameList */
 	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
-	for(var i = 0 ; i < nodeNameList.childElementCount ; i++){
+	for(var i = 1 ; i < nodeNameList.childElementCount ; i++){
 		insertSQL += "( \"" + nodeNameList.getElementsByTagName("input")[i].id.substr(1,8)+"\" ,\""+nodeNameList.getElementsByTagName("input")[i].value+"\")";
 		if(i != nodeNameList.childElementCount-1){
 			insertSQL+=", ";
@@ -147,7 +147,7 @@ function renameNode(id,name){
 			}
 		}
 	}
-	for (var i = 0 ; i < nodeNameList.getElementsByTagName('input').length ; i++){
+	for (var i = 1 ; i < nodeNameList.getElementsByTagName('input').length ; i++){
 		if(nodeNameList.getElementsByTagName('input')[i].id.substr(1,8)==id){
 			nodeNameList.getElementsByTagName('input')[i].value=name;
 		}
@@ -224,7 +224,7 @@ function drawChart(){
     var tempData = [];
     // if (Data.selectedData==null) return;
     for ( var i = 0 ; i < Data.selectedData.length ; i++ ){
-    	for (var j = 0 ; j < nodeNameList.getElementsByClassName("custom-checkbox").length ; j++ ){
+    	for (var j = 1 ; j < nodeNameList.getElementsByClassName("custom-checkbox").length ; j++ ){
 			if( nodeNameList.getElementsByClassName("custom-checkbox")[j].getElementsByTagName("input")[0].id == "n"+Data.selectedData[i].key_org+"checkbox" && nodeNameList.getElementsByClassName("custom-checkbox")[j].getElementsByTagName("input")[0].checked ){
 				tempData.push(Data.selectedData[i]);
 			}
@@ -329,28 +329,46 @@ function getTitleFontColor(engName){
 }
 function changeDescription(selectedDataName){
 	/* global dataDescription */
-	dataDescription.innerText = getDescKr(selectedDataName);
+	dataDescription.innerHTML = getDescKr(selectedDataName);
 	
 }
+
+var Description = {};
+Description.Kor = {};
+Description.Kor.Temperature = "단위:℃";
+Description.Kor.Humidity = "단위:％";
+Description.Kor.AirQualityStatic =	"<p style=\"color:#000000; background-color:#00ff00;\">0-50:좋음</p>,&nbsp"+
+									"<p style=\"color:#000000; background-color:#ffff00;\">51~100:보통</p>,&nbsp"+
+									"<p style=\"color:#000000; background-color:#ff9000;\">101~150:약간 나쁨</p>,&nbsp"+
+									"<p style=\"color:#000000; background-color:#ff0000;\">151~200:나쁨</p>,&nbsp"+
+									"<p style=\"color:#ffffff; background-color:#a000ff;\">201~300:많이 나쁨</p>,&nbsp"+
+									"<p style=\"color:#ffffff; background-color:#000000;\">301~500:최악</p>";
+Description.Kor.Pressure = "단위:hPa";
+Description.Kor.Ambient_light = "단위:lx";
+Description.Kor.IAQaccuracyStatic = "";
+Description.Kor.BatteryLevel = "단위 : 0%, 50%, 100%";
+Description.Kor.Movement = "단위 : 0(정지), 4(진동)";
+Description.Kor.Hall = "단위 : 0(접근), 2(이탈)";
+
 function getDescKr(engName){
 	var korName = "";
-	if ( engName == "Temperature") { korName = "차트는 기온을 셀시우스 온도(℃) 단위로 나타내며, 물의 삼중점을 0.01 °C, 물의 끓는점을 99.9839 °C로 하여 등분하여 나타낸다. 물질의 차고 더운 정도를 뜻한다.";}
-	if ( engName == "Humidity") { korName = "차트는 공기중 습도를 퍼센트(%) 단위로 나타내며, 공기 중에 포함되어 있는 수증기의 양 또는 비율을 나타내는 단위를 뜻한다. ";}
-	if ( engName == "AirQualityStatic") { korName = "차트는 공기의 질을 휘발성유기화합물질(VOC)함유량(㎍/㎡) 단위로 나타내며, 공기 중 휘발성 유기 화합물질의 양을 뜻한다. 0-50은 좋음, 51~100은 보통, 101~150은 약간 나쁨, 151~200은 나쁨, 201~300은 많이 나쁨, 301~500은 최악을 나타낸다.";}
-	if ( engName == "Pressure") { korName = "차트는 기압을 헥토파스칼(hPa) 단위로 나타내며, 압력에 대한 SI 유도 단위이며 1 제곱미터 당 100 뉴턴의 힘이 작용할 때의 압력을 뜻한다. ";}
-	if ( engName == "Ambient_light") { korName = "차트는 조도를 럭스(lx) 단위로 나타내며 단위면적 (제곱미터)에 비춰지는 빛의 밝기를 뜻한다. ";}
-	if ( engName == "IAQaccuracyStatic") { korName = "차트는 실내 공기 질을 숫자 단위로 나타낸다. ";}
-	if ( engName == "BatteryLevel") { korName = "차트는 배터리 잔량을 % 단위로 나타낸다. 현재 0%, 50%, 100%가 측정된다.";}
-	if ( engName == "Movement") { korName = "차트는 진동 센서를 숫자 단위로 나타낸다. 현재 진동이 없으면 0, 있으면 4가 측정된다. ";}
-	if ( engName == "Hall") { korName = "차트는 자력센서 측정값을 숫자 단위로 나타낸다.";}
+	if ( engName == "Temperature") { return Description.Kor.Temperature; }
+	if ( engName == "Humidity") { return Description.Kor.Humidity; }
+	if ( engName == "AirQualityStatic") { return Description.Kor.AirQualityStatic; }
+	if ( engName == "Pressure") { return Description.Kor.Pressure; }
+	if ( engName == "Ambient_light") { return Description.Kor.Ambient_light; }
+	if ( engName == "IAQaccuracyStatic") { return Description.Kor.IAQaccuracyStatic; }
+	if ( engName == "BatteryLevel") { return Description.Kor.BatteryLevel; }
+	if ( engName == "Movement") { return Description.Kor.Movement; }
+	if ( engName == "Hall") { return Description.Kor.Hall; }
 
-	if ( engName == "SensorNodeId") { korName = "센서노드ID, 센서 노드의 고유 시리얼 넘버를 나타낸다. ";}
-	if ( engName == "SourceAddress") { korName = "소스주소, 임시로 변하는 센서 노드의 네트워크 상 주소를 나타낸다. ";}
-	if ( engName == "NodeStatus") { korName = "노드상태, 센서노드의 상태를 상태 별 임의 지정된 숫자로 표시한다. ";}
-	if ( engName == "NodeRole") { korName = "노드역할, 센서 노드의 역할을 역할 별 임의 지정된 숫자로 표시한다. ";}
-	if ( engName == "GatewayId") { korName = "게이트웨이ID, 게이트웨이의 ID를 표시한다. ";}
-	if ( engName == "Objects") { korName = "객체, 객체 값을 숫자로 표시한다. ";}
-	if ( engName == "User") { korName = "사용자, 사용자의 동작을 숫자로 표시한다. ";}
+	if ( engName == "SensorNodeId") { korName = "";}
+	if ( engName == "SourceAddress") { korName = "";}
+	if ( engName == "NodeStatus") { korName = "";}
+	if ( engName == "NodeRole") { korName = "";}
+	if ( engName == "GatewayId") { korName = "";}
+	if ( engName == "Objects") { korName = "";}
+	if ( engName == "User") { korName = "";}
 	return korName;
 }
 function getWordKr(engName){
@@ -360,18 +378,18 @@ function getWordKr(engName){
 	if ( engName == "AirQualityStatic") { korName = "공기질(VOC) ㎍/㎡";}
 	if ( engName == "Pressure") { korName = "기압 hPa";}
 	if ( engName == "Ambient_light") { korName = "조도 lx";}
-	if ( engName == "IAQaccuracyStatic") { korName = "실내 공기 질 ";}
+	if ( engName == "IAQaccuracyStatic") { korName = "실내 공기 질";}
 	if ( engName == "BatteryLevel") { korName = "배터리 잔량 %";}
-	if ( engName == "Movement") { korName = "진동 ";}
-	if ( engName == "Hall") { korName = "자력센서 ";}
+	if ( engName == "Movement") { korName = "진동";}
+	if ( engName == "Hall") { korName = "자력센서";}
 
-	if ( engName == "SensorNodeId") { korName = "센서노드ID ";}
-	if ( engName == "SourceAddress") { korName = "소스주소 ";}
-	if ( engName == "NodeStatus") { korName = "노드상태 ";}
-	if ( engName == "NodeRole") { korName = "노드역할 ";}
-	if ( engName == "GatewayId") { korName = "게이트웨이ID ";}
-	if ( engName == "Objects") { korName = "객체 ";}
-	if ( engName == "User") { korName = "사용자 ";}
+	if ( engName == "SensorNodeId") { korName = "센서노드ID";}
+	if ( engName == "SourceAddress") { korName = "소스주소";}
+	if ( engName == "NodeStatus") { korName = "노드상태";}
+	if ( engName == "NodeRole") { korName = "노드역할";}
+	if ( engName == "GatewayId") { korName = "게이트웨이ID";}
+	if ( engName == "Objects") { korName = "객체";}
+	if ( engName == "User") { korName = "사용자";}
 	return korName;
 }
 function getLastTimestamp(){
@@ -458,4 +476,9 @@ function setFirstDate(date){
 		startDate.value = getDay(new Date(endDate.value),0,0,-3);
 	}
 	firstFetchDB();
+}
+function selectAllData(){
+	for( var i = 1 ; i < nodeNameList.getElementsByClassName("custom-control-input").length ; i++ ){
+		nodeNameList.getElementsByClassName("custom-control-input")[i].checked = nodeNameList.getElementsByClassName("custom-control-input")[0].checked
+	}
 }

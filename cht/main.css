@@ -23720,7 +23720,8 @@ a.fc-more:hover {
     }
 }
 
-@media (max-width: 991.98px) {
+/*@media (max-width: 991.98px) {*/
+@media (max-width: 1156px) {
     .app-main {
         display:block
     }
@@ -23831,7 +23832,13 @@ a.fc-more:hover {
         padding: 0 10px;
         overflow: hidden
     }
-
+    
+    .app-header .app-header__content.header-mobile-open {
+        visibility: visible;
+        opacity: 1;
+        top: 80px;
+    }
+    
     .app-header .app-header__content .header-btn-lg {
         margin-left: .5rem;
         padding: 0 .5rem
@@ -23894,7 +23901,7 @@ a.fc-more:hover {
 
     .app-page-title .page-title-heading,.app-page-title .page-title-wrapper {
         margin: 0 auto;
-        display: block
+        /*display: block*/
     }
 
     .app-page-title .page-title-actions {
