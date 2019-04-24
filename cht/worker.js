@@ -1,5 +1,5 @@
 function fetchData() {
-    postMessage("a");
+    postMessage("");
     setTimeout("fetchData()", 1234);
 }
 fetchData();

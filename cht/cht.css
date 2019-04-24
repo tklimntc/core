@@ -1,14 +1,26 @@
 #chart, #chart svg {
-	height: 540px !important;
-	width:100% !important;
+	height: calc(100vh - 230px) !important;
+	width: calc(100vw - 30px) !important
 }
 #dataDescription {
     display:inherit;
     color:#000000;
 }
+#saveRenameAllButton {
+    padding: 0;
+    margin : 0px 0px -5px 7px !important;
+}
+#allLabel {
+    width: 139px !important;
+    height: 28px !important;
+    text-align: center;
+    vertical-align: inherit;
+    padding: 1px 0px 0px 0px;
+}
 #chart svg {
-	height: 520px !important;
-	width:100% !important;
+	height: calc(100vh - 250px) !important;
+	width: calc(100vw - 50px) !important;
+	    margin: 0px 0px 0px -15px !important;
 }
 .app-page-title {
     padding: 25px;
@@ -34,10 +46,13 @@
 g.nv-focusWrap.nvd3-svg {
     
 }
-#chart, #chart svg, #chart svg .nvd3.nv-wrap.nv-lineChart {
-	height: 100% ;
-	width:100% ;
+g.nvd3.nv-wrap.nv-lineChart {
+    width:calc(100vw - 50px);
 }
+/*#chart, #chart svg, #chart svg .nvd3.nv-wrap.nv-lineChart {*/
+/*	height: 100% ;*/
+/*	width:100% ;*/
+/*}*/
 #nodeNameList, #sensorList {
     overflow: auto;
     max-height: 80% !important;
@@ -92,7 +107,6 @@ div.app-header__content.header-mobile-open {
     background-repeat:   no-repeat !important;
     background-position: center center !important;
 }
-
 /*@media (max-width: 1499px) {*/
 /*    .app-page-title .page-title-heading,.app-page-title .page-title-wrapper {*/
 /*        display: inline-flex;*/

@@ -67,6 +67,7 @@ function dataInit(){
 	Data.dataList.push(Data.Objects				);
 	Data.dataList.push(Data.User				);
 	Data.selectedDataName = Data.selectedDataName;//||null;
+	startWorker();
 }
 function pushData(data, selecteddata, selectedData, i){
 	if (typeof(selecteddata)=="undefined"){return;}
@@ -115,7 +116,7 @@ function getDay(inputDate, inputYear, inputMonth, inputDay){
 	var today = ("0000" + now.getFullYear()).slice(-4)+"-"+(month)+"-"+(day) ;
 	return today;
 }
-function storeNodeName(){
+function saveRenameAll(){
 	/* global nodeNameList */
 	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
 	for(var i = 1 ; i < nodeNameList.childElementCount ; i++){
@@ -149,7 +150,7 @@ function renameNode(id,name){
 	}
 	for (var i = 1 ; i < nodeNameList.getElementsByTagName('input').length ; i++){
 		if(nodeNameList.getElementsByTagName('input')[i].id.substr(1,8)==id){
-			nodeNameList.getElementsByTagName('input')[i].value=name;
+			nodeNameList.getElementsByTagName('input')[i].value=(name.length>0?name:id);
 		}
 	}
 	selectData()
@@ -169,7 +170,7 @@ function innerRefreshData(){
 	releaseData();
 	selectData();
 }
-// 속도 개선을 위한 호출구조 수정 필요. 렌더링 시간도 있지만, releaseData가 다량의 데이터를 다루기 때문에 발생하는 과반수 근접한 상당량의 타임로스가 있다. 
+// 속도 개선을 위한 호출구조 수정 필요. 렌더링 시간도 있지만, releaseData가 다량의 데이터를 다루기 때문에 발생하는 과반수 근접한 상당량의 타임로스가 있다. 분산처리 혹은 데이터 선택 도입(해당 경우 DB부하증가)이 필요한 부분.
 function releaseData(){
 	/* global DivideRows */
 	var data = Data.fetchedData;
@@ -341,7 +342,7 @@ Description.Kor.Humidity = "단위:％";
 Description.Kor.AirQualityStatic =	"<p style=\"color:#000000; background-color:#00ff00;\">0-50:좋음</p>,&nbsp"+
 									"<p style=\"color:#000000; background-color:#ffff00;\">51~100:보통</p>,&nbsp"+
 									"<p style=\"color:#000000; background-color:#ff9000;\">101~150:약간 나쁨</p>,&nbsp"+
-									"<p style=\"color:#000000; background-color:#ff0000;\">151~200:나쁨</p>,&nbsp"+
+									"<p style=\"color:#ffff00; background-color:#ff0000;\">151~200:나쁨</p>,&nbsp"+
 									"<p style=\"color:#ffffff; background-color:#a000ff;\">201~300:많이 나쁨</p>,&nbsp"+
 									"<p style=\"color:#ffffff; background-color:#000000;\">301~500:최악</p>";
 Description.Kor.Pressure = "단위:hPa";
@@ -363,13 +364,13 @@ function getDescKr(engName){
 	if ( engName == "Movement") { return Description.Kor.Movement; }
 	if ( engName == "Hall") { return Description.Kor.Hall; }
 
-	if ( engName == "SensorNodeId") { korName = "";}
-	if ( engName == "SourceAddress") { korName = "";}
-	if ( engName == "NodeStatus") { korName = "";}
-	if ( engName == "NodeRole") { korName = "";}
-	if ( engName == "GatewayId") { korName = "";}
-	if ( engName == "Objects") { korName = "";}
-	if ( engName == "User") { korName = "";}
+	if ( engName == "SensorNodeId") { korName = "센서노드ID";}
+	if ( engName == "SourceAddress") { korName = "소스주소";}
+	if ( engName == "NodeStatus") { korName = "노드상태";}
+	if ( engName == "NodeRole") { korName = "노드역할";}
+	if ( engName == "GatewayId") { korName = "게이트웨이ID";}
+	if ( engName == "Objects") { korName = "객체";}
+	if ( engName == "User") { korName = "사용자";}
 	return korName;
 }
 function getWordKr(engName){
@@ -396,6 +397,12 @@ function getWordKr(engName){
 function getLastTimestamp(){
 	return Data.lastTimeStamp;
 }
+function getPreviousDate(inputDate){
+	return getDay(inputDate,0,0,-1)
+}
+function getNextDate(inputDate){
+	return getDay(inputDate,0,0,1)
+}
 function firstFetchDB(){
 	/* global defaultRadix */
 	var datarows = parseInt(document.getElementById('DataRows').value, defaultRadix);
@@ -406,7 +413,7 @@ function firstFetchDB(){
 	             " time as Time "+
 	             ",value as JSON, JSON_EXTRACT(value,\"$.Timestamp\") as times ";
 	FromStmt =   "FROM mobiusdb.sensdb ";
-	WhereStmt =  "WHERE time<='"+endDate.value+"' AND time>'"+startDate.value+"' ";
+	WhereStmt =  "WHERE '"+startDate.value+"'<=time AND time<='"+getNextDate(endDate.value)+"'";
 	EtcStmt =    "ORDER BY time DESC LIMIT "+String(datarows)+" ";
 	AllFetchSQL = SelectStmt + FromStmt + WhereStmt + EtcStmt;
 	socket.emit('firstData',AllFetchSQL);
@@ -463,9 +470,15 @@ function setDefaultDate(){
 	}
 	SelectStmt = "SELECT COUNT(*) ";
 	FromStmt =   "FROM mobiusdb.sensdb ";
-	WhereStmt =  "WHERE time<='"+endDate.value+"' AND time>'"+startDate.value+"'; ";
+	WhereStmt =  "WHERE '"+startDate.value+"'<=time AND time<='"+getNextDate(endDate.value)+"' ";
 	AllFetchSQL = SelectStmt + FromStmt + WhereStmt;
 	socket.emit("getRowsBetweenDate",AllFetchSQL);
+	if(getDay(new Date())!=endDate.value){
+		stopWorker();
+	}
+	if(getDay(new Date())==endDate.value){
+		startWorker();
+	}
 }
 function setFirstDate(date){
 	Data.lastDate = date;
@@ -483,4 +496,23 @@ function selectAllData(){
 		nodeNameList.getElementsByClassName("custom-control-input")[i].checked = nodeNameList.getElementsByClassName("custom-control-input")[0].checked
 	}
 	selectData();
+}
+var worker;
+function startWorker(){
+	if(typeof(Worker)!=="undefined"){
+		if(typeof(worker)=="undefined"){
+			worker = new Worker("worker.js");
+		}
+		worker.onmessage = function(event){
+			checkDB();
+		}
+	}
+}
+function stopWorker(){
+	if(typeof(Worker)!=="undefined"){
+		if(typeof(worker)!=="undefined"){
+			worker.terminate();
+			worker = undefined;
+		}
+	}
 }
