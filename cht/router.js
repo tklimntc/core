@@ -2,6 +2,14 @@ module.exports={
 	init : function(app){
 		app.get(                         '/', function(req, res){
 				res.sendFile(__dirname + '/cht.html');});
+		app.get(                         '/newc', function(req, res){
+				res.sendFile(__dirname + '/newc.html');});
+		app.get(                         '/news.js', function(req, res){
+				res.sendFile(__dirname + '/news.js');});
+		app.get(                         '/newc.js', function(req, res){
+				res.sendFile(__dirname + '/newc.js');});
+		app.get(                         '/newc.css', function(req, res){
+				res.sendFile(__dirname + '/newc.css');});
 		app.get(                         '/index.html', function(req, res){
 				res.sendFile(__dirname + '/index.html');});
 		app.get(                         '/index.js', function(req, res){
