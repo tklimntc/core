@@ -104,7 +104,8 @@ footer small {
     text-align:center;
 }
 .date {
-    width:144px;
+    font-size:12px;
+    width:116px;
 }
 .menu_content_column {
     min-width: 100px;
@@ -118,6 +119,7 @@ footer small {
     margin:0px;
 }
 #menu_term {
+    min-width: 239px;
 }
 #menu_data {
 }
