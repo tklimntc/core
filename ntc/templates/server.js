@@ -7,8 +7,8 @@
 var port=80;
 var app = require('express')();
 var http = require('http').Server(app);
-require('./server_router.js')(app);
-require('./server_api.js')(require('socket.io')(http), require('mysql').createConnection(require('./server_key.js')), require('./server_query.js'));
+require('./server_dir.js')(app);
+require('./server_api.js')(require('socket.io')(http), require('mysql').createConnection(require('./server_key.js')), require('./server_sql.js'));
 http.listen(port, function(){ console.log('SERVER IS READY FOR [*:'+port+']'); });
 
 // default web server environment construction

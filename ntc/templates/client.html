@@ -33,7 +33,7 @@ client html file
             <img src="/logo.png" class="logo"></img>
         </header>
         <nav>
-            <ul><label class="label display" id="i18n_add_chart">차트</label>
+            <ul><label class="label display" id="i18n_nav_title_chart"></label>
             </ul>
             <ul>
                 <li></li>
@@ -43,38 +43,31 @@ client html file
             <div id="menu_navigator">
                 <div id="menu_button_shrink"><<</div>
                 <div id="menu_button_show">
-                    <label class="label display" id="i18n_">추가</label>
-                    <label class="label displaynone" id="i18n_">수정</label>
+                    <label class="label display" id="i18n_menu_navigator_button_create"></label>
+                    <label class="label displaynone" id="i18n_menu_navigator_button_modify"></label>
                 </div>
             </div>
             <div id="menu_query">
                 <div id="menu_term" class="menu">
-                    <label class="label wrap_checkbox" for="menu_term_checkbox_all">
-                        <div id="menu_term_title" class="menu_title">
-                            <input id="menu_term_checkbox_all" type="checkbox" class="checkbox"></input>
-                            <label class="label label_name" id="i18n_" for="menu_term_checkbox_all">기간</label>
-                        </div>
-                    </label>
+                    <div id="menu_term_title" class="menu_title">
+                        <label class="label label_name" id="i18n_menu_term_title_term" for="menu_term_checkbox_all"></label>
+                    </div>
                     <div id="menu_term_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_term_checkbox_begin">
-                            <div class="menu_content_column">
-                                <input id="menu_term_checkbox_begin" type="checkbox" class="checkbox"></input> 첫 일자 제한<br>
-                                <input type="date" name="date_start" class="date"/>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_term_checkbox_end">
-                            <div class="menu_content_column">
-                                <input id="menu_term_checkbox_end" type="checkbox" class="checkbox"></input> 끝 일자 제한<br>
-                                <input type="date" name="date_end" class="date"/>
-                            </div>
-                        </label>
+                        <div class="menu_content_column">
+                            <label class="label display" id="i18n_menu_term_content_label_begin_date" for="menu_term_checkbox_begin"></label><br>
+                            <input id="menu_term_content_date_start" type="date" name="date_start" class="date"/>
+                        </div>
+                        <div class="menu_content_column">
+                            <label class="label display" id="i18n_menu_term_content_label_end_date" for="menu_term_checkbox_end"></label><br>
+                            <input id="menu_term_content_date_end" type="date" name="date_end" class="date"/>
+                        </div>
                     </div>
                 </div>
                 <div id="menu_sens" class="menu">
                     <label class="label wrap_checkbox" for="menu_sens_checkbox_all">
                         <div id="menu_sens_title" class="menu_title">
                             <input id="menu_sens_checkbox_all" type="checkbox" class="checkbox"></input>
-                            <label class="label label_name" id="i18n_" for="menu_sens_checkbox_all">센서</label>
+                            <label class="label label_name" id="i18n_menu_sensor_title_sensor" for="menu_sens_checkbox_all"></label>
                         </div>
                     </label>
                     <div id="menu_sens_content" class="menu_content">
@@ -84,206 +77,201 @@ client html file
                     <label class="label wrap_checkbox" for="menu_data_checkbox_all">
                         <div id="menu_data_title" class="menu_title">
                             <input id="menu_data_checkbox_all" type="checkbox" class="checkbox"></input>
-                            <label class="label label_name" id="i18n_" for="menu_data_checkbox_all">데이터</label>
+                            <label class="label label_name" id="i18n_menu_data_title_data" for="menu_data_checkbox_all"></label>
                         </div>
                     </label>
                     <div id="menu_data_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_1">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_temperature">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_1" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_1" id="i18n_">온도</label>
+                                <input id="menu_data_checkbox_temperature" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_temperature" id="i18n_menu_data_content_temperature"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_2">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_humidity">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_2" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_2" id="i18n_">습도</label>
+                                <input id="menu_data_checkbox_humidity" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_humidity" id="i18n_menu_data_content_humidity"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_3">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_atmospheric_pressure">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_3" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_3" id="i18n_">기압</label>
+                                <input id="menu_data_checkbox_atmospheric_pressure" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_atmospheric_pressure" id="i18n_menu_data_content_atmospheric_pressure"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_4">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_ambient_light">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_4" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_4" id="i18n_">조도</label>
+                                <input id="menu_data_checkbox_ambient_light" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_ambient_light" id="i18n_menu_data_content_ambient_light"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_5">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_air_quality">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_5" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_5" id="i18n_">공기질</label>
+                                <input id="menu_data_checkbox_air_quality" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_air_quality" id="i18n_menu_data_content_air_quality"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_6">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_indoor_air_quality">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_6" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_6" id="i18n_">실내공기질</label>
+                                <input id="menu_data_checkbox_indoor_air_quality" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_indoor_air_quality" id="i18n_menu_data_content_indoor_air_quality"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_7">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_movement">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_7" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_7" id="i18n_">진동</label>
+                                <input id="menu_data_checkbox_movement" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_movement" id="i18n_menu_data_content_movement"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_8">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_hall">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_8" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_8" id="i18n_">자력</label>
+                                <input id="menu_data_checkbox_hall" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_hall" id="i18n_menu_data_content_hall"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_9">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_battery_level">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_9" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_9" id="i18n_">전원</label>
+                                <input id="menu_data_checkbox_battery_level" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_battery_level" id="i18n_menu_data_content_battery_level"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_10">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_sensor_node_id">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_10" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_10" id="i18n_">센서노드ID</label>
+                                <input id="menu_data_checkbox_sensor_node_id" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_sensor_node_id" id="i18n_menu_data_content_sensor_node_id"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_11">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_gateway_id">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_11" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_11" id="i18n_">게이트웨이ID</label>
+                                <input id="menu_data_checkbox_gateway_id" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_gateway_id" id="i18n_menu_data_content_gateway_id"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_12">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_node_status">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_12" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_12" id="i18n_">노드상태</label>
+                                <input id="menu_data_checkbox_node_status" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_node_status" id="i18n_menu_data_content_node_status"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_13">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_node_role">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_13" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_13" id="i18n_">노드역할</label>
+                                <input id="menu_data_checkbox_node_role" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_node_role" id="i18n_menu_data_content_node_role"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_14">
+                        <label class="label wrap_checkbox" for="menu_data_checkbox_object">
                             <div class="menu_content_column">
-                                <input id="menu_data_checkbox_14" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_14" id="i18n_">객체</label>
+                                <input id="menu_data_checkbox_object" type="checkbox" class="checkbox"></input>
+                                <label class="label label_name" for="menu_data_checkbox_object" id="i18n_menu_data_content_object"></label>
                             </div>
                         </label>
                     </div>
                 </div>
                 <div id="menu_sort" class="menu">
                     <div id="menu_sort_title" class="menu_title">
-                        <label class="label label_name" id="i18n_">기준</label>
+                        <label class="label label_name" id="i18n_menu_sort_title_sort"></label>
                     </div>
                     <div id="menu_sort_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_sort_checkbox_1">
+                        <label class="label wrap_checkbox" for="menu_sort_checkbox_sensor">
                             <div class="menu_content_column">
-                                <input name="menu_sort_radiobutton" id="menu_sort_checkbox_1" type="radio" class="checkbox" checked></input>
-                                <label class="label label_name" for="menu_sort_checkbox_1" id="i18n_">센서</label>
+                                <input name="menu_sort_radiobutton" id="menu_sort_checkbox_sensor" type="radio" class="checkbox" checked></input>
+                                <label class="label label_name" for="menu_sort_checkbox_sensor" id="i18n_menu_sort_content_sensor"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_sort_checkbox_2">
+                        <label class="label wrap_checkbox" for="menu_sort_checkbox_data">
                             <div class="menu_content_column">
-                                <input name="menu_sort_radiobutton" id="menu_sort_checkbox_2" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_sort_checkbox_2" id="i18n_">데이터</label>
+                                <input name="menu_sort_radiobutton" id="menu_sort_checkbox_data" type="radio" class="checkbox"></input>
+                                <label class="label label_name" for="menu_sort_checkbox_data" id="i18n_menu_sort_content_data"></label>
                             </div>
                         </label>
                     </div>
                 </div>
                 <div id="menu_valu" class="menu">
                     <div id="menu_valu_title" class="menu_title">
-                        <label class="label label_name" id="i18n_">값</label>
+                        <label class="label label_name" id="i18n_menu_valu_title_value"></label>
                     </div>
                     <div id="menu_valu_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_valu_checkbox_1">
+                        <label class="label wrap_checkbox" for="menu_valu_checkbox_value">
                             <div class="menu_content_column">
-                                <input name="menu_valu_radiobutton" id="menu_valu_checkbox_1" type="radio" class="checkbox" checked></input>
-                                <label class="label label_name" for="menu_valu_checkbox_1" id="i18n_">값</label>
+                                <input name="menu_valu_radiobutton" id="menu_valu_checkbox_value" type="radio" class="checkbox" checked></input>
+                                <label class="label label_name" for="menu_valu_checkbox_value" id="i18n_menu_valu_content_value"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_valu_checkbox_2">
+                        <label class="label wrap_checkbox" for="menu_valu_checkbox_average">
                             <div class="menu_content_column">
-                                <input name="menu_valu_radiobutton" id="menu_valu_checkbox_2" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_valu_checkbox_2" id="i18n_">평균</label>
+                                <input name="menu_valu_radiobutton" id="menu_valu_checkbox_average" type="radio" class="checkbox"></input>
+                                <label class="label label_name" for="menu_valu_checkbox_average" id="i18n_menu_valu_content_average"></label>
                             </div>
                         </label>
                     </div>
                 </div>
                 <div id="menu_char" class="menu">
                     <div id="menu_char_title" class="menu_title">
-                        <label class="label label_name" id="i18n_">차트</label>
+                        <label class="label label_name" id="i18n_menu_char_title_chart"></label>
                     </div>
                     <div id="menu_char_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_char_checkbox_1">
+                        <label class="label wrap_checkbox" for="menu_char_checkbox_line">
                             <div class="menu_content_column">
-                                <input name="menu_char_radiobutton" id="menu_char_checkbox_1" type="radio" class="checkbox" checked></input>
-                                <label class="label label_name" for="menu_char_checkbox_1" id="i18n_">꺾은선</label>
+                                <input name="menu_char_radiobutton" id="menu_char_checkbox_line" type="radio" class="checkbox" checked></input>
+                                <label class="label label_name" for="menu_char_checkbox_line" id="i18n_menu_char_content_line"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_char_checkbox_2">
+                        <label class="label wrap_checkbox" for="menu_char_checkbox_stick">
                             <div class="menu_content_column">
-                                <input name="menu_char_radiobutton" id="menu_char_checkbox_2" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_char_checkbox_2" id="i18n_">막대</label>
+                                <input name="menu_char_radiobutton" id="menu_char_checkbox_stick" type="radio" class="checkbox"></input>
+                                <label class="label label_name" for="menu_char_checkbox_stick" id="i18n_menu_char_content_stick"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_char_checkbox_3">
+                        <label class="label wrap_checkbox" for="menu_char_checkbox_dot">
                             <div class="menu_content_column">
-                                <input name="menu_char_radiobutton" id="menu_char_checkbox_3" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_char_checkbox_3" id="i18n_">점</label>
+                                <input name="menu_char_radiobutton" id="menu_char_checkbox_dot" type="radio" class="checkbox"></input>
+                                <label class="label label_name" for="menu_char_checkbox_dot" id="i18n_menu_char_content_dot"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_char_checkbox_4">
+                        <label class="label wrap_checkbox" for="menu_char_checkbox_circle">
                             <div class="menu_content_column">
-                                <input name="menu_char_radiobutton" id="menu_char_checkbox_4" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_char_checkbox_4" id="i18n_">원</label>
+                                <input name="menu_char_radiobutton" id="menu_char_checkbox_circle" type="radio" class="checkbox"></input>
+                                <label class="label label_name" for="menu_char_checkbox_circle" id="i18n_menu_char_content_circle"></label>
                             </div>
                         </label>
                     </div>
                 </div>
                 <div id="menu_view" class="menu">
                     <div id="menu_view_title" class="menu_title">
-                        <label class="label label_name" id="i18n_">통합</label>
+                        <label class="label label_name" id="i18n_menu_view_title_integrate"></label>
                     </div>
                     <div id="menu_view_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_view_checkbox_1">
+                        <label class="label wrap_checkbox" for="menu_view_checkbox_partition">
                             <div class="menu_content_column">
-                                <input name="menu_view_radiobutton" id="menu_view_checkbox_1" type="radio" class="checkbox" checked></input>
-                                <label class="label label_name" for="menu_view_checkbox_1" id="i18n_">분리</label>
+                                <input name="menu_view_radiobutton" id="menu_view_checkbox_partition" type="radio" class="checkbox" checked></input>
+                                <label class="label label_name" for="menu_view_checkbox_partition" id="i18n_menu_content_partition"></label>
                             </div>
                         </label>
-                        <label class="label wrap_checkbox" for="menu_view_checkbox_2">
+                        <label class="label wrap_checkbox" for="menu_view_checkbox_integrate">
                             <div class="menu_content_column">
-                                <input name="menu_view_radiobutton" id="menu_view_checkbox_2" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_view_checkbox_2" id="i18n_">통합</label>
+                                <input name="menu_view_radiobutton" id="menu_view_checkbox_integrate" type="radio" class="checkbox"></input>
+                                <label class="label label_name" for="menu_view_checkbox_integrate" id="i18n_menu_content_integrate"></label>
                             </div>
                         </label>
                     </div>
                 </div>
             </div>
         </div>
-        <article>
-            <!--<h1>콘텐츠 제목 </h1>-->
-            <!--<p> 콘텐츠 내용 </p>-->
+        <article> 
         </article>
-        <!--<aside>-->
-        <!--    <section>-->
-        <!--        <h1>제목</h1>-->
-        <!--        <blockquote>내용</blockquote>-->
-        <!--    </section>-->
-        <!--</aside>-->
+        <aside>
+        </aside>
         <footer>
             <img class="logo" src="/logo.png"></img>
             <small>
-                경기도 성남시 수정구 창업로 42 판교제2테크노밸리 경기기업성장센터 633호 (우)13449
+                <label id="i18n_footer_1"></label>
                 <br>
-                (주)넥스쳐컴 
+                <label id="i18n_footer_2"></label>
                 <br>
-                전화번호 : 031-757-1385, 팩스 : 031-622-9809, 이메일 : support@nexturecom.com
+                <label id="i18n_footer_3"></label>
             </small>
         </footer>
         <script src="/client.js"></script>
+        <!-- will moved from client.js after test for web cache -->
     </body>
 </html>

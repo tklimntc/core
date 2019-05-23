@@ -1,9 +1,8 @@
 /* 
 // =========================================================
-// client dictionary javascript file
-// will be in sqlite data file
+// client prepare run code file
 // =========================================================
 */
-var word = {
-    
-};
+/* global udf_words_apply_kr */
+// udf_words_apply_en();
+socket.emit('req_node_list','');

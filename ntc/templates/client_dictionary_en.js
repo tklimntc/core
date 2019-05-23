@@ -1,8 +1,49 @@
 /* 
 // =========================================================
 // client dictionary javascript file
+// will be in sqlite data file
 // =========================================================
 */
-word_en = {
-    
+var word_en = {
+    "":""
+    ,"lang":"kr"
+    ,"i18n_nav_title_chart":"chart"
+    ,"i18n_menu_navigator_button_create":"create"
+    ,"i18n_menu_navigator_button_modify":"modify"
+    ,"i18n_menu_term_title_term":"term"
+    ,"i18n_menu_term_content_label_begin_date":"first date"
+    ,"i18n_menu_term_content_label_end_date":"end date"
+    ,"i18n_menu_sensor_title_sensor":"sensor"
+    ,"i18n_menu_data_title_data":"data"
+    ,"i18n_menu_data_content_temperature":"temperature"
+    ,"i18n_menu_data_content_humidity":"humidity"
+    ,"i18n_menu_data_content_atmospheric_pressure":"atmospheric_pressure"
+    ,"i18n_menu_data_content_ambient_light":"ambient_light"
+    ,"i18n_menu_data_content_air_quality":"air_quality"
+    ,"i18n_menu_data_content_indoor_air_quality":"indoor_air_quality"
+    ,"i18n_menu_data_content_movement":"movement"
+    ,"i18n_menu_data_content_hall":"hall"
+    ,"i18n_menu_data_content_battery_level":"battery_level"
+    ,"i18n_menu_data_content_sensor_node_id":"sensor_node_id"
+    ,"i18n_menu_data_content_gateway_id":"gateway_id"
+    ,"i18n_menu_data_content_node_status":"node_status"
+    ,"i18n_menu_data_content_node_role":"node_role"
+    ,"i18n_menu_data_content_object":"object"
+    ,"i18n_menu_sort_title_sort":"sort"
+    ,"i18n_menu_sort_content_sensor":"sensor"
+    ,"i18n_menu_sort_content_data":"data"
+    ,"i18n_menu_valu_title_value":"value"
+    ,"i18n_menu_valu_content_value":"value"
+    ,"i18n_menu_valu_content_average":"average"
+    ,"i18n_menu_char_title_chart":"chart"
+    ,"i18n_menu_char_content_line":"line"
+    ,"i18n_menu_char_content_stick":"stick"
+    ,"i18n_menu_char_content_dot":"dot"
+    ,"i18n_menu_char_content_circle":"circle"
+    ,"i18n_menu_view_title_integrate":"integrate"
+    ,"i18n_menu_content_partition":"partition"
+    ,"i18n_menu_content_integrate":"integrate"
+    ,"i18n_footer_1":"13449, 633, Kyonggi Business Growth Support Center, Pangyo 2nd Techno-vally, 42, Changeop-ro, Sujeong-gu, Seongnam-si, Gyeonggi-do, Republic of Korea"
+    ,"i18n_footer_2":"Nexturecom Inc."
+    ,"i18n_footer_3":"Tel : +82 31-757-1385, Fax : +82 31-622-9809, E-mail : support@nexturecom.com"
 };

@@ -10,21 +10,8 @@ module.exports=	function(app){
 	res.sendFile(__dirname+ '/client.html');});
 	app.get(				'/client.js', function(req, res){
 	res.sendFile(__dirname+ '/client.js');});
-	app.get(				'/client_socket_connection.js', function(req, res){
-	res.sendFile(__dirname+ '/client_socket_connection.js');});
 	app.get(				'/client.css', function(req, res){
 	res.sendFile(__dirname+ '/client.css');});
-	app.get(				'/client_symbol.js', function(req, res){
-	res.sendFile(__dirname+ '/client_symbol.js');});
-
-	app.get(				'/client_prepare_html.js', function(req, res){
-	res.sendFile(__dirname+ '/client_prepare_html.js');});
-	app.get(				'/client_dom_control.js', function(req, res){
-	res.sendFile(__dirname+ '/client_dom_control.js');});
-	app.get(				'/client_event_control.js', function(req, res){
-	res.sendFile(__dirname+ '/client_event_control.js');});
-	app.get(				'/client_worker.js', function(req, res){
-	res.sendFile(__dirname+ '/client_worker.js');});
 
 	app.get(				'/client_dictionary.js', function(req, res){
 	res.sendFile(__dirname+ '/client_dictionary.js');});
@@ -32,8 +19,24 @@ module.exports=	function(app){
 	res.sendFile(__dirname+ '/client_dictionary_kr.js');});
 	app.get(				'/client_dictionary_en.js', function(req, res){
 	res.sendFile(__dirname+ '/client_dictionary_en.js');});
+	app.get(				'/client_dictionary_symbol.js', function(req, res){
+	res.sendFile(__dirname+ '/client_dictionary_symbol.js');});
 
-			
+	app.get(				'/client_prepare_api.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_api.js');});
+	app.get(				'/client_prepare_html.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_html.js');});
+	app.get(				'/client_prepare_udf.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_udf.js');});
+	app.get(				'/client_prepare_event.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_event.js');});
+	app.get(				'/client_prepare_worker.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_worker.js');});
+	app.get(				'/client_prepare_run.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_run.js');});
+	app.get(				'/client_prepare_global_value.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_global_value.js');});
+
 	app.get(				'/favicon.ico', function(req, res){
 	res.sendFile(__dirname+ '/favicon.ico');});
 	app.get(				'/logo.png', function(req, res){
@@ -57,13 +60,4 @@ module.exports=	function(app){
 	res.sendFile(__dirname + '/fw/bootstrap.min.js');});
 	app.get(					'/bootstrap.bundle.min.js', function(req, res){
 	res.sendFile(__dirname + '/fw/bootstrap.bundle.min.js');});
-
 }
-
-
-
-
-
-
-
-

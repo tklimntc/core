@@ -134,10 +134,10 @@ footer small {
     margin:0px;
 }
 .checkbox {
-    height: 20px;
-    width: 20px;
-    position: relative;
-    top: 4px;
+    /*height: 20px;*/
+    /*width: 20px;*/
+    /*position: relative;*/
+    /*top: 4px;*/
 }
 .writable_label {
     width: 70px;
@@ -151,6 +151,7 @@ footer small {
 #menu_char { min-width: 87px; }
 #menu_view { min-width: 71px; }
 .display {
+    
 }
 .displaynone {
     display:none;
@@ -168,4 +169,7 @@ footer small {
 }
 .wrap_checkbox {
     display:block;
+}
+label {
+    margin: 0px;
 }
