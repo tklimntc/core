@@ -6,6 +6,70 @@
 /* global menus */
 /* global ChartBase */
 
+
+var udf_duplication_check_id = function (id) {
+    for(var i in charts){
+        if (charts[i].id==id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+var udf_get_title = function (menu) {
+    return menu.getElementsByClassName("menu_title")[0];
+}
+
+var udf_get_date = function (menu) {
+    return menu.getElementsByClassName("date");
+}
+
+var udf_get_checkbox = function (menu) {
+    return menu.getElementsByClassName("checkbox");
+}
+
+var udf_get_content = function (menu) {
+    return menu.getElementsByClassName("menu_content");
+}
+
+var udf_int_sum = function (int) {
+    var summary = 0;
+    var string = udf_itos(int);
+    for (var i in string){
+        summary += udf_itoa(string[i]);
+    }
+    return summary;
+};
+
+var udf_str_sum = function (string) {
+    var summary = 0;
+    for (var i in string){
+        summary += udf_atoi(string[i]);
+    }
+    return summary;
+    // return udf_itos(summary);
+};
+
+var udf_itoa = function(i){
+	return String.fromCharCode(i);
+};
+
+var udf_stoi = function(i){
+    return parseInt(i,10);
+};
+
+var udf_atoi = function(s){
+	return s.charCodeAt();
+};
+
+var udf_itos = function(i){
+    return i.toString();
+};
+
+var udf_i18n_menu_navigator_button_create_click = function() {
+    udf_chart_add();
+};
+
 var udf_chart_add = function() {
     if (!udf_validate_request_condition()) {
         return;
@@ -13,12 +77,12 @@ var udf_chart_add = function() {
     else {
         let newChart = new ChartBase('chart_name_noname');
         charts.push(newChart);
-        console.log(charts);
     }
 };
 
 var udf_validate_request_condition = function() {
-    return (udf_check_fill(menus.menu_sens) && udf_check_fill(menus.menu_data));
+    return (udf_check_fill(menus.menu_sens) && 
+            udf_check_fill(menus.menu_data));
 };
 
 var udf_check_fill = function(content) {
@@ -26,7 +90,7 @@ var udf_check_fill = function(content) {
 };
 
 var udf_check_count = function(content) {
-    var contents_checkbox = content;
+    var contents_checkbox = content.getElementsByClassName('menu_content')[0].getElementsByClassName('checkbox');
     var count=0;
     for (var i in contents_checkbox) {
         count += contents_checkbox[i].checked==true?1:0;
@@ -93,17 +157,32 @@ var udf_generate_random_string = function(length) {
 var udf_init = function(res){
     udf_words_apply_kr();
     udf_node_list_release(res);
-    udf_init_date();
+    udf_init_date(0,0,-1);
+    udf_init_select();
 };
 
-var udf_init_date = function(){
-    menu_term_content_date_start.value = udf_get_day(new Date);
-    menu_term_content_date_end.value = udf_get_day(new Date,0,-1);
+var udf_init_select = function(res){
+    menu_sens_content.getElementsByClassName("checkbox")[0].checked=true;
+    menu_data_content.getElementsByClassName("checkbox")[0].checked=true;
 };
 
-// var udf_set_date = function(){
-//     udf_get_day(new Date,0,0,0)
-// };
+var udf_init_date = function(m,n,o){
+    menu_term_content_date_end.value = udf_get_day(new Date);
+    menu_term_content_date_start.value = udf_get_day(new Date,m,n,o);
+};
+
+var udf_i18n_menu_term_content_label_preset_day_click = function () {
+    udf_init_date(0,0,-1);
+};
+var udf_i18n_menu_term_content_label_preset_week_click = function () {
+    udf_init_date(0,0,-7);
+};
+var udf_i18n_menu_term_content_label_preset_month_click = function () {
+    udf_init_date(0,-1);
+};
+var udf_i18n_menu_term_content_label_preset_year_click = function () {
+    udf_init_date(-1);
+};
 
 var udf_get_day = function(inputDate, inputYear, inputMonth, inputDay){
 	var now = new Date(inputDate||null);

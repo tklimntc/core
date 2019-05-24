@@ -116,7 +116,7 @@ footer small {
     width:116px;
 }
 .menu_content {
-    height:126px;
+    height:250px;
     overflow:scroll;
 }
 ::-webkit-scrollbar {
@@ -131,13 +131,14 @@ footer small {
     /*text-align:center;*/
 }
 .label {
+    font-size:13px;
     margin:0px;
 }
 .checkbox {
-    /*height: 20px;*/
+    height: 18px;
     /*width: 20px;*/
-    /*position: relative;*/
-    /*top: 4px;*/
+    position: relative;
+    top: 4px;
 }
 .writable_label {
     width: 70px;
@@ -172,4 +173,8 @@ footer small {
 }
 label {
     margin: 0px;
+}
+.fill_parent {
+    height:100%;
+    width:100%;
 }
