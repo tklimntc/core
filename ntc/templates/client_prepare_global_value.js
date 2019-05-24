@@ -47,14 +47,9 @@ class ChartBase {
         var hash_id = "";
         var hash_sum = "";
         for (var key in menus) {
-            // console.log(key)
             var title_menu = udf_get_title(menus[key]);
-            // console.log(title_menu);
             var title_sum = udf_str_sum(title_menu.id);
-            // console.log(title_sum);
             var content_sum = 0;
-            // console.log(this.chart_material)
-            // console.log(menus[key]);
             if (menus[key]==menus.menu_term) {
                 var menu_contents = udf_get_date(udf_get_content(menus[key])[0]);
                 for ( var i = 0 ; i < menu_contents.length ; i++ ) {
