@@ -7,6 +7,10 @@
 var word_kr = {
     "":""
     ,"lang":"kr"
+    ,"i18n_language_global_korean":"한국어"
+    ,"i18n_language_global_english":"English"
+    ,"i18n_language_korean":"한국어"
+    ,"i18n_language_english":"영어"
     ,"i18n_nav_title_chart":"차트"
     ,"i18n_menu_navigator_button_create":"추가"
     ,"i18n_menu_navigator_button_modify":"수정"
@@ -47,7 +51,8 @@ var word_kr = {
     ,"i18n_menu_view_title_integrate":"통합"
     ,"i18n_menu_content_partition":"분리"
     ,"i18n_menu_content_integrate":"통합"
-    ,"i18n_footer_1":"경기도 성남시 수정구 창업로 42 판교제2테크노밸리 경기기업성장센터 633호 (우)13449"
+    ,"i18n_footer_1":"\n경기도 성남시 수정구 창업로 42 판교제2테크노밸리 경기기업성장센터 633호 (우)13449"
     ,"i18n_footer_2":"(주)넥스쳐컴"
     ,"i18n_footer_3":"전화번호 : 031-757-1385, 팩스 : 031-622-9809, 이메일 : support@nexturecom.com"
+    ,"i18n_alert_select_none":"선택된 데이터 혹은 센서가 없습니다.\n데이터와 센서를 선택해주세요."
 };

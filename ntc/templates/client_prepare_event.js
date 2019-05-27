@@ -3,6 +3,9 @@
 // client event control javascript file
 // =========================================================
 */
+i18n_language_global_korean.addEventListener('click',udF_i18n_language_global_korean_click);
+i18n_language_global_english.addEventListener('click',udf_i18n_language_global_english_click);
+
 i18n_menu_navigator_button_create.addEventListener('click',udf_i18n_menu_navigator_button_create_click);
 i18n_nav_title_chart.addEventListener('click',udf_i18n_nav_title_chart_click);
 menu_button_shrink.addEventListener('click',udf_menu_button_shrink_click);

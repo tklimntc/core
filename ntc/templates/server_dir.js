@@ -41,6 +41,8 @@ module.exports=	function(app){
 	res.sendFile(__dirname+ '/favicon.ico');});
 	app.get(				'/logo.png', function(req, res){
 	res.sendFile(__dirname+ '/logo.png');});
+	app.get(				'/logo_footer.png', function(req, res){
+	res.sendFile(__dirname+ '/logo_footer.png');});
 			
 	app.get(					'/jquery.js', function(req, res){
 	res.sendFile(__dirname + '/fw/jquery.js');});

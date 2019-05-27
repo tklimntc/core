@@ -30,14 +30,14 @@ client html file
     </head>
     <body>
         <header>
-            <img src="/logo.png" class="logo"></img>
+            <img id="header_logo" src="/logo.png" class="logo"></img>
+            <div id="haeder_language_select">
+                <label id="i18n_language_global_korean" ></label>&nbsp;/&nbsp;<label id="i18n_language_global_english" ></label>
+            </div>
         </header>
         <nav>
-            <ul><label class="label display" id="i18n_nav_title_chart"></label>
-            </ul>
-            <ul>
-                <li></li>
-            </ul>
+            <label class="label display" id="i18n_nav_title_chart"></label>
+            <div id="nav_charts_tab" class="chart_tab"></div>
         </nav>
         <div id="menu_wrapper">
             <div id="menu_navigator">
@@ -274,7 +274,7 @@ client html file
         <aside>
         </aside>
         <footer>
-            <img class="logo" src="/logo.png"></img>
+            <img class="logo" src="/logo_footer.png"></img>
             <small>
                 <label id="i18n_footer_1"></label>
                 <br>

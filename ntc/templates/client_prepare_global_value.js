@@ -23,9 +23,10 @@ var charts = [];
 class ChartBase {
     /* global udf_generate_id */
     /* global udf_duplication_check_id */
+    /* global udf_charts_tab_attach */
+    /* global udf_remove_element */
     constructor(name) {
         // this.id=udf_generate_id();
-        this.name = name;
         this.chart_material = {
              menu_term:[] // what term to 
             ,menu_sens:[] // what sensor to wahch?
@@ -36,10 +37,25 @@ class ChartBase {
             ,menu_view:[] // partition or ?
         };
         this.id = this.generate_condition();
-        udf_duplication_check_id(this.id);
-        this.chart_data = {};
-        this.chart_base = []; // html push at
-        this.chart_s = []; // many chart to compare
+        if(udf_chart_is_unique(this.id)){
+            this.name = name;
+            this.chart_tab = udf_charts_tab_attach(this.id,this.name);
+            this.chart_dom = 
+            this.chart_sql = this.generate_sql(); // many chart to compare
+            this.chart_res = {}; // responce data from DBMS
+            charts.push(this);
+            udf_alert('chart made by '+this.id);
+        }
+        else {
+            this.delete_chart();
+        }
+    }
+    generate_sql(){
+        return udf_generate_sql(this);
+    }
+    delete_chart(){
+        delete this;
+        udf_alert('duplicated id.\nplease change search condition.');
     }
     generate_condition() {
         /* global udf_get_title */
@@ -69,6 +85,7 @@ class ChartBase {
             }
             hash_sum += udf_int_sum(title_sum)+udf_int_sum(content_sum);
         }
+        // hash_id+=hash_sum;
         return hash_id+hash_sum;
     }
 }

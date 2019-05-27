@@ -7,7 +7,7 @@ body {
     overflow:scroll;
 }
 header {
-    padding: 10px;
+    /*padding: 10px;*/
     background: #ffffff;
     color: #1f1f1f;
     position: fixed;
@@ -31,11 +31,11 @@ nav ul {
     margin: 0px;
     padding: 0px;
 }
-nav ul li {
+nav #nav_charts_tab {
     /*left: -20px;*/
     /*position: relative;*/
-    /*width: 60px;*/
-    list-style:none;
+    width: 35px;
+    /*list-style:none;*/
     border:1px solid gray;
 }
 article {
@@ -49,20 +49,26 @@ footer {
     bottom:0px;
     width:100%;
     background:#f6f6f6;
-    padding:20px;
+    padding:10px;
+    height:80px;
 }
 footer small {
-    padding-left: 20px;
-    display: inline-block;
     position: inherit;
     font-size: 71%;
-    bottom: 14px;
-    overflow: hidden;
-    width: 460px;
+    /*padding-left: 20px;*/
+    /*display: inline-block;*/
+    /*bottom: 0px;*/
+    /*overflow: hidden;*/
+    /*width: 460px;*/
+    /*height: 80px;*/
+}
+footer .logo {
+    height:52px;
 }
 .logo {
-    height: 40px;
+    height: 60px;
     position: relative;
+    padding:10px;
 }
 #menu_wrapper {
     position:fixed;
@@ -164,6 +170,7 @@ footer small {
     float:right;
     position: absolute;
     right: 0px;
+    top: 0px;
 }
 #menu_sens_content {
     min-width:137px;
@@ -177,4 +184,29 @@ label {
 .fill_parent {
     height:100%;
     width:100%;
+}
+#haeder_language_select {
+    display:inline-block;
+    position:inherit;
+    right:0px;
+    padding:10px;
+    font-size:12px;
+}
+#i18n_menu_navigator_button_create {
+    padding:5px;
+}
+#nav_charts_tab label {
+    width:35px;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    padding: 3px;
+}
+#i18n_nav_title_chart {
+    width:35px;
+    border: 1px solid gray;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    padding: 3px;
 }

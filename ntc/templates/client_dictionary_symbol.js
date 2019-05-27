@@ -6,7 +6,10 @@
 */
 var word_symbol = {
     none:'none'
-    ,global_serial  :/serial_/gi
-    ,global_name    :/name_/gi
-    ,beforeend      :'beforeend'
+    ,global_id              :/id_/gi
+    ,global_serial          :/serial_/gi
+    ,global_name            :/name_/gi
+    ,global_inner_text      :/inner_text_/gi
+    ,beforeend              :'beforeend'
 };
+var word_current;

@@ -7,6 +7,10 @@
 var word_en = {
     "":""
     ,"lang":"kr"
+    ,"i18n_language_global_korean":"한국어"
+    ,"i18n_language_global_english":"English"
+    ,"i18n_language_korean":"Korean"
+    ,"i18n_language_english":"English"
     ,"i18n_nav_title_chart":"chart"
     ,"i18n_menu_navigator_button_create":"create"
     ,"i18n_menu_navigator_button_modify":"modify"
@@ -50,4 +54,5 @@ var word_en = {
     ,"i18n_footer_1":"13449, 633, Kyonggi Business Growth Support Center, Pangyo 2nd Techno-vally, 42, Changeop-ro, Sujeong-gu, Seongnam-si, Gyeonggi-do, Republic of Korea"
     ,"i18n_footer_2":"Nexturecom Inc."
     ,"i18n_footer_3":"Tel : +82 31-757-1385, Fax : +82 31-622-9809, E-mail : support@nexturecom.com"
+    ,"i18n_alert_select_none":"All of data and sensor not selected.\nPlease select the data and sensor."
 };

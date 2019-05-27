@@ -5,15 +5,31 @@
 */
 /* global menus */
 /* global ChartBase */
+/* global preparedHTML */
+var udf_ = function () {
+    
+}
 
+var udf_chart_add_as_response = function () {
+    
+}
 
-var udf_duplication_check_id = function (id) {
-    for(var i in charts){
-        if (charts[i].id==id) {
-            return true;
-        }
+var udf_generate_sql = function (chart) {
+    var sql;
+    
+    return sql;
+}
+
+var udf_charts_tab_attach = function (id,name) {
+    /* global nav_charts_tab */
+    /* global word_symbol */
+    return nav_charts_tab.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_tab.replace(word_symbol.global_id,id).replace(word_symbol.global_inner_text,name));
+}
+
+var udf_chart_load = function(stored_chart) {
+    for (var i in stored_chart) {
+        stored_chart[i]
     }
-    return false;
 }
 
 var udf_get_title = function (menu) {
@@ -66,19 +82,47 @@ var udf_itos = function(i){
     return i.toString();
 };
 
+var udf_remove_element = function(element) {
+    console.log(element);
+    element.parentNode.removeChild(element);
+}
+
 var udf_i18n_menu_navigator_button_create_click = function() {
     udf_chart_add();
 };
 
 var udf_chart_add = function() {
     if (!udf_validate_request_condition()) {
+        udf_alert(word_current.i18n_alert_select_none);
         return;
     }
     else {
-        let newChart = new ChartBase('chart_name_noname');
-        charts.push(newChart);
+        return new ChartBase('chart_name_noname');
     }
 };
+
+var udf_alert = function(msg){
+    alert(msg);
+}
+
+var udf_chart_is_unique = function (param_id) {
+    return udf_duplication_check_id(param_id)==false;
+}
+
+var udf_duplication_check_id = function (param_id) {
+    var count = 0;
+    for(var i in charts){
+        if (charts[i].id==param_id) {
+            count++;
+        }
+    }
+    if ( count > 0 ){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 var udf_validate_request_condition = function() {
     return (udf_check_fill(menus.menu_sens) && 
@@ -196,15 +240,22 @@ var udf_get_day = function(inputDate, inputYear, inputMonth, inputDay){
 }
 
 var udf_node_list_release = function(res){
+    /* global menu_sens_content */
     for ( var i = 0 ; i < res.length ; i++){
         udf_list_attach(menu_sens_content, res[i].serial, res[i].name );
     }
 };
 
 var udf_list_attach = function(parent_node, serial, name){
-    parent_node.insertAdjacentHTML(word_symbol.beforeend, 
-    preparedHTML.node.replace(word_symbol.global_serial,serial).replace(word_symbol.global_name,name));
+    parent_node.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.node.replace(word_symbol.global_serial,serial).replace(word_symbol.global_name,name));
 };
+
+var udF_i18n_language_global_korean_click = function(){
+    udf_words_apply_kr();
+}
+var udf_i18n_language_global_english_click = function(){
+    udf_words_apply_en();
+}
 
 var udf_words_apply_kr = function(){
     /* global word_kr */
@@ -218,6 +269,8 @@ var udf_words_apply_en = function(){
 
 var udf_words_apply = function(obj){
     // localstorage 
+    /* global word_current */
+    word_current = obj;
     for (var key in obj) {
         var element = document.getElementById(key);
         if(udf_exist_object(element)){
