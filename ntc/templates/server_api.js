@@ -24,5 +24,9 @@ io.on('connection', function(socket){
             socket.emit('res_node_list', results);
         }});
     });
-});
-};
+    socket.on('req_search_data', function(msg){
+        connection.query(msg.sql, function (error, results, fields) { if (error) { console.log( error ) } else {
+            socket.emit('res_search_data', results);
+        }});
+    });
+});};

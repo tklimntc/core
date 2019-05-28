@@ -10,6 +10,23 @@
 /* global menu_valu */
 /* global menu_char */
 /* global menu_view */
+var sensors = {
+    '':''
+    ,menu_data_checkbox_temperature : 'Temperature'
+    ,menu_data_checkbox_humidity : 'Humidity'
+    ,menu_data_checkbox_atmospheric_pressure : 'Pressure'
+    ,menu_data_checkbox_ambient_light : 'Ambient_light'
+    ,menu_data_checkbox_air_quality : 'AirQualityStatic'
+    ,menu_data_checkbox_indoor_air_quality : 'IAQaccuracyStatic'
+    ,menu_data_checkbox_movement : 'Movement'
+    ,menu_data_checkbox_hall : 'Hall'
+    ,menu_data_checkbox_battery_level : 'BatteryLevel'
+    ,menu_data_checkbox_sensor_node_id : 'SensorNodeId'
+    ,menu_data_checkbox_gateway_id : 'GatewayId'
+    ,menu_data_checkbox_node_status : 'NodeStatus'
+    ,menu_data_checkbox_node_role : 'NodeRole'
+    ,menu_data_checkbox_object : 'Objects'
+};
 var menus = {
      menu_term:menu_term
     ,menu_sens:menu_sens

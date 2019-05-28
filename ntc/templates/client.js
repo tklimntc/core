@@ -24,4 +24,5 @@ import_script('client_prepare_event.js');
 import_script('client_prepare_api.js');
 import_script('client_prepare_global_value.js');
 
+import_script('client_prepare_sql.js');
 import_script('client_prepare_run.js');

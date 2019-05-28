@@ -6,47 +6,93 @@
 /* global menus */
 /* global ChartBase */
 /* global preparedHTML */
+/* global preparedSQL */
+
 var udf_ = function () {
     
-}
+};
 
-var udf_chart_add_as_response = function () {
-    
-}
+var udf_res_search_data = function (res) {
+    return udf_chart_add_as_response(res)
+};
+
+var udf_chart_add_as_response = function (res) {
+    console.log(res)
+};
 
 var udf_generate_sql = function (chart) {
-    var sql;
-    
+    /* global socket */
+    var sql = preparedSQL.search.replace(
+    'values_',udf_get_selected_data(chart)).replace(
+    'sensors_',udf_get_selected_sensors(chart)).replace(
+    'begin_date_',udf_get_selected_begin_date(chart)).replace(
+    'end_date_',udf_get_selected_end_date(chart));
+    socket.emit('req_search_data',{id:chart.id,sql:chart.chart_sql});
     return sql;
-}
+};
+
+var udf_get_selected_data = function (chart) {
+    /* global sensors */
+    var selected_values = '';
+    for (var i in chart.chart_material.menu_data){
+        var _data = chart.chart_material.menu_data[i];
+        if (_data.checked){
+            selected_values += 'JSON_EXTRACT(value,"$.'+sensors[_data.id]+'") as "'+sensors[_data.id]+'", ';
+        }
+    }
+    return selected_values.slice(0,-2);
+};
+// values_ : ['JSON_EXTRACT(value,"$.temperature") as "temperature"', ...]
+
+var udf_get_selected_sensors = function (chart) {
+    /* global sensors */
+    var selected_sensors = "";
+    for (var i in chart.chart_material.menu_sens){
+        var _data = chart.chart_material.menu_sens[i];
+        if (_data.checked){
+            selected_sensors += '"'+_data.id.slice(19).toString()+'", ';
+        }
+    }
+    return '('+selected_sensors.slice(0,-2)+')';
+};
+// sensors_ : ['sensornodeid', ...]
+
+var udf_get_selected_begin_date = function (chart) {
+    return '"'+chart.chart_material.menu_term[0].date+'"';
+};
+// , begin_date_,end_date_:"2019-05-27"
+
+var udf_get_selected_end_date = function (chart) {
+    return '"'+chart.chart_material.menu_term[1].date+'"';
+};
 
 var udf_charts_tab_attach = function (id,name) {
     /* global nav_charts_tab */
     /* global word_symbol */
     return nav_charts_tab.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_tab.replace(word_symbol.global_id,id).replace(word_symbol.global_inner_text,name));
-}
+};
 
 var udf_chart_load = function(stored_chart) {
     for (var i in stored_chart) {
         stored_chart[i]
     }
-}
+};
 
 var udf_get_title = function (menu) {
     return menu.getElementsByClassName("menu_title")[0];
-}
+};
 
 var udf_get_date = function (menu) {
     return menu.getElementsByClassName("date");
-}
+};
 
 var udf_get_checkbox = function (menu) {
     return menu.getElementsByClassName("checkbox");
-}
+};
 
 var udf_get_content = function (menu) {
     return menu.getElementsByClassName("menu_content");
-}
+};
 
 var udf_int_sum = function (int) {
     var summary = 0;
@@ -85,7 +131,7 @@ var udf_itos = function(i){
 var udf_remove_element = function(element) {
     console.log(element);
     element.parentNode.removeChild(element);
-}
+};
 
 var udf_i18n_menu_navigator_button_create_click = function() {
     udf_chart_add();
@@ -102,7 +148,8 @@ var udf_chart_add = function() {
 };
 
 var udf_alert = function(msg){
-    alert(msg);
+    // alert(msg);
+    console.log(msg);
 }
 
 var udf_chart_is_unique = function (param_id) {

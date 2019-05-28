@@ -32,6 +32,8 @@ module.exports=	function(app){
 	res.sendFile(__dirname+ '/client_prepare_event.js');});
 	app.get(				'/client_prepare_worker.js', function(req, res){
 	res.sendFile(__dirname+ '/client_prepare_worker.js');});
+	app.get(				'/client_prepare_sql.js', function(req, res){
+	res.sendFile(__dirname+ '/client_prepare_sql.js');});
 	app.get(				'/client_prepare_run.js', function(req, res){
 	res.sendFile(__dirname+ '/client_prepare_run.js');});
 	app.get(				'/client_prepare_global_value.js', function(req, res){
