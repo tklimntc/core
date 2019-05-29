@@ -26,6 +26,9 @@ var sensors = {
     ,menu_data_checkbox_node_status : 'NodeStatus'
     ,menu_data_checkbox_node_role : 'NodeRole'
     ,menu_data_checkbox_object : 'Objects'
+    ,menu_data_checkbox_source_address : 'SourceAddress'
+    ,menu_data_checkbox_user : 'User'
+    ,menu_data_checkbox_timestamp : 'Timestamp'
 };
 var menus = {
      menu_term:menu_term
@@ -56,8 +59,8 @@ class ChartBase {
         this.id = this.generate_condition();
         if(udf_chart_is_unique(this.id)){
             this.name = name;
-            this.chart_tab = udf_charts_tab_attach(this.id,this.name);
-            this.chart_dom = 
+            this.chart_tab = this.generate_tab();
+            this.chart_dom = {};// this.generate_dom();
             this.chart_sql = this.generate_sql(); // many chart to compare
             this.chart_res = {}; // responce data from DBMS
             charts.push(this);
@@ -66,6 +69,15 @@ class ChartBase {
         else {
             this.delete_chart();
         }
+    }
+    generate_res(res){
+        this.chart_res = res;
+    }
+    generate_dom(){
+        this.chart_dom = udf_charts_dom_attach(this.id, this.charts_data)
+    }
+    generate_tab(){
+        return udf_charts_tab_attach(this.id, this.name);
     }
     generate_sql(){
         return udf_generate_sql(this);

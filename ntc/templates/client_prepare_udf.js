@@ -8,6 +8,13 @@
 /* global preparedHTML */
 /* global preparedSQL */
 
+var udf_init_test = function () {
+    menu_term_content_date_start.value='2019-04-23';
+    menu_sens_checkbox_5834a91c.checked= false;
+    menu_sens_checkbox_981e0ded.checked= true;
+
+};
+
 var udf_ = function () {
     
 };
@@ -27,13 +34,13 @@ var udf_generate_sql = function (chart) {
     'sensors_',udf_get_selected_sensors(chart)).replace(
     'begin_date_',udf_get_selected_begin_date(chart)).replace(
     'end_date_',udf_get_selected_end_date(chart));
-    socket.emit('req_search_data',{id:chart.id,sql:chart.chart_sql});
+    socket.emit('req_search_data',{id:chart.id,sql:sql});
     return sql;
 };
 
 var udf_get_selected_data = function (chart) {
     /* global sensors */
-    var selected_values = '';
+    var selected_values = 'JSON_EXTRACT(value,"$.SensorNodeId") as "id", JSON_EXTRACT(value,"$.Timestamp") as "uxtime", ';
     for (var i in chart.chart_material.menu_data){
         var _data = chart.chart_material.menu_data[i];
         if (_data.checked){
@@ -250,6 +257,7 @@ var udf_init = function(res){
     udf_node_list_release(res);
     udf_init_date(0,0,-1);
     udf_init_select();
+    udf_init_test();
 };
 
 var udf_init_select = function(res){
