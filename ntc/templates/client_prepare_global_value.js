@@ -80,7 +80,12 @@ class ChartBase {
         return udf_charts_tab_attach(this.id, this.name);
     }
     generate_sql(){
-        return udf_generate_sql(this);
+        if(udf_check_value_order(this)){ // 값 선택
+            return udf_generate_sql(this);
+        }
+        else {
+            return udf_generate_sql_other(this);
+        }
     }
     delete_chart(){
         delete this;

@@ -11,13 +11,20 @@
 var udf_init_test = function () {
     menu_term_content_date_start.value='2019-04-23';
     menu_sens_checkbox_5834a91c.checked= false;
-    menu_sens_checkbox_981e0ded.checked= true;
+    // menu_sens_checkbox_981e0ded.checked= true;
+    menu_sens_checkbox_22580.checked= true;
+    menu_sens_checkbox_14351.checked= true;
 
 };
 
 var udf_ = function () {
     
 };
+
+var udf_check_value_order = function (chart) {
+    return chart.chart_material.menu_valu[0].checked == true && chart.chart_material.menu_valu[0].id == "menu_valu_checkbox_value"
+};
+
 
 var udf_res_search_data = function (res) {
     return udf_chart_add_as_response(res)
@@ -36,6 +43,29 @@ var udf_generate_sql = function (chart) {
     'end_date_',udf_get_selected_end_date(chart));
     socket.emit('req_search_data',{id:chart.id,sql:sql});
     return sql;
+};
+
+var udf_generate_sql_other = function (chart) {
+    /* global socket */
+    var sql = preparedSQL.search_other.replace(
+    'values_',udf_get_selected_data_other(chart)).replace(
+    'sensors_',udf_get_selected_sensors(chart)).replace(
+    'begin_date_',udf_get_selected_begin_date(chart)).replace(
+    'end_date_',udf_get_selected_end_date(chart));
+    socket.emit('req_search_data',{id:chart.id,sql:sql});
+    return sql;
+};
+
+var udf_get_selected_data_other = function (chart) {
+    /* global sensors */
+    var selected_values = 'JSON_EXTRACT(value,"$.SensorNodeId") as "id", JSON_EXTRACT(value,"$.Timestamp") as "uxtime", ';
+    for (var i in chart.chart_material.menu_data){
+        var _data = chart.chart_material.menu_data[i];
+        if (_data.checked){
+            selected_values += 'JSON_EXTRACT(value,"$.'+sensors[_data.id]+'") as "'+sensors[_data.id]+'", ';
+        }
+    }
+    return selected_values.slice(0,-2);
 };
 
 var udf_get_selected_data = function (chart) {

@@ -45,6 +45,8 @@ module.exports=	function(app){
 	res.sendFile(__dirname+ '/logo.png');});
 	app.get(				'/logo_footer.png', function(req, res){
 	res.sendFile(__dirname+ '/logo_footer.png');});
+	app.get(				'/stocks.csv', function(req, res){
+	res.sendFile(__dirname+ '/stocks.csv');});
 			
 	app.get(					'/jquery.js', function(req, res){
 	res.sendFile(__dirname + '/fw/jquery.js');});
@@ -54,6 +56,8 @@ module.exports=	function(app){
 	res.sendFile(__dirname + '/fw/nv.d3.css');});
 	app.get(					'/d3.min.js', function(req, res){
 	res.sendFile(__dirname + '/fw/d3.min.js');});
+	app.get(					'/d3.v3.min.js', function(req, res){
+	res.sendFile(__dirname + '/fw/d3.v3.min.js');});
 	app.get(					'/nv.d3.min.js', function(req, res){
 	res.sendFile(__dirname + '/fw/nv.d3.min.js');});
 	app.get(					'/bootstrap.min.css', function(req, res){

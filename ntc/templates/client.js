@@ -11,6 +11,7 @@ function import_script(url) {
 
 import_script('socket.io.js');
 import_script('d3.min.js');
+import_script('d3.v3.min.js');
 import_script('nv.d3.min.js');
 
 import_script('client_dictionary_symbol.js');
@@ -25,4 +26,6 @@ import_script('client_prepare_api.js');
 import_script('client_prepare_global_value.js');
 
 import_script('client_prepare_sql.js');
-import_script('client_prepare_run.js');
+// import_script('client_prepare_run.js')
+setTimeout(function(){import_script('client_prepare_run.js')},1000);
+
