@@ -28,4 +28,3 @@ import_script('client_prepare_global_value.js');
 import_script('client_prepare_sql.js');
 // import_script('client_prepare_run.js')
 setTimeout(function(){import_script('client_prepare_run.js')},1000);
-

@@ -65,6 +65,7 @@ class ChartBase {
             this.chart_res = {}; // responce data from DBMS
             charts.push(this);
             udf_alert('chart made by '+this.id);
+            socket.emit('req_search_data',{id:this.id,sql:this.sql});
         }
         else {
             this.delete_chart();
