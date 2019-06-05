@@ -25,7 +25,7 @@ module.exports=function(io, connection, sql){ io.on('connection', function(socke
     socket.on('req_search_data', function(msg){
         console.log(msg)
         connection.query(msg.sql, function (error, results, fields) { if (error) { console.log( error ) } else {
-            socket.emit('res_search_data', results);
+            socket.emit('res_search_data', {id:msg.id,res:results});
         }});
     });
 });};

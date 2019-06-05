@@ -17,7 +17,6 @@ var udf_init_test = function () {
     menu_data_checkbox_humidity.checked=true;
     menu_valu_checkbox_max_month.checked=true;
     udf_i18n_menu_navigator_button_create_click();
-    console.log(udf_generate_sql_other(charts[0]));
 };
 
 var udf_ = function () {
@@ -34,8 +33,20 @@ var udf_res_search_data = function (res) {
 };
 
 var udf_chart_add_as_response = function (res) {
-    console.log(res)
+    var chart = udf_find_chart(res.id);
+    if (typeof(chart) != word_symbol.undefined) {
+        chart.chart_res = res.res
+        console.log(chart)
+    }
 };
+
+var udf_find_chart = function (id){
+    for (var i in charts){
+        if(charts[i].id == id){
+            return charts[i];
+        }
+    }
+}
 
 var udf_generate_sql = function (chart) {
     /* global socket */
@@ -200,7 +211,8 @@ var udf_get_selected_end_date = function (chart) {
 var udf_charts_tab_attach = function (id,name) {
     /* global nav_charts_tab */
     /* global word_symbol */
-    return nav_charts_tab.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_tab.replace(word_symbol.global_id,id).replace(word_symbol.global_inner_text,name));
+    nav_charts_tab.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_tab.replace(word_symbol.global_id,id).replace(word_symbol.global_inner_text,name));
+    return nav_charts_tab.lastElementChild
 };
 
 var udf_chart_load = function(stored_chart) {

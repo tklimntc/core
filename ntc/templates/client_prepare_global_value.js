@@ -10,6 +10,7 @@
 /* global menu_valu */
 /* global menu_char */
 /* global menu_view */
+//https://bl.ocks.org/uredkar/71c3a0d93cc05527c83cdc12f9549ab3
 var sensors = {
     '':''
     ,menu_data_checkbox_temperature : 'Temperature'
@@ -41,10 +42,6 @@ var menus = {
 };
 var charts = [];
 class ChartBase {
-    /* global udf_generate_id */
-    /* global udf_duplication_check_id */
-    /* global udf_charts_tab_attach */
-    /* global udf_remove_element */
     constructor(name) {
         // this.id=udf_generate_id();
         this.chart_material = {
@@ -56,7 +53,7 @@ class ChartBase {
             ,menu_char:[] // what chart to use?
             ,menu_view:[] // partition or ?
         };
-        this.id = this.generate_condition();
+        this.generate_condition();
         if(udf_chart_is_unique(this.id)){
             this.name = name;
             this.chart_tab = this.generate_tab();
@@ -65,7 +62,7 @@ class ChartBase {
             this.chart_res = {}; // responce data from DBMS
             charts.push(this);
             udf_alert('chart made by '+this.id);
-            socket.emit('req_search_data',{id:this.id,sql:this.sql});
+            socket.emit('req_search_data',{id:this.id,sql:this.chart_sql});
         }
         else {
             this.delete_chart();
@@ -121,6 +118,6 @@ class ChartBase {
             hash_sum += udf_int_sum(title_sum)+udf_int_sum(content_sum);
         }
         // hash_id+=hash_sum;
-        return hash_id+hash_sum;
+        this.id = hash_id+hash_sum;
     }
 }

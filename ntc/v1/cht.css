@@ -1,0 +1,173 @@
+#chart, #chart svg {
+	height: calc(100vh - 230px) !important;
+	width: calc(100vw - 30px) !important
+}
+#dataDescription {
+    display:inherit;
+    color:#000000;
+}
+#saveRenameAllButton {
+    padding: 0;
+    margin : 0px 0px -5px 7px !important;
+}
+#allLabel {
+    width: 139px !important;
+    height: 28px !important;
+    text-align: center;
+    vertical-align: inherit;
+    padding: 1px 0px 0px 0px;
+}
+#chart svg {
+	height: calc(100vh - 250px) !important;
+	width: calc(100vw - 50px) !important;
+	    margin: 0px 0px 0px -15px !important;
+}
+.app-page-title {
+    padding: 25px;
+    margin: -30px -30px 0px;
+    position: relative;
+}
+.title-dashboard {
+    font-size: xx-large;
+    font-weight:bold;
+    position:inline;
+}
+.page-title-subheading {
+    font-size: x-large !important;
+    font-weight:bold;
+    position:inline;
+}
+.app-main__outer {
+    padding:0px !important;
+}
+.nav {
+    flex-wrap: wrap ;
+}
+g.nv-focusWrap.nvd3-svg {
+    
+}
+g.nvd3.nv-wrap.nv-lineChart {
+    width:calc(100vw - 50px);
+}
+/*#chart, #chart svg, #chart svg .nvd3.nv-wrap.nv-lineChart {*/
+/*	height: 100% ;*/
+/*	width:100% ;*/
+/*}*/
+#nodeNameList, #sensorList {
+    overflow: auto;
+    max-height: 80% !important;
+    min-height: 500px;
+}
+#dateCenterHolder {
+}
+#TooltipDemo {
+    bottom:3px;
+}
+div.app-header__content.header-mobile-open {
+    height: 123px !important;
+}
+.form-controls{
+    width:calc(100% - 47px) !important;
+    height: 28px !important;
+    margin: 0 0 0 0 !important;
+    display: inline-block;
+}
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+@media (min-width: 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+.container-fluid{
+	margin-top:40px;
+}
+#logo{
+    background-image: url(/logo.png);
+    background-size: 210px 40px ;
+}
+#graphComment{
+	
+}
+#searchbarComment{
+    top: -70px;
+    position: relative;
+}
+.app-header__logo .logo-src, .app-header.header-text-light .app-header__logo .logo-src, .app-header.header-text-dark .app-header__logo .logo-src, .app-sidebar.sidebar-text-light .app-header__logo .logo-src {
+    height: 40px !important;
+    width: 150px !important;
+    background: url(assets/images/logos.png);
+    background-size:     contain !important;
+    background-repeat:   no-repeat !important;
+    background-position: center center !important;
+}
+/*@media (max-width: 1499px) {*/
+/*    .app-page-title .page-title-heading,.app-page-title .page-title-wrapper {*/
+/*        display: inline-flex;*/
+/*    }*/
+    
+/*    .app-header .app-header__logo {*/
+/*        width:auto;*/
+/*        display: flex;*/
+/*    }*/
+    
+/*    .app-header .app-header__content {*/
+/*        visibility: hidden;*/
+/*        opacity: 0;*/
+/*        box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,0.03),0 0.9375rem 1.40625rem rgba(4,9,20,0.03),0 0.25rem 0.53125rem rgba(4,9,20,0.05),0 0.125rem 0.1875rem rgba(4,9,20,0.03);*/
+/*        position: absolute;*/
+/*        left: 5%;*/
+/*        width: 90%;*/
+/*        top: 0;*/
+/*        transition: all .2s;*/
+/*        background: #fff;*/
+/*        border-radius: 50px;*/
+/*        padding: 0 10px;*/
+/*        overflow: hidden*/
+/*    }*/
+    
+/*    .app-header .app-header__menu {*/
+/*        display: flex;*/
+/*        order: 3;*/
+/*    }*/
+    
+/*    .app-header .app-header__mobile-menu {*/
+/*        display: flex;*/
+/*        order: 1;*/
+/*    }*/
+
+/*    .popover,.dropdown-menu {*/
+/*        position: fixed !important;*/
+/*        z-index: 50;*/
+/*        left: 5% !important;*/
+/*        top: 50% !important;*/
+/*        width: 90% !important;*/
+/*        transform: translateY(-50%) !important;*/
+/*        min-width: 10px !important*/
+/*    }*/
+    
+/*    .app-header .app-header__logo {*/
+/*        order: 2;*/
+/*        background: transparent !important;*/
+/*        border: 0 !important;*/
+/*    }*/
+
+/*}*/
+#DataRows {
+    width:92px !important;
+}
+#DivideRows {
+    width:74px !important;
+}
+#startdate, #enddate{
+    width: 163px;
+}
+i.fa.fa-angle-down.ml-2.opacity-8 {
+    margin-left:0px !important;
+}
