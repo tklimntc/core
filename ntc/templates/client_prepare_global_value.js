@@ -51,7 +51,7 @@ class ChartBase {
             ,menu_sort:[] // what order to follow?
             ,menu_valu:[] // value or avg, etc?
             ,menu_char:[] // what chart to use?
-            ,menu_view:[] // partition or ?
+            ,menu_view:[] // partition or merge?
         };
         this.generate_condition();
         if(udf_chart_is_unique(this.id)){

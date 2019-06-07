@@ -23,10 +23,21 @@ var udf_ = function () {
     
 };
 
-var udf_check_value_order = function (chart) {
-    return chart.chart_material.menu_valu[0].checked == true && chart.chart_material.menu_valu[0].id == word_symbol.menu_valu_checkbox_value
+var udf_chart_get_checked = function () {
+    
 };
 
+var udf_chart_make_chart = function (chart, res) {
+    var order = chart.chart_material.menu_sort
+    // if ( ){
+        // 분기 설정 및 직접 동작 (함수 하위 최소화 필요)
+        // 꺾은선 정렬(센서+데이터) / 통합(분리+통합)
+    // }
+};
+
+var udf_chart_check_ = function () {
+    
+};
 
 var udf_res_search_data = function (res) {
     return udf_chart_add_as_response(res)
@@ -36,7 +47,7 @@ var udf_chart_add_as_response = function (res) {
     var chart = udf_find_chart(res.id);
     if (typeof(chart) != word_symbol.undefined) {
         chart.chart_res = res.res
-        console.log(chart)
+        udf_chart_make_chart(chart, res )
     }
 };
 
@@ -47,6 +58,10 @@ var udf_find_chart = function (id){
         }
     }
 }
+
+var udf_check_value_order = function (chart) {
+    return chart.chart_material.menu_valu[0].checked == true && chart.chart_material.menu_valu[0].id == word_symbol.menu_valu_checkbox_value
+};
 
 var udf_generate_sql = function (chart) {
     /* global socket */
