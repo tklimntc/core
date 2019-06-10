@@ -14,6 +14,7 @@ var udf_init_test = function () {
     // menu_sens_checkbox_981e0ded.checked= true;
     menu_sens_checkbox_22580.checked= true;
     menu_sens_checkbox_14351.checked= true;
+    menu_sens_checkbox_19126.checked= true;
     menu_data_checkbox_humidity.checked=true;
     menu_valu_checkbox_max_month.checked=true;
     udf_i18n_menu_navigator_button_create_click();
@@ -23,20 +24,76 @@ var udf_ = function () {
     
 };
 
-var udf_chart_get_checked = function () {
-    
+var udf_chart_get_checked = function (chart,word) {
+    var _list = [];
+    var list_ = chart.chart_material[word_symbol.menu_+word];
+    for (var i in list_) {
+        if(list_[i].checked){
+            _list.push(list_[i]);
+        }
+    }
+    return _list;
 };
 
-var udf_chart_make_chart = function (chart, res) {
-    var order = chart.chart_material.menu_sort
-    // if ( ){
-        // 분기 설정 및 직접 동작 (함수 하위 최소화 필요)
-        // 꺾은선 정렬(센서+데이터) / 통합(분리+통합)
-    // }
+
+var udf_chart_get_dimension_length = function (chart) {
+    return udf_chart_get_dimension(chart).length;
+}
+
+var udf_chart_get_dimension = function (chart) {
+    var sort = chart.chart_material.menu_sort;
+    var checked_id;
+    for(var i in sort){
+        if(sort[i].checked){
+            checked_id = sort[i].id
+        }
+    }
+    var checked_word = checked_id.slice(19).slice(0,4);
+    var checked_list = udf_chart_get_checked(chart,checked_word);
+    var _length = checked_list.length;
+    return checked_list;
+}
+
+
+var udf_sample_chart_draw = 
+
+
+
+var udf_chart_create_sub_part = function (chart, element, _merge) {
+    console.log('create_lsp');
+    var chart_sort_list = udf_chart_get_dimension(chart);
+    var word = chart_sort_list[0].id.slice(5,9)
+    console.log(word);
+    if (_merge){ // 통합 옵션이 "분리"인 경우
+        for(var i in chart_sort_list){
+            var _chart = document.createElement(word_symbol.svg);
+            _chart.id = 'chart_smt_'+chart_sort_list[i].id.slice(19,)+'_'+chart.id;
+            _chart.className = word_symbol.cn_chart_smt;
+            element.insertAdjacentHTML(word_symbol.beforeend,_chart.outerHTML);
+        }
+    }
+    else { // 통합 옵션이 "통합"인 경우
+        var _chart = document.createElement(word_symbol.svg);
+        _chart.id = 'chart_smt_'+chart.id;
+        _chart.className = word_symbol.cn_chart_smt;
+        element.insertAdjacentHTML(word_symbol.beforeend,_chart.outerHTML);
+    }
 };
 
-var udf_chart_check_ = function () {
-    
+var udf_chart_create = function (chart, res) {
+    /* global chart_root */
+    var _order = chart.chart_material.menu_sort[0].checked;
+    var _merge = chart.chart_material.menu_view[0].checked;
+    var _chart = chart.chart_material.menu_char[0].checked;
+    // 조회조건 취합
+    // 차트 개별 상위 엘리먼트 생성
+    chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
+    var element = chart_root.lastElementChild;
+    // 차트에 붙이기
+    chart.generate_emt(element);
+    // 내부 제작
+    udf_chart_create_sub_part(chart, element, _merge);
+    // chart.chart_emt = chart_root.lastElementChild;
 };
 
 var udf_res_search_data = function (res) {
@@ -47,7 +104,7 @@ var udf_chart_add_as_response = function (res) {
     var chart = udf_find_chart(res.id);
     if (typeof(chart) != word_symbol.undefined) {
         chart.chart_res = res.res
-        udf_chart_make_chart(chart, res )
+        udf_chart_create(chart, res);
     }
 };
 

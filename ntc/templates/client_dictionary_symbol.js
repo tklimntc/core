@@ -6,6 +6,7 @@
 */
 var word_symbol = {
     none:'none'
+    ,global_menu            :/menu_/gi
     ,global_data            :/data_/gi
     ,global_data2           :/data2_/gi
     ,global_values          :/values_/gi
@@ -18,7 +19,10 @@ var word_symbol = {
     ,global_serial          :/serial_/gi
     ,global_name            :/name_/gi
     ,global_inner_text      :/inner_text_/gi
+    ,global_inner_html      :/inner_html_/gi
     ,beforeend              :'beforeend'
+    ,cn_chart_smt           :'chart chart_smt'
+    ,menu_                  :'menu_'
     ,hour                   :'hour'
     ,day                    :'day'
     ,month                  :'month'
@@ -26,6 +30,7 @@ var word_symbol = {
     ,avg                    :'avg'
     ,min                    :'min'
     ,max                    :'max'
+    ,svg                    :'svg'
     ,_0_2 : '00'
     ,_0_4 : '0000'
     ,undefined : "undefined"

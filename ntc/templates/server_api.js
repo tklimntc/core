@@ -9,6 +9,9 @@ module.exports=function(io, connection, sql){ io.on('connection', function(socke
     });
     socket.on('disconnect', function(){
     });
+    socket.on('reconnect', function(){
+        socket.emit('reconnect');
+    });
     socket.on('test', function(msg){    // for debugging, will be deleted.
         socket.emit('test',eval(msg));  // for debugging, will be deleted.
     });                                 // for debugging, will be deleted.

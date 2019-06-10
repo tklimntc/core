@@ -40,9 +40,11 @@ nav #nav_charts_tab {
 }
 article {
     position:fixed;
-    left:100px;
+    left:46px;
     top:80px;
-    padding:20px;
+    min-height:500px;
+    min-width:900px;
+    /*display: none;*/
 }
 footer {
     position:fixed;
@@ -74,6 +76,7 @@ footer .logo {
     position:fixed;
     left:45px;
     top:80px;
+    z-index:1;
 }
 #menu_navigator {
     padding:4px;
@@ -209,4 +212,25 @@ label {
     overflow:hidden;
     white-space:nowrap;
     padding: 3px;
+}
+.charts_emt {
+    
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axisSteelBlue text{
+  fill: steelblue;
+}
+
+.axisRed text{
+  fill: red;
+}
+  
+.axisPurple text {
+  fill: purple;
 }

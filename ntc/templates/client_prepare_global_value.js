@@ -57,7 +57,7 @@ class ChartBase {
         if(udf_chart_is_unique(this.id)){
             this.name = name;
             this.chart_tab = this.generate_tab();
-            this.chart_dom = {};// this.generate_dom();
+            this.chart_emt = {};// this.generate_dom();
             this.chart_sql = this.generate_sql(); // many chart to compare
             this.chart_res = {}; // responce data from DBMS
             charts.push(this);
@@ -71,8 +71,8 @@ class ChartBase {
     generate_res(res){
         this.chart_res = res;
     }
-    generate_dom(){
-        this.chart_dom = udf_charts_dom_attach(this.id, this.charts_data)
+    generate_emt(element){
+        this.chart_emt = element;
     }
     generate_tab(){
         return udf_charts_tab_attach(this.id, this.name);
