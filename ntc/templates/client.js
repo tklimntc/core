@@ -10,9 +10,10 @@ function import_script(url) {
 }
 
 import_script('socket.io.js');
-import_script('d3.min.js');
-import_script('d3.v3.min.js');
-import_script('nv.d3.min.js');
+// import_script('d3.min.js');
+// import_script('d3.v3.min.js');
+import_script('d3.v5.min.js');
+// import_script('nv.d3.min.js');
 
 import_script('client_dictionary_symbol.js');
 import_script('client_dictionary.js');

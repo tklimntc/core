@@ -60,6 +60,7 @@ class ChartBase {
             this.chart_emt = {};// this.generate_dom();
             this.chart_sql = this.generate_sql(); // many chart to compare
             this.chart_res = {}; // responce data from DBMS
+            this.chart_var = [];
             charts.push(this);
             udf_alert('chart made by '+this.id);
             socket.emit('req_search_data',{id:this.id,sql:this.chart_sql});
