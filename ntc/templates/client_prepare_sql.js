@@ -7,11 +7,11 @@ var preparedSQL = {
 none:'none'
 ,search:'SELECT time as Time, values_ FROM mobiusdb.sensdb WHERE JSON_EXTRACT(value,"$.SensorNodeId") IN sensors_ and begin_date_ <= time and time <= end_date_ ORDER BY Time DESC LIMIT 99999999;'
 ,search_other: //, AVG(Temperature) as AVG_TEMPERATURE\
-'SELECT ID, TIME, count(*) as COUNT\
+'SELECT ID, Time, count(*) as COUNT\
 \ndata_\
 FROM(\
 \n SELECT JSON_EXTRACT(value,"$.SensorNodeId") AS ID\
-\n ,DATE_FORMAT(time,date_format_) AS TIME\
+\n ,DATE_FORMAT(time,date_format_) AS Time\
 \n data2_\
   FROM mobiusdb.sensdb\
 \n WHERE JSON_EXTRACT(value,"$.SensorNodeId") IN sensors_ AND begin_date_ <= time AND time <= end_date_ ORDER BY Time DESC LIMIT 99999999\
