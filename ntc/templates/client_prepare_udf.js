@@ -66,7 +66,7 @@ var udf_sample_chart_draw = function(chart){
     // parse the date / time
     // var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S.%L");
 	var data=chart.chart_res;
-    var time_parse_count = ((data[0].Time.replace('Z','').length-1)/3);
+    var time_parse_count = ((data[0].Time.replace('T',' ').replace('Z','').length-1)/3);
     var slice_parse_count = (3*(time_parse_count)-1);
     var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
     var parseTime = d3.timeParse(time_parse_reserve.slice(0,slice_parse_count));
@@ -126,7 +126,8 @@ var udf_sample_chart_draw = function(chart){
 // 10=3
 // 13=4
     	data.forEach(function(d) {
-			d.Time = parseTime(d.Time);
+    	    console.log(d)
+			d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
 			d["Temperature"] = +d["Temperature"];
 			d["Humidity"] = +d["Humidity"];
     	    console.log(d)
@@ -134,6 +135,7 @@ var udf_sample_chart_draw = function(chart){
 			    d=null;
 			}
     	});
+    	// 이후 각 데이터별 유효성 검사 필요 
     	// Scale the range of the data
     	x.domain(d3.extent(data, function(d) { return d.Time; }));
     	y0.domain([0, d3.max(data, function(d) {return Math.max(d["Temperature"]);})]);
