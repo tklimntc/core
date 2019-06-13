@@ -18,7 +18,7 @@ function getLastDataTime(){
 function initDateForm(){
 	/* global startDate */
 	/* global endDate */
-	startDate.value = getDay(new Date,0,0,-3);
+	startDate.value = getDay(new Date,0,0,0);
 	endDate.value = getDay(new Date);
 }
 function initDataRows(){
@@ -464,11 +464,11 @@ socket.on('getRowsBetweenDate', function(data){
 });
 function setDefaultDate(){
 	if(startDate.value=="" || endDate.value==""){
-		startDate.value = getDay(Data.lastDate.time,0,0,-3);
+		startDate.value = getDay(Data.lastDate.time,0,0,0);
 		endDate.value = getDay(Data.lastDate.time);
 	}
 	if((new Date(startDate.value)).getTime() > (new Date(endDate.value)).getTime()){
-		startDate.value = getDay(new Date(endDate.value),0,0,-3);
+		startDate.value = getDay(new Date(endDate.value),0,0,0);
 	}
 	SelectStmt = "SELECT COUNT(*) ";
 	FromStmt =   "FROM mobiusdb.sensdb ";
@@ -485,11 +485,11 @@ function setDefaultDate(){
 function setFirstDate(date){
 	Data.lastDate = date;
 	if(startDate.value=="" || endDate.value==""){
-		startDate.value = getDay(date[0].time,0,0,-3);
+		startDate.value = getDay(date[0].time,0,0,0);
 		endDate.value = getDay(date[0].time);
 	}
 	if((new Date(startDate.value)).getTime() > (new Date(endDate.value)).getTime()){
-		startDate.value = getDay(new Date(endDate.value),0,0,-3);
+		startDate.value = getDay(new Date(endDate.value),0,0,0);
 	}
 	firstFetchDB();
 }

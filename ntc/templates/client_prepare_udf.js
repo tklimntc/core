@@ -99,87 +99,56 @@ var udf_sample_chart_draw = function(chart){
     		.attr("height", height + margin.top + margin.bottom)
             .append("g")
     		.attr("transform","translate(" + margin.left + "," + margin.top + ")");
-    // Get the data
-    // d3.csv("data4.csv")
-    // .then(function(dat) {
-        // data is now whole data set
-        // draw chart in here! 
-    	// format the data
-//     	data.forEach(function(d) {
-// 			d.date = parseTime(d.date);
-// 			d.close = +d.close;
-// 			d.open = +d.open;d["Temperature
-// 			if (d.date==null) {
-// 			    d=null;
-// 			}
-//     	});
+	data.forEach(function(d) {
+	   // console.log(d)
+		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
+		d["Temperature"] = +d["Temperature"] | 1;
+		d["Humidity"] = +d["Humidity"] | 1;
+	   // console.log(d)
+		if (d.Time==null) {
+		    d=null;
+		}
+	});
+	// 이후 각 데이터별 유효성 검사 필요 
+	// Scale the range of the data
+	x.domain(d3.extent(data, function(d) { return d.Time; }));
+	y0.domain([0, d3.max(data, function(d) {return Math.max(d["Temperature"]);})]);
+	y1.domain([0, d3.max(data, function(d) {return Math.max(d["Humidity"]); })]);
+	y2.domain([0, d3.max(data, function(d) {return Math.max(Math.log(d["Humidity"])); })]);
 
-// y4
-// m7
-// d10
-// h13
-// m
-// s
-// -1/3
-// 4=1
-// 7=2
-// 10=3
-// 13=4
-    	data.forEach(function(d) {
-    	   // console.log(d)
-			d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
-			d["Temperature"] = +d["Temperature"] | 1;
-			d["Humidity"] = +d["Humidity"] | 1;
-    	   // console.log(d)
-			if (d.Time==null) {
-			    d=null;
-			}
-    	});
-    	// 이후 각 데이터별 유효성 검사 필요 
-    	// Scale the range of the data
-    	x.domain(d3.extent(data, function(d) { return d.Time; }));
-    	y0.domain([0, d3.max(data, function(d) {return Math.max(d["Temperature"]);})]);
-    	y1.domain([0, d3.max(data, function(d) {return Math.max(d["Humidity"]); })]);
-    	y2.domain([0, d3.max(data, function(d) {return Math.max(Math.log(d["Humidity"])); })]);
-    
-    	// Add the valueline path.
-    	svg.append("path").data([data])
-    			.attr("class", "line")
-    			.attr("d", valueline);
-    	// Add the valueline2 path.
-    	svg.append("path").data([data])
-    			.attr("class", "line")
-    			.style("stroke", "red")
-    			.attr("d", valueline2);
-		console.log
-    	// Add the valueline3 path.
-    	svg.append("path").data([data])
-    			.attr("class", "line")
-    			.style("stroke", "purple")
-    			.attr("d", valueline3);
-    	// Add the X Axis
-    	svg.append("g")
-    			.attr("transform", "translate(0," + height + ")")
-    			.call(d3.axisBottom(x));
-    	// Add the Y0 Axis
-    	svg.append("g")
-    			.attr("class", "axisSteelBlue")
-    			.call(d3.axisLeft(y0));
-    	// Add the Y1 Axis
-    	svg.append("g")
-    			.attr("class", "axisRed")
-    			.attr("transform", "translate( " + width + ", 0 )")
-    			.call(d3.axisRight(y1));
-    	// Add the Y2 Axis
-    	svg.append("g")
-    			.attr("class", "axisPurple")
-    			.attr("transform", "translate( " + width + ", 0 )")
-    			.call(d3.axisLeft(y2));
-//     }).catch(function (err) {
-//         console.log('then error : ', err); // then error :  Error: Error in then()
-//     }).catch(function (err) {
-//         console.log('then error : ', err); // then error :  Error: Error in then()
-//     });
+	// Add the valueline path.
+	svg.append("path").data([data])
+			.attr("class", "line")
+			.attr("d", valueline);
+	// Add the valueline2 path.
+	svg.append("path").data([data])
+			.attr("class", "line")
+			.style("stroke", "red")
+			.attr("d", valueline2);
+	console.log
+	// Add the valueline3 path.
+	svg.append("path").data([data])
+			.attr("class", "line")
+			.style("stroke", "purple")
+			.attr("d", valueline3);
+	// Add the X Axis
+	svg.append("g")
+			.attr("transform", "translate(0," + height + ")")
+			.call(d3.axisBottom(x));
+	// Add the Y0 Axis
+	svg.append("g")
+			.attr("class", "axisSteelBlue")
+			.call(d3.axisLeft(y0));
+	// Add the Y1 Axis
+	svg.append("g")
+			.attr("class", "axisRed")
+			.attr("transform", "translate( " + width + ", 0 )")
+			.call(d3.axisRight(y1));
+	// Add the Y2 Axis
+	svg.append("g")
+			.attr("class", "axisPurple")
+			.attr("transform", "translate( " + width + ", 0 )")
+			.call(d3.axisLeft(y2));
 }
 
 var udf_sample_chart_draw_detail = function(chart_emt, chart_smt, chart_data){
