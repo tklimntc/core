@@ -59,7 +59,7 @@ var udf_sample_chart_draw = function(chart){
     // must included chart_emt, chart_smt, chart_data
     /* global d3 */
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 40, bottom: 30, left: 50},
+    var margin = {top: 100, right: 40, bottom: 30, left: 50},
     		width = 960 - margin.left - margin.right,
     		height = 500 - margin.top - margin.bottom;
     
@@ -70,7 +70,7 @@ var udf_sample_chart_draw = function(chart){
     var slice_parse_count = (3*(time_parse_count)-1);
     var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
     var parseTime = d3.timeParse(time_parse_reserve.slice(0,slice_parse_count));
-    
+    var privDate = '';
     // set the ranges
     var x = d3.scaleTime().range([0, width]);
     var y0 = d3.scaleLinear().range([height, 0]);
@@ -100,8 +100,8 @@ var udf_sample_chart_draw = function(chart){
             .append("g")
     		.attr("transform","translate(" + margin.left + "," + margin.top + ")");
     // Get the data
-    d3.csv("data4.csv")
-    .then(function(dat) {
+    // d3.csv("data4.csv")
+    // .then(function(dat) {
         // data is now whole data set
         // draw chart in here! 
     	// format the data
@@ -126,11 +126,11 @@ var udf_sample_chart_draw = function(chart){
 // 10=3
 // 13=4
     	data.forEach(function(d) {
-    	    console.log(d)
+    	   // console.log(d)
 			d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
-			d["Temperature"] = +d["Temperature"];
-			d["Humidity"] = +d["Humidity"];
-    	    console.log(d)
+			d["Temperature"] = +d["Temperature"] | 1;
+			d["Humidity"] = +d["Humidity"] | 1;
+    	   // console.log(d)
 			if (d.Time==null) {
 			    d=null;
 			}
@@ -151,6 +151,7 @@ var udf_sample_chart_draw = function(chart){
     			.attr("class", "line")
     			.style("stroke", "red")
     			.attr("d", valueline2);
+		console.log
     	// Add the valueline3 path.
     	svg.append("path").data([data])
     			.attr("class", "line")
@@ -174,9 +175,11 @@ var udf_sample_chart_draw = function(chart){
     			.attr("class", "axisPurple")
     			.attr("transform", "translate( " + width + ", 0 )")
     			.call(d3.axisLeft(y2));
-    }).catch(function (err) {
-        console.log('then error : ', err); // then error :  Error: Error in then()
-    });
+//     }).catch(function (err) {
+//         console.log('then error : ', err); // then error :  Error: Error in then()
+//     }).catch(function (err) {
+//         console.log('then error : ', err); // then error :  Error: Error in then()
+//     });
 }
 
 var udf_sample_chart_draw_detail = function(chart_emt, chart_smt, chart_data){
@@ -203,6 +206,7 @@ var udf_chart_create_sub_part = function (chart, element, _merge) {
         _chart.className = word_symbol.cn_chart_smt;
         element.insertAdjacentHTML(word_symbol.beforeend,_chart.outerHTML);
     }
+    udf_sample_chart_draw(chart) // will be deleted
 };
 
 var udf_chart_create = function (chart, res) {

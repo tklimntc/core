@@ -8,6 +8,12 @@ var key = require('./key.js')
 var connection = mysql.createConnection(key);
 var port=8000;
 var defaultSelectionQuery = "";
+var nodelistSql = '\
+select a.serial as serial, b.name \
+from (SELECT replace(JSON_EXTRACT(value, "$.SensorNodeId"),"\\"","") as serial from mobiusdb.sensdb GROUP BY serial)\
+a left outer join mobiusdb.nodename b on a.serial = b.serial order by name;\
+';
+
 io.on('connection', function(socket){
     console.log('socket connect : '+ socket.id);
     socket.on('connection', function(){
@@ -39,21 +45,21 @@ io.on('connection', function(socket){
         if(typeof(msg)!="undefined" && msg!=null && msg.length > 6){
             var query = msg.substr(0,6)
             if(query=="SELECT" || query=="select"){
-                connection.query("SELECT * FROM mobiusdb.nodename group by name order by name;", function (error, results, fields) { if (error) { console.log( error ) } else {
+                connection.query(nodelistSql, function (error, results, fields) { if (error) { console.log( error ) } else {
                     socket.emit('nodename', results);
                 }});
             }
             if(query=="INSERT" || query=="insert" || query=="REPLACE" || query=="replace"){
                 connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
-                    connection.query("SELECT * FROM mobiusdb.nodename group by name order by name;", function (error, results, fields) {
+                    connection.query(nodelistSql, function (error, results, fields) {
                         if (error) { console.log( error ) } else {
                             socket.emit('nodename', results);
                     }});
                 }});
             }
-        }
+        }//"SELECT * FROM mobiusdb.nodename group by name order by name;"
         else{
-            connection.query("SELECT * FROM mobiusdb.nodename group by name order by name;", function (error, results, fields) {
+            connection.query(nodelistSql, function (error, results, fields) {
                 if (error) { console.log( error ) } else {
                     socket.emit('nodename', results);
             }});

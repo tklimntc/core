@@ -91,7 +91,8 @@ function storeNodeName(){
 			insertSQL+=" ON DUPLICATE KEY UPDATE name=VALUES(name);";
 		}
 	}
-	socket.emit("nodename",insertSQL);
+	console.log(insertSQL)
+	// socket.emit("nodename",insertSQL);
 }
 function renameNode(id,name){
 	/* global localStorage */

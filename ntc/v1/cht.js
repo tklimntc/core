@@ -119,16 +119,17 @@ function getDay(inputDate, inputYear, inputMonth, inputDay){
 function saveRenameAll(){
 	/* global nodeNameList */
 	var insertSQL = "INSERT INTO mobiusdb.nodename (serial,name) VALUES ";
-	for(var i = 1 ; i < nodeNameList.childElementCount ; i++){
-		insertSQL += "( \"" + nodeNameList.getElementsByTagName("input")[i].id.substr(1,8)+"\" ,\""+nodeNameList.getElementsByTagName("input")[i].value+"\")";
-		if(i != nodeNameList.childElementCount-1){
+	for(var i = 1 ; i < nodeNameList.getElementsByClassName('custom-control-input').length ; i++){
+		insertSQL += "( \"" + nodeNameList.getElementsByClassName('custom-control-input')[i].id.substr(1,8).replace('inp','').replace('che','')+"\" ,\""+nodeNameList.getElementsByClassName('custom-control-input')[i].nextElementSibling.firstElementChild.value+"\")";
+		if(i != nodeNameList.getElementsByClassName('custom-control-input').length-1){
 			insertSQL+=", ";
 		}
 		else{
 			insertSQL+=" ON DUPLICATE KEY UPDATE name=VALUES(name);";
 		}
 	}
-	socket.emit("nodename",insertSQL);
+	console.log(insertSQL)
+	// socket.emit("nodename",insertSQL);
 }
 function saveRenameNode(id,name){
 	renameNode(id,name);
@@ -149,7 +150,8 @@ function renameNode(id,name){
 		}
 	}
 	for (var i = 1 ; i < nodeNameList.getElementsByTagName('input').length ; i++){
-		if(nodeNameList.getElementsByTagName('input')[i].id.substr(1,8)==id){
+		if(nodeNameList.getElementsByTagName('input')[i].id.replace('input','')==id){
+			console.log(nodeNameList.getElementsByTagName('input')[i].id)
 			nodeNameList.getElementsByTagName('input')[i].value=(name.length>0?name:id);
 		}
 	}
