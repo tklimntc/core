@@ -42,6 +42,7 @@ client html file
         <div id="menu_wrapper">
             <div id="menu_navigator">
                 <div id="menu_button_shrink"><<</div>
+                <input id="menu_chart_name" class="writable_label" placeholder="chart_name" value="chart_name">
                 <div id="menu_button_show">
                     <label class="label display" id="i18n_menu_navigator_button_create"></label>
                     <label class="label displaynone" id="i18n_menu_navigator_button_modify"></label>
@@ -93,108 +94,6 @@ client html file
                         </div>
                     </label>
                     <div id="menu_data_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_temperature">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_temperature" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_temperature" id="i18n_menu_data_content_temperature"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_humidity">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_humidity" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_humidity" id="i18n_menu_data_content_humidity"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_atmospheric_pressure">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_atmospheric_pressure" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_atmospheric_pressure" id="i18n_menu_data_content_atmospheric_pressure"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_ambient_light">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_ambient_light" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_ambient_light" id="i18n_menu_data_content_ambient_light"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_air_quality">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_air_quality" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_air_quality" id="i18n_menu_data_content_air_quality"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_indoor_air_quality">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_indoor_air_quality" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_indoor_air_quality" id="i18n_menu_data_content_indoor_air_quality"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_movement">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_movement" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_movement" id="i18n_menu_data_content_movement"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_hall">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_hall" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_hall" id="i18n_menu_data_content_hall"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_battery_level">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_battery_level" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_battery_level" id="i18n_menu_data_content_battery_level"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_sensor_node_id">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_sensor_node_id" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_sensor_node_id" id="i18n_menu_data_content_sensor_node_id"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_gateway_id">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_gateway_id" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_gateway_id" id="i18n_menu_data_content_gateway_id"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_node_status">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_node_status" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_node_status" id="i18n_menu_data_content_node_status"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_node_role">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_node_role" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_node_role" id="i18n_menu_data_content_node_role"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_object">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_object" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_object" id="i18n_menu_data_content_object"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_source_address">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_source_address" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_source_address" id="i18n_menu_data_content_source_address"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_user">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_user" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_user" id="i18n_menu_data_content_user"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_data_checkbox_timestamp">
-                            <div class="menu_content_column">
-                                <input id="menu_data_checkbox_timestamp" type="checkbox" class="checkbox"></input>
-                                <label class="label label_name" for="menu_data_checkbox_timestamp" id="i18n_menu_data_content_timestamp"></label>
-                            </div>
-                        </label>
                     </div>
                 </div>
                 <div id="menu_valu" class="menu">
@@ -215,18 +114,6 @@ client html file
                         <label class="label label_name" id="i18n_menu_sort_title_sort"></label>
                     </div>
                     <div id="menu_sort_content" class="menu_content">
-                        <label class="label wrap_checkbox" for="menu_sort_checkbox_sensor">
-                            <div class="menu_content_column">
-                                <input name="menu_sort_radiobutton" id="menu_sort_checkbox_sensor" type="radio" class="checkbox" checked></input>
-                                <label class="label label_name" for="menu_sort_checkbox_sensor" id="i18n_menu_sort_content_sensor"></label>
-                            </div>
-                        </label>
-                        <label class="label wrap_checkbox" for="menu_sort_checkbox_data">
-                            <div class="menu_content_column">
-                                <input name="menu_sort_radiobutton" id="menu_sort_checkbox_data" type="radio" class="checkbox"></input>
-                                <label class="label label_name" for="menu_sort_checkbox_data" id="i18n_menu_sort_content_data"></label>
-                            </div>
-                        </label>
                     </div>
                 </div>
                 <div id="menu_char" class="menu">
@@ -260,7 +147,7 @@ client html file
                         </label>
                     </div>
                 </div>
-                <div id="menu_view" class="menu">
+                <div id="menu_view" class="menu" style='display:none'>
                     <div id="menu_view_title" class="menu_title">
                         <label class="label label_name" id="i18n_menu_view_title_integrate"></label>
                     </div>

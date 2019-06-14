@@ -156,7 +156,7 @@ footer .logo {
 #menu_term { min-width: 130px; }
 #menu_sens { min-width: 139px; }
 #menu_data { min-width: 134px; }
-#menu_sort { min-width: 87px; }
+#menu_sort { min-width: 122px; }
 #menu_valu { min-width: 83px; }
 #menu_char { min-width: 87px; }
 #menu_view { min-width: 71px; }
@@ -205,6 +205,14 @@ label {
     white-space:nowrap;
     padding: 3px;
 }
+#nav_charts_tab label:hover {
+    width:130px;
+    /*text-overflow:ellipsis;*/
+    /*white-space:nowrap;*/
+    overflow:visible;
+    background-color:#222;
+    padding: 3px;
+}
 #i18n_nav_title_chart {
     width:35px;
     border: 1px solid gray;
@@ -213,6 +221,13 @@ label {
     white-space:nowrap;
     padding: 3px;
 }
+#menu_chart_name {
+    float: right;
+    position: absolute;
+    right: 35px;
+    width: 95px;
+}
+
 .charts_emt {
     
 }

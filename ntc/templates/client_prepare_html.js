@@ -9,6 +9,8 @@ var preparedHTML = {
     ,charts_valu:'<label class="label wrap_checkbox" for="menu_valu_checkbox_id_"><div class="menu_content_column"><input name="menu_valu_radiobutton" id="menu_valu_checkbox_id_" type="radio" class="checkbox"></input><label class="label label_name" for="menu_valu_checkbox_id_" id="i18n_menu_valu_content_id_"></label></div></label>'
     ,charts_tab:'<label id="charts_tab_id_" class="label chart_tab" >inner_text_</label>'
     ,chart_emt:'<div id="chart_emt_id_" class="chart chart_emt" >inner_html_</div>'
+    ,charts_sort:'<label class="label wrap_checkbox" for="menu_sort_checkbox_id_"><div class="menu_content_column"><input name="menu_sort_radiobutton" id="menu_sort_checkbox_id_" type="radio" class="checkbox" checked></input><label class="label label_name" for="menu_sort_checkbox_id_" id="i18n_menu_sort_content_id_"></label></div></label>'
+    ,charts_data:'<label class="label wrap_checkbox" for="menu_data_checkbox_id_"><div class="menu_content_column"><input id="menu_data_checkbox_id_" type="checkbox" class="checkbox"></input><label class="label label_name" for="menu_data_checkbox_id_" id="i18n_menu_data_content_id_"></label></div></label>'
 };
 /* global word_symbol */
 /* global menu_sens_content */

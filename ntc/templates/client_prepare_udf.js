@@ -10,14 +10,15 @@
 
 var udf_init_test = function () {
     menu_term_content_date_start.value='2019-04-23';
-    menu_sens_checkbox_5834a91c.checked= false;
     // menu_sens_checkbox_981e0ded.checked= true;
-    menu_sens_checkbox_22580.checked= true;
+    // menu_sens_checkbox_30c7098e.checked= false;
+    // menu_sens_checkbox_22580.checked= true;
     menu_sens_checkbox_14351.checked= true;
     menu_sens_checkbox_19126.checked= true;
     menu_data_checkbox_humidity.checked=true;
     // menu_valu_checkbox_max_month.checked=true;
     udf_i18n_menu_navigator_button_create_click();
+    // udf_i18n_nav_title_chart_click();
 };
 
 var udf_ = function () {
@@ -55,11 +56,11 @@ var udf_chart_get_dimension = function (chart) {
 }
 
 
-var udf_sample_chart_draw = function(chart){
+var udf_chart_draw = function(chart){
     // must included chart_emt, chart_smt, chart_data
     /* global d3 */
     // set the dimensions and margins of the graph
-    var margin = {top: 100, right: 40, bottom: 30, left: 50},
+    var margin = {top: 100, right: 40, bottom: 30, left: 70},
     		width = 960 - margin.left - margin.right,
     		height = 500 - margin.top - margin.bottom;
     
@@ -70,7 +71,7 @@ var udf_sample_chart_draw = function(chart){
     var slice_parse_count = (3*(time_parse_count)-1);
     var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
     var parseTime = d3.timeParse(time_parse_reserve.slice(0,slice_parse_count));
-    var privDate = '';
+    // var privDate = '';
     // set the ranges
     var x = d3.scaleTime().range([0, width]);
     var y0 = d3.scaleLinear().range([height, 0]);
@@ -151,10 +152,104 @@ var udf_sample_chart_draw = function(chart){
 			.call(d3.axisLeft(y2));
 }
 
-var udf_sample_chart_draw_detail = function(chart_emt, chart_smt, chart_data){
+
+var udf_sample_chart_draw = function(chart){
+    // must included chart_emt, chart_smt, chart_data
+    /* global d3 */
+    // set the dimensions and margins of the graph
+    var margin = {top: 100, right: 40, bottom: 30, left: 70},
+    		width = 960 - margin.left - margin.right,
+    		height = 500 - margin.top - margin.bottom;
+    
+    // parse the date / time
+    // var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S.%L");
+	var data=chart.chart_res;
+    var time_parse_count = ((data[0].Time.replace('T',' ').replace('Z','').length-1)/3);
+    var slice_parse_count = (3*(time_parse_count)-1);
+    var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
+    var parseTime = d3.timeParse(time_parse_reserve.slice(0,slice_parse_count));
+    // var privDate = '';
+    // set the ranges
+    var x = d3.scaleTime().range([0, width]);
+    var y0 = d3.scaleLinear().range([height, 0]);
+    var y1 = d3.scaleLinear().range([height, 0]);
+    var y2 = d3.scaleLinear().range([height, 0]);
+    
+    // define the 1st line
+    var valueline = d3.line()
+    		.x(function(d) { return x(d["Time"]); })
+    		.y(function(d) { return y0(d["Temperature"] | d["avg_Temperature"]); });
+    
+    // define the 2nd line
+    var valueline2 = d3.line()
+    		.x(function(d) { return x(d.Time); })
+    		.y(function(d) { return y1(d["Humidity"] | d["avg_Humidity"]); });
+    	
+    var valueline3 = d3.line()
+    		.x(function(d) { return x(d.Time); })
+    		.y(function(d) { return y2(Math.log(d["Humidity"] | d["avg_Humidity"] | 1)); });
+    
+    // append the svg obgect to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select("body").append("svg")
+    		.attr("width", width + margin.left + margin.right)
+    		.attr("height", height + margin.top + margin.bottom)
+            .append("g")
+    		.attr("transform","translate(" + margin.left + "," + margin.top + ")");
+	data.forEach(function(d) {
+	   // console.log(d)
+		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
+		d["Temperature"] = +d["Temperature"]
+		d["Humidity"] = +d["Humidity"]
+		d["avg_Temperature"] = +d["avg_Temperature"]
+		d["avg_Humidity"] = +d["avg_Humidity"]
+	   // console.log(d)
+		if (d.Time==null) {
+		    d=null;
+		}
+	});
+	// 이후 각 데이터별 유효성 검사 필요 
+	// Scale the range of the data
+	x.domain(d3.extent(data, function(d) { return d.Time; }));
+	y0.domain([0, d3.max(data, function(d) {return Math.max(d["Temperature"] | d["avg_Temperature"] | 0);})]);
+	y1.domain([0, d3.max(data, function(d) {return Math.max(d["Humidity"] | d["avg_Humidity"] + 0); })]);
+	y2.domain([0, d3.max(data, function(d) {return Math.max(Math.log((d["Humidity"] | d["avg_Humidity"] | 1))); })]);
+
+	// Add the valueline path.
+	svg.append("path").data([data])
+			.attr("class", "line")
+			.attr("d", valueline);
+	// Add the valueline2 path.
+	svg.append("path").data([data])
+			.attr("class", "line")
+			.style("stroke", "red")
+			.attr("d", valueline2);
+// 	console.log
+	// Add the valueline3 path.
+	svg.append("path").data([data])
+			.attr("class", "line")
+			.style("stroke", "purple")
+			.attr("d", valueline3);
+	// Add the X Axis
+	svg.append("g")
+			.attr("transform", "translate(0," + height + ")")
+			.call(d3.axisBottom(x));
+	// Add the Y0 Axis
+	svg.append("g")
+			.attr("class", "axisSteelBlue")
+			.call(d3.axisLeft(y0));
+	// Add the Y1 Axis
+	svg.append("g")
+			.attr("class", "axisRed")
+			.attr("transform", "translate( " + width + ", 0 )")
+			.call(d3.axisRight(y1));
+	// Add the Y2 Axis
+	svg.append("g")
+			.attr("class", "axisPurple")
+			.attr("transform", "translate( " + width + ", 0 )")
+			.call(d3.axisLeft(y2));
 }
-
-
 
 var udf_chart_create_sub_part = function (chart, element, _merge) {
     console.log('create_lsp');
@@ -178,21 +273,83 @@ var udf_chart_create_sub_part = function (chart, element, _merge) {
     udf_sample_chart_draw(chart) // will be deleted
 };
 
-var udf_chart_create = function (chart, res) {
+var udf_chart_create = function (chart) {
+    var data = udf_generate_chart_data(chart)
     /* global chart_root */
     var _order = chart.chart_material.menu_sort[0].checked;
-    var _merge = chart.chart_material.menu_view[0].checked;
+    // var _merge = chart.chart_material.menu_view[0].checked;
     var _chart = chart.chart_material.menu_char[0].checked;
     // 조회조건 취합
     // 차트 개별 상위 엘리먼트 생성
     chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
-    var element = chart_root.lastElementChild;
+    var element = document.getElementById('chart_emt_'+chart.id);
     // 차트에 붙이기
     chart.generate_emt(element);
+    // chart.generate_emt(document.getElementById('chart_emt_'+chart.id));
     // 내부 제작
-    udf_chart_create_sub_part(chart, element, _merge);
+    // eval('chart_emt_'+chart.id)
+    // console.log(element)
+    udf_chart_create_sub_part(chart, element, _order);
     // chart.chart_emt = chart_root.lastElementChild;
 };
+
+var udf_generate_chart_data = function(chart) {
+    var res = chart.chart_res;
+    var selected_list = udf_chart_get_checked(chart,'sort');
+    var selected_word = selected_list[0].id.slice(19,);
+    // var selected_word = selected_list[0].id.slice(19,).split('_');
+    var sort_list = [
+          'whole_partition'
+        ,'sensor_partition'
+        ,  'data_partition'
+        , 'whole_merge'
+        ,'sensor_merge'
+        ,  'data_merge'
+    ];
+    var data_list = [
+         'AirQualityStatic'
+        ,'Ambient_light'
+        ,'Hall'
+        ,'Humidity'
+        ,'IAQaccuracyStatic'
+        ,'Movement'
+        ,'Pressure'
+        ,'Temperature'
+    ]
+    var func_list = [
+         ''
+        ,'avg_'
+        ,'min_'
+        ,'max_'
+    ]
+    var sample_data_list = [];
+    for (var index_data_list in data_list) {
+        for (var index_func_list in func_list) {
+            sample_data_list.push(func_list[index_func_list]+data_list[index_data_list]);
+        }
+    }
+    var return_data = [];
+    switch (selected_word) {
+        case sort_list[0]:
+            break;
+        case sort_list[1]:
+            break;
+        case sort_list[2]:
+            break;
+        case sort_list[3]:
+            break;
+        case sort_list[4]:
+            break;
+        case sort_list[5]:
+            break;
+        case sort_list[6]:
+            break;
+        default:
+            break;
+    }
+    for (var i = 0 ; i < res.length ; i++){
+    }
+}
 
 var udf_res_search_data = function (res) {
     return udf_chart_add_as_response(res)
@@ -202,7 +359,7 @@ var udf_chart_add_as_response = function (res) {
     var chart = udf_find_chart(res.id);
     if (typeof(chart) != word_symbol.undefined) {
         chart.chart_res = res.res
-        udf_chart_create(chart, res);
+        udf_chart_create(chart);
     }
 };
 
@@ -382,7 +539,8 @@ var udf_charts_tab_attach = function (id,name) {
     /* global nav_charts_tab */
     /* global word_symbol */
     nav_charts_tab.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_tab.replace(word_symbol.global_id,id).replace(word_symbol.global_inner_text,name));
-    return nav_charts_tab.lastElementChild
+    // return nav_charts_tab.lastElementChild
+    return document.getElementById('charts_tab_'+id);
 };
 
 var udf_chart_load = function(stored_chart) {
@@ -416,6 +574,16 @@ var udf_int_sum = function (int) {
     return summary;
 };
 
+var udf_int_sum_ta = function (int) {
+    var summary = '';
+    var string = udf_itos(int);
+    // console.log(string)
+    for (var i in string){
+        summary += udf_itoa_ta(+string[i]);
+    }
+    return summary;
+};
+
 var udf_str_sum = function (string) {
     var summary = 0;
     for (var i in string){
@@ -423,6 +591,10 @@ var udf_str_sum = function (string) {
     }
     return summary;
     // return udf_itos(summary);
+};
+
+var udf_itoa_ta = function(i){
+	return String.fromCharCode(i+65);
 };
 
 var udf_itoa = function(i){
@@ -451,12 +623,14 @@ var udf_i18n_menu_navigator_button_create_click = function() {
 };
 
 var udf_chart_add = function() {
+    /* global menu_chart_name */
+    /* global serve_count */
     if (!udf_validate_request_condition()) {
         udf_alert(word_current.i18n_alert_select_none);
         return;
     }
     else {
-        return new ChartBase(word_symbol.chart_name_noname);
+        return new ChartBase(menu_chart_name.value+word_symbol._+serve_count++);
     }
 };
 
@@ -561,6 +735,8 @@ var udf_generate_random_string = function(length) {
 var udf_init = function(res){
     udf_node_list_release(res);
     udf_valu_list_release();
+    udf_sort_list_release();
+    udf_data_list_release();
     udf_words_apply_kr();
     udf_init_date(0,0,-1);
     udf_init_select();
@@ -599,14 +775,67 @@ var udf_get_day = function(inputDate, inputYear, inputMonth, inputDay){
 	var month = (word_symbol._0_2 + (now.getMonth()+ 1)).slice(-2);
 	var today = (word_symbol._0_4 + now.getFullYear()).slice(-4)+word_symbol.hyphen+(month)+word_symbol.hyphen+(day) ;
 	return today;
-}
+};
+
+var udf_sort_list_release = function(){
+    /* global menu_sort_content */
+    var sort_list = [
+        'whole_partition'
+        ,'sensor_partition'
+        ,'data_partition'
+        ,'whole_merge'
+        ,'sensor_merge'
+        ,'data_merge'
+    ];
+
+    for ( var i = 0 ; i < sort_list.length ; i++){
+        udf_list_attach_sort(menu_sort_content,sort_list[i])
+    }
+};
+
+var udf_list_attach_sort = function(parent_node, id){
+    parent_node.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_sort.replace(word_symbol.global_id,id));
+};
+
+
+var udf_data_list_release = function(){
+    /* global menu_sort_content */
+    var data_list = [
+         'temperature'
+        ,'humidity'
+        ,'atmospheric_pressure'
+        ,'ambient_light'
+        ,'air_quality'
+        ,'indoor_air_quality'
+        ,'movement'
+        ,'hall'
+        ,'battery_level'
+        // ,'sensor_node_id'
+        // ,'gateway_id'
+        // ,'node_status'
+        // ,'node_role'
+        // ,'object'
+        // ,'source_address'
+        // ,'user'
+        // ,'timestamp'
+    ]
+
+    for ( var i = 0 ; i < data_list.length ; i++){
+        udf_list_attach_data(menu_data_content,data_list[i])
+    }
+};
+
+var udf_list_attach_data = function(parent_node, id){
+    parent_node.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.charts_data.replace(word_symbol.global_id,id));
+};
+
 var udf_valu_list_release = function(){
     /* global menu_valu_content */
-    var b = [word_symbol.hour,word_symbol.day,word_symbol.month,word_symbol.year];
-    var a = [word_symbol.avg,word_symbol.min,word_symbol.max];
-    for ( var i = 0 ; i < a.length ; i++){
-        for ( var j = 0 ; j < b.length ; j++){
-            udf_list_attach_valu(menu_valu_content, a[i]+word_symbol._+b[j]);
+    var select_time = [word_symbol.hour,word_symbol.day,word_symbol.month,word_symbol.year];
+    var select_function = [word_symbol.avg,word_symbol.min,word_symbol.max];
+    for ( var i = 0 ; i < select_function.length ; i++){
+        for ( var j = 0 ; j < select_time.length ; j++){
+            udf_list_attach_valu(menu_valu_content, select_function[i]+word_symbol._+select_time[j]);
         }
     }
 };

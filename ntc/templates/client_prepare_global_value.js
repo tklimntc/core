@@ -11,6 +11,8 @@
 /* global menu_char */
 /* global menu_view */
 //https://bl.ocks.org/uredkar/71c3a0d93cc05527c83cdc12f9549ab3
+
+var serve_count = 0;
 var sensors = {
     '':''
     ,menu_data_checkbox_temperature : 'Temperature'
@@ -31,6 +33,7 @@ var sensors = {
     ,menu_data_checkbox_user : 'User'
     ,menu_data_checkbox_timestamp : 'Timestamp'
 };
+
 var menus = {
      menu_term:menu_term
     ,menu_sens:menu_sens
@@ -38,11 +41,14 @@ var menus = {
     ,menu_sort:menu_sort
     ,menu_valu:menu_valu
     ,menu_char:menu_char
-    ,menu_view:menu_view
+    // ,menu_view:menu_view
 };
+
 var charts = [];
 class ChartBase {
     constructor(name) {
+        /* global socket */
+        /* global udf_chart_is_unique */
         // this.id=udf_generate_id();
         this.chart_material = {
              menu_term:[] // what term to 
@@ -51,7 +57,7 @@ class ChartBase {
             ,menu_sort:[] // what order to follow?
             ,menu_valu:[] // value or avg, etc?
             ,menu_char:[] // what chart to use?
-            ,menu_view:[] // partition or merge?
+            // ,menu_view:[] // partition or merge?
         };
         this.generate_condition();
         if(udf_chart_is_unique(this.id)){
@@ -76,9 +82,13 @@ class ChartBase {
         this.chart_emt = element;
     }
     generate_tab(){
+        /* global udf_charts_tab_attach */
         return udf_charts_tab_attach(this.id, this.name);
     }
     generate_sql(){
+        /* global udf_check_value_order */
+        /* global udf_generate_sql */
+        /* global udf_generate_sql_other */
         if(udf_check_value_order(this)){ // 값 선택
             return udf_generate_sql(this);
         }
@@ -87,13 +97,19 @@ class ChartBase {
         }
     }
     delete_chart(){
+        /* global udf_alert */
         delete this;
         udf_alert('duplicated id.\nplease change search condition.');
     }
     generate_condition() {
         /* global udf_get_title */
         /* global udf_str_sum */
-        var hash_id = "";
+        /* global udf_get_date */
+        /* global udf_get_content */
+        /* global udf_itos */
+        /* global udf_get_checkbox */
+        /* global udf_int_sum */
+        // var hash_id = "";
         var hash_sum = "";
         for (var key in menus) {
             var title_menu = udf_get_title(menus[key]);
@@ -116,9 +132,14 @@ class ChartBase {
                     }
                 }
             }
-            hash_sum += udf_int_sum(title_sum)+udf_int_sum(content_sum);
+            // console.log(title_sum, udf_int_sum_ta(title_sum))
+            // console.log(content_sum, udf_int_sum_ta(content_sum))
+            hash_sum += udf_int_sum_ta(title_sum)+udf_int_sum_ta(content_sum);
+            // console.log(udf_int_sum(title_sum))
+            // console.log(udf_int_sum(content_sum))
+            
         }
-        // hash_id+=hash_sum;
-        this.id = hash_id+hash_sum;
+        this.id = hash_sum;
+        // console.log(this.id)
     }
 }
