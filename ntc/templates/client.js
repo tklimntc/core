@@ -26,6 +26,7 @@ import_script('client_prepare_api.js');
 import_script('client_prepare_global_value.js');
 
 import_script('client_prepare_sql.js');
-import_script('client_prepare_event.js');
+// import_script('client_prepare_event.js');
+setTimeout(function(){import_script('client_prepare_event.js')},1000);
 // import_script('client_prepare_run.js')
 setTimeout(function(){import_script('client_prepare_run.js')},1000);
