@@ -36,7 +36,7 @@ nav #nav_charts_tab {
     /*position: relative;*/
     width: 35px;
     /*list-style:none;*/
-    border:1px solid gray;
+    border-top:1px solid gray;
 }
 article {
     position:fixed;
@@ -200,13 +200,17 @@ label {
 }
 #nav_charts_tab label {
     width:35px;
+    height:26px;
     text-overflow:ellipsis;
     overflow:hidden;
     white-space:nowrap;
     padding: 3px;
+    border: 1px solid gray;
+    border-top: 0px;
 }
 #nav_charts_tab label:hover {
     width:130px;
+    height:26px;
     /*text-overflow:ellipsis;*/
     /*white-space:nowrap;*/
     overflow:visible;
