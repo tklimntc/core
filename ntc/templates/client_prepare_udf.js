@@ -25,13 +25,23 @@ var udf_init_test = function () {
 var udf_ = function () {
     
 };
-
+var date1 = {}
+var date2 = {}
 var udf_chart_draw = function(element,data, chart){
     /* global d3 */
     // set the dimensions and margins of the graph
-    var margin = {top: 100, right: 40, bottom: 30, left: 70},
+    var emt_list = [];
+    for (var i in chart.chart_data.emt){
+        emt_list.push(i);
+    }
+    var smt_list = [];
+    for (var i in data.smt){
+        smt_list.push(i);
+    }
+    var margin = {top: 0, right: 40, bottom: 30, left: 0},
     		width = 960 - margin.left - margin.right,
-    		height = 500 - margin.top - margin.bottom;
+    		height = (500 - margin.top - margin.bottom)/emt_list.length;
+    		console.log(emt_list.length)
 
     // parse the date / time
     /*
@@ -41,24 +51,46 @@ var udf_chart_draw = function(element,data, chart){
                                              . data [  ] . Time
                                                          . Value
     */
+    var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
+    var parseTime = {};
     var sample_data_time = {};
+    var count_ = 0;
     for (var i in data.smt){
-        sample_data_time = data.smt[i].data.slice()[0].Time;
-        break;
+        if(count_++ == 0){
+            sample_data_time = data.smt[i].data[0].Time;
+            parseTime = d3.timeParse(time_parse_reserve.slice(0,(3*((sample_data_time.replace('T',' ').replace('Z','').length-1)/3)-1)));
+        }
+        for (var j in data.smt[i].data){
+            data.smt[i].data[j].Time = parseTime(data.smt[i].data[j].Time.replace('T',' ').replace('Z',''));
+        }
     }
+    
+	var time_data= chart.chart_res;
+// 	console.log(time_data)
+// 	time_data.forEach(function(d) {
+//         console.log(d)
+//         console.log(d.Time)
+// 	    if(typeof(d.Time.replace)=='undefined'){
+// 	        date1 = d
+// 	       // console.log(d)
+// 	       // console.log(d.Time)
+// 	    }
+// 	    else {
+// 	        date2 = d
+// 	       // console.log(d)
+// 	       // console.log(d.Time)
+// 	    }
+// // 		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
+// 	});
     // sample_data_time.time=sample_data_time;
     // sample_data_time = sample_data_time.time;
-    var smt_list = [];
-    for (var i in data.smt){
-        smt_list.push(i);
-    }
-    var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
-    var parseTime = d3.timeParse(time_parse_reserve.slice(0,(3*((sample_data_time.replace('T',' ').replace('Z','').length-1)/3)-1)));
 
     // set the ranges
     var x = d3.scaleTime().range([0, width]);
+    var xs = []
     var ys = []
     for (var i = 0 ; i < smt_list.length ; i++){
+        xs.push(d3.scaleTime().range([0, width]));
         ys.push(d3.scaleLinear().range([height, 0]));
     }
     
@@ -66,7 +98,7 @@ var udf_chart_draw = function(element,data, chart){
     for (var i = 0 ; i < smt_list.length ; i++){
         // define the 1st line
         valuelines.push( d3.line()
-        		.x(function(d) { return x(d.Time); })
+        		.x(function(d) { return xs[i](d.Time); })
         		.y(function(d) { return ys[i](d.Value); }));
     }
     
@@ -74,7 +106,8 @@ var udf_chart_draw = function(element,data, chart){
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    var svg = d3.select("body").append("svg")
+    console.log('chart_smt_'+data.id+'_chart_emt_'+chart.id)
+    var svg = d3.select('#chart_smt_'+data.id+'_chart_emt_'+chart.id).append("svg:svg")
     		.attr("width", width + margin.left + margin.right)
     		.attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -82,46 +115,33 @@ var udf_chart_draw = function(element,data, chart){
 
     for (var i = 0 ; i < smt_list.length ; i++){
     	data.smt[smt_list[i]].data.forEach(function(d) {
-    		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
+    // 		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
     		d.Value = +d.Value;
     	});
 	}
 	
-	var time_data= chart.chart_res.slice();
-	console.log(time_data)
-	time_data.forEach(function(d) {
-        console.log(d)
-        console.log(d.Time)
-	    if(typeof(d.Time.replace)=='undefined'){
-	       // console.log(d)
-	       // console.log(d.Time)
-	    }
-	    else {
-	       // console.log(d)
-	       // console.log(d.Time)
-	    }
-		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
-	});
 	
     // 이후 각 데이터별 유효성 검사 필요 
 	// Scale the range of the data
 	x.domain(d3.extent(time_data, function(d) { return d.Time; }));
     for (var i = 0 ; i < smt_list.length ; i++){
+    	xs[i].domain(d3.extent(data.smt[smt_list[i]].data, function(d) { return d.Time; }));
     	ys[i].domain([0, d3.max(data.smt[smt_list[i]].data, function(d) {return Math.max(d.Value);})]);
     	// Add the valueline path.
     	svg.append("path").data([data.smt[smt_list[i]].data])
     			.attr("class", "line")
     			.style("stroke", "skyblue")
     			.attr("d", valuelines[i]);
+    			console.log(data.smt[smt_list[i]].data)
 	}
 
 	// Add the X Axis
 	svg.append("g")
 			.attr("transform", "translate(0," + height + ")")
-			.call(d3.axisBottom(x));
+			.call(d3.axisBottom(xs[0]));
 			
     for (var i = 0 ; i < smt_list.length ; i++){
-    	// Add the Y0 Axis
+    	// Add the Y Axis
     	svg.append("g")
     			.attr("class", "axisSteelBlue")
     			.attr("transform", "translate( " + width + ", 0 )")
