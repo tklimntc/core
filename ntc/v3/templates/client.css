@@ -1,0 +1,260 @@
+/*
+=========================================================
+new client cascade style sheet file
+=========================================================
+*/
+body {
+    /*overflow:hidden;*/
+}
+header {
+    /*padding: 10px;*/
+    background: #ffffff;
+    color: #1f1f1f;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height:80px;
+    border-bottom: solid 20px #0064C9;
+}
+nav {
+    background: #555;
+    color: #f1f1f1;
+    position: fixed;
+    left: 0;
+    top: 80px;
+    height: 100%;
+    min-width: 45px;
+    padding: 5px;
+    z-index:2;
+}
+nav ul {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+nav #nav_charts_tab {
+    /*left: -20px;*/
+    /*position: relative;*/
+    width: 35px;
+    /*list-style:none;*/
+    border-top:1px solid gray;
+}
+article {
+    position:fixed;
+    left:46px;
+    top:80px;
+    height:650px;
+    width:955px;
+    overflow:scroll;
+    /*display: none;*/
+}
+footer {
+    position:fixed;
+    bottom:0px;
+    width:100%;
+    background:#f6f6f6;
+    padding:10px;
+    height:80px;
+    z-index:3;
+}
+footer small {
+    position: inherit;
+    font-size: 71%;
+    /*padding-left: 20px;*/
+    /*display: inline-block;*/
+    /*bottom: 0px;*/
+    /*overflow: hidden;*/
+    /*width: 460px;*/
+    /*height: 80px;*/
+}
+footer .logo {
+    height:52px;
+}
+.logo {
+    height: 60px;
+    position: relative;
+    padding:10px;
+}
+#menu_wrapper {
+    position:fixed;
+    left:45px;
+    top:80px;
+    z-index:1;
+}
+#menu_navigator {
+    padding:4px;
+    background:white;
+    margin:0px;
+    border:1px solid gray;
+    min-height:20px;
+}
+#menu_button_shrink {
+    font-size: 13px;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+}
+#menu_query {
+    /*position:fixed;*/
+    /*left:100px;*/
+    /*top:100px;*/
+    padding:0px;
+    /*min-width:700px;*/
+    /*min-height:200px;*/
+    /*max-height:500px;*/
+    background:antiquewhite;
+    margin:0px;
+    border:1px solid gray;
+}
+.menu {
+    border: 1px solid gray;
+    background: white;
+    min-width: 52px;
+    min-height: 200px;
+    margin: 0px;
+    padding: 0px;
+    display: table-cell;
+}
+.menu_title {
+    /*min-width: 100px;*/
+    background: gold;
+    height: 30px;
+    padding-left:5px;
+    border: 1px solid lightgray;
+    /*text-align:center;*/
+}
+.date {
+    font-size:12px;
+    width:116px;
+}
+.menu_content {
+    height:250px;
+    overflow:scroll;
+}
+::-webkit-scrollbar {
+    /*display:none;*/
+}
+.menu_content_column {
+    /*min-width: 100px;*/
+    background: seashell;
+    min-height: 30px;
+    border: 1px solid lightgray;
+    padding:5px;
+    /*text-align:center;*/
+}
+.label {
+    font-size:13px;
+    margin:0px;
+}
+.checkbox {
+    height: 18px;
+    /*width: 20px;*/
+    position: relative;
+    top: 4px;
+}
+.writable_label {
+    width: 70px;
+    height:20px;
+}
+#menu_term { min-width: 130px; }
+#menu_sens { min-width: 139px; }
+#menu_data { min-width: 134px; }
+#menu_sort { min-width: 140px; }
+#menu_valu { min-width: 100px; }
+#menu_char { min-width: 87px; }
+#menu_view { min-width: 71px; }
+.display {
+    
+}
+.displaynone {
+    display:none;
+}
+#menu_navigator {
+    display:flex;
+}
+#menu_button_show {
+    float:right;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+#menu_sens_content {
+    min-width:137px;
+}
+.wrap_checkbox {
+    display:block;
+}
+label {
+    margin: 0px;
+}
+.fill_parent {
+    height:100%;
+    width:100%;
+}
+#haeder_language_select {
+    display:inline-block;
+    position:inherit;
+    right:0px;
+    padding:10px;
+    font-size:12px;
+}
+#i18n_menu_navigator_button_create {
+    padding:5px;
+}
+#nav_charts_tab label {
+    width:35px;
+    height:26px;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    padding: 3px;
+    border: 1px solid gray;
+    /*border-top: 1px;*/
+}
+#nav_charts_tab label:hover {
+    width:130px;
+    height:26px;
+    /*text-overflow:ellipsis;*/
+    /*white-space:nowrap;*/
+    overflow:visible;
+    background-color:#222;
+    padding: 3px;
+}
+#i18n_nav_title_chart {
+    width:35px;
+    border: 1px solid gray;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    padding: 3px;
+}
+#menu_chart_name {
+    float: right;
+    position: absolute;
+    right: 35px;
+    width: 95px;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axisSteelBlue text{
+  fill: steelblue;
+}
+
+.axisRed text{
+  fill: red;
+}
+  
+.axisPurple text {
+  fill: purple;
+}
+
+.chart_emt{
+    overflow:scroll;
+    height: 600px;
+    width:950px;
+}

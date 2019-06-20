@@ -1,0 +1,37 @@
+﻿SELECT * FROM mobiusdb.sensdb order by time desc limit 99999999;
+
+SELECT  time as Time ,value as JSON, JSON_EXTRACT(value,"$.Timestamp") as times FROM mobiusdb.sensdb WHERE JSON_EXTRACT(value,"$.Timestamp") > 1549692593 ORDER BY time LIMIT 1234;
+
+SELECT  time as Time ,value as JSON, JSON_EXTRACT(value,"$.Timestamp") as times FROM mobiusdb.sensdb WHERE DATE(JSON_EXTRACT(value,"$.Timestamp")) > DATE(1554440282) ORDER BY time LIMIT 1234 ;
+
+SELECT  time as Time ,value as JSON, JSON_EXTRACT(value,"$.Timestamp") as times FROM mobiusdb.sensdb WHERE JSON_EXTRACT(value,"$.Timestamp") > 1554440282 ORDER BY time LIMIT 1234 ;
+
+#-- 1. 전체 노드 목록
+
+SELECT time as Time, JSON_EXTRACT(value,"$.Temperature") as "Temperature" FROM mobiusdb.sensdb WHERE JSON_EXTRACT(value,"$.SensorNodeId") IN ("5834a91c") and '2019-01-27' <= time and time <= '2019-05-28' ORDER BY Time DESC LIMIT 99999999;
+
+(SELECT JSON_EXTRACT(value, "$.SensorNodeId") as serial from mobiusdb.sensdb GROUP BY serial);
+
+select count(serial) from (SELECT JSON_EXTRACT(value, "$.SensorNodeId") as serial from mobiusdb.sensdb GROUP BY serial);
+
+SELECT * FROM mobiusdb.nodename;
+
+#-- WHERE JSON_EXTRACT(value, "$.SensorNodeId")
+
+select replace(a.serial,"\"","") as serial, b.name from 
+(SELECT JSON_EXTRACT(value, "$.SensorNodeId") as serial from mobiusdb.sensdb GROUP BY serial) a
+left outer join mobiusdb.nodename b on a.serial = b.serial order by name;
+
+select * from mobiusdb.sensdb ;
+# where JSON_EXTRACT(value,"$.SensorNodeId") = '29904';
+#'2019-04-24T06:22:04.699Z'
+
+SELECT time as Time, JSON_EXTRACT(value,"$.SensorNodeId") as Id, JSON_EXTRACT(value,"$.Timestamp") as "uxtime", JSON_EXTRACT(value,"$.Temperature") as "Temperature", JSON_EXTRACT(value,"$.Humidity") as "Humidity", JSON_EXTRACT(value,"$.Pressure") as "Pressure" FROM mobiusdb.sensdb WHERE id IN ("981e0ded", "b6840348", "1a176ae1") and "2019-04-23" <= time and time <= "2019-05-30" ORDER BY Time DESC LIMIT 99999999;
+# JSON_EXTRACT(value,"$.SensorNodeId") IN sensors_ 
+
+
+select JSON_EXTRACT(value,"$.SensorNodeId") as ID, DATE_FORMAT(time,'%Y-%m-%d') as Time, JSON_EXTRACT(value,"$.Temperature") as Temperature from mobiusdb.sensdb;
+select ID, Time, avg(Temperature) as AVT from (select JSON_EXTRACT(value,"$.SensorNodeId") as ID, DATE_FORMAT(time,'%Y-%m-%d') as Time, JSON_EXTRACT(value,"$.Temperature") as Temperature from mobiusdb.sensdb) tab_a group by Time;
+
+select count(*), DATE_FORMAT(time,'%Y-%m-%d') as Time from mobiusdb.sensdb group by Time;
+SELECT count(*), DATE_FORMAT(time,'%Y-%m-%d') as Time, JSON_EXTRACT(value,"$.SensorNodeId") as ID, AVG(JSON_EXTRACT(value,"$.Temperature")) as TempAvg FROM mobiusdb.sensdb GROUP BY Time, ID ORDER BY Time, ID DESC LIMIT 99999999;
