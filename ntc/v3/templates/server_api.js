@@ -31,4 +31,9 @@ module.exports=function(io, connection, sql){ io.on('connection', function(socke
             socket.emit('res_search_data', {id:msg.id,res:results});
         }});
     });
+    socket.on('get_last_date', function(msg){
+        connection.query(sql.get_last_date, function (error, results, fields) { if (error) { console.log( error ) } else {
+            socket.emit('res_last_date', results);
+        }});
+    });
 });};

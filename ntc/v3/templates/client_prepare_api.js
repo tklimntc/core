@@ -17,4 +17,5 @@ socket.on('reconnect',function(){ location.reload() });
 socket.on('res_node_list',function(res){ udf_init(res) });
 
 // 2. stakc data fetch
-socket.on('res_search_data',function(res){ console.log('data recv'); udf_res_search_data(res) });
+socket.on('res_search_data',function(res){ udf_res_search_data(res) });
+socket.on('res_last_date',function(res){ udf_set_last_date(res) });

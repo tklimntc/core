@@ -8,6 +8,11 @@
 /* global preparedHTML */
 /* global preparedSQL */
 
+var udf_alert = function(msg){
+    // alert(msg);
+    console.log(msg);
+}
+
 var udf_init_test = function () {
     // menu_term_content_date_start.value='2019-04-23';
     // // menu_sens_checkbox_981e0ded.checked= true;
@@ -21,16 +26,16 @@ var udf_init_test = function () {
     menu_term_content_date_start.value = '2018-01-01'
     menu_sens_checkbox_all.click()
     menu_data_checkbox_all.click()
-    menu_sort_checkbox_whole_partition.click()
+    menu_sort_checkbox_data_partition.click()
+    // menu_sort_checkbox_whole_partition.click()
     // udf_i18n_menu_navigator_button_create_click()
     // menu_sort_checkbox_sensor_partition.click()
     // udf_i18n_menu_navigator_button_create_click()
-    // menu_sort_checkbox_data_partition.click()
     // udf_i18n_menu_navigator_button_create_click()
     // menu_sort_checkbox_whole_merge.click()
     // udf_i18n_menu_navigator_button_create_click()
-    // udf_i18n_menu_navigator_button_create_click();
     // udf_i18n_nav_title_chart_click();
+    udf_i18n_menu_navigator_button_create_click();
 };
 
 var udf_ = function () {
@@ -93,12 +98,16 @@ var udf_chart_delete = function (chart){
     }catch(e){}
 }
 
-var udf_chart_draw = function(element,data, chart){
+    var countttt = 0;
+    var countt = 0;
+var udf_chart_draw = function(element,data, chart_org,chart_class){
+    // console.log(data)
+    /* global nv */
     try{
         /* global d3 */
         // set the dimensions and margins of the graph
         var emt_list = [];
-        for (var i in chart.chart_data.emt){
+        for (var i in chart_org.chart_data.emt){
             emt_list.push(i);
         }
         var smt_list = [];
@@ -122,85 +131,48 @@ var udf_chart_draw = function(element,data, chart){
         var parseTime = {};
         var sample_data_time = {};
         var count_ = 0;
+        var selected_Data = [];
         for (var i in data.smt){
+            if (data.smt[i].values.length==0){break;}
+            sample_data_time = data.smt[i].values[0].x.replace('T',' ').replace('Z','');
             if(count_++ == 0){
-                // console.log(typeof(data.smt[i].data[0]))
-                if(typeof(data.smt[i].data[0])=='undefined') {
-                    count_ = 0;
-                    break;
-                }
-                sample_data_time = data.smt[i].data[0].Time;
-                parseTime = d3.timeParse(time_parse_reserve.slice(0,(3*((sample_data_time.replace('T',' ').replace('Z','').length-1)/3)-1)));
+                parseTime = d3.time.format(time_parse_reserve.slice(0,(3*((sample_data_time.length-1)/3)-1)))
+                // parseTime = d3.timeParse(time_parse_reserve.slice(0,(3*((sample_data_time.replace('T',' ').replace('Z','').length-1)/3)-1)));
             }
-            for (var j in data.smt[i].data){
-                data.smt[i].data[j].Time = parseTime(data.smt[i].data[j].Time.replace('T',' ').replace('Z',''));
+            for (var j in data.smt[i].values){
+                sample_data_time = data.smt[i].values[j].x.replace('T',' ').replace('Z','');
+                data.smt[i].values[j].x = parseTime.parse(sample_data_time)
+                data.smt[i].values[j].y = +data.smt[i].values[j].y
             }
+            console.log()
+            selected_Data.push({key:udf_chart_get_node_nick(data.smt[i].key,chart_class,data.id),values:data.smt[i].values});
         }
-        
-    	var time_data= chart.chart_res;
-        // set the ranges
-        var x = d3.scaleTime().range([0, width]);
-        var xs = []
-        var ys = []
-        for (var i = 0 ; i < smt_list.length ; i++){
-            xs.push(d3.scaleTime().range([0, width]));
-            ys.push(d3.scaleLinear().range([height, 0]));
-        }
-        
-        var valuelines = [];
-        for (var i = 0 ; i < smt_list.length ; i++){
-            // define the 1st line
-            valuelines.push( d3.line()
-            		.x(function(d) { return xs[i](d.Time); })
-            		.y(function(d) { return ys[i](d.Value); }));
-        }
-        
-        
-        // append the svg obgect to the body of the page
-        // appends a 'group' element to 'svg'
-        // moves the 'group' element to the top left margin
-        // console.log('chart_smt_'+data.id+'_chart_emt_'+chart.id)
-        var svg = d3.select('#chart_smt_'+data.id+'_chart_emt_'+chart.id).append("svg:svg")
-        		.attr("width", width + margin.left + margin.right)
-        		.attr("height", height + margin.top + margin.bottom)
-                .append("g")
-        		.attr("transform","translate(" + margin.left + "," + margin.top + ")");
-    
-        for (var i = 0 ; i < smt_list.length ; i++){
-        	data.smt[smt_list[i]].data.forEach(function(d) {
-        // 		d.Time = parseTime(d.Time.replace('T',' ').replace('Z',''));
-        		d.Value = +d.Value;
-        	});
-    	}
-    	
-    	
-        // 이후 각 데이터별 유효성 검사 필요 
-    	// Scale the range of the data
-    	x.domain(d3.extent(time_data, function(d) { return d.Time; }));
-        for (var i = 0 ; i < smt_list.length ; i++){
-        	xs[i].domain(d3.extent(data.smt[smt_list[i]].data, function(d) { return d.Time; }));
-        	ys[i].domain([0, d3.max(data.smt[smt_list[i]].data, function(d) {return Math.max(d.Value);})]);
-        	// Add the valueline path.
-        	svg.append("path").data([data.smt[smt_list[i]].data])
-        			.attr("class", "line")
-        			.style("stroke", '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6))
-        			.attr("d", valuelines[i]);
-        // 			console.log(data.smt[smt_list[i]].data)
-    	}
-    
-    	// Add the X Axis
-    	svg.append("g")
-    			.attr("transform", "translate(0," + height + ")")
-    			.call(d3.axisBottom(xs[0]));
-    			
-        for (var i = 0 ; i < smt_list.length ; i++){
-        	// Add the Y Axis
-        	svg.append("g")
-        			.attr("class", "axisSteelBlue")
-        			.attr("transform", "translate( " + width + ", 0 )")
-        			.call(d3.axisLeft(ys[i]));
-    	}
-    }catch(e){ console.log(e); chart.delete_chart(); }
+        nv.addGraph(function(){
+            var chart = nv.models.lineWithFocusChart().width(width).height(height);
+            chart.xAxis
+                .tickFormat(function(d) {
+                	return d3.time.format("[%H:%M]")(new Date(d));
+                });
+            chart.x2Axis
+                .tickFormat(function(d) {
+                    return d3.time.format("[%Y-%m-%d]")(new Date(d));
+                });
+            chart.yAxis
+                .tickFormat(d3.format(',.2f'));
+            chart.y2Axis
+                .tickFormat(d3.format(',.2f'));
+            // console.log(selected_Data);
+            d3.select('#chart_smt_'+data.id+'_chart_emt_'+chart_org.id+' svg')
+                .datum(selected_Data)
+                .transition().duration(500)
+                .call(chart);
+                
+                
+  
+            nv.utils.windowResize(chart.update);
+            return chart;
+        });
+    }catch(e){ console.log(e); chart_org.delete_chart(); }
 }
 
 var udf_chart_create = function (chart) {
@@ -210,15 +182,61 @@ var udf_chart_create = function (chart) {
     // 차트 최상위 엘리먼트 생성
     chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
     var element = document.getElementById('chart_emt_'+chart.id);
+    element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt_title.replace(word_symbol.global_inner_html,udf_get_class_name(chart.chart_data.chart_class)));
     chart.generate_emt(element);
     // emt 갯수대로 차트 차상위 엘리먼트 생성
     chart.smt = [];
+    var countT = 0;
     for(var i in chart.chart_data.emt){
         // console.log(i)
-        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class)));
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
         var sub_element = document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id);
         chart.smt.push(sub_element);
-        udf_chart_draw(sub_element, chart.chart_data.emt[i], chart);
+        udf_chart_draw(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class);
+    }
+};
+
+var udf_chart_update = function (chart) {
+    // all create only when not exist
+    /* global chart_root */
+    // 동일포맷 데이터 준비
+    chart.chart_data = udf_generate_chart_data(chart)
+    // 차트 최상위 엘리먼트 생성
+    chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
+    var element = document.getElementById('chart_emt_'+chart.id);
+    element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt_title.replace(word_symbol.global_inner_html,udf_get_class_name(chart.chart_data.chart_class)));
+    chart.generate_emt(element);
+    // emt 갯수대로 차트 차상위 엘리먼트 생성
+    chart.smt = [];
+    var countT = 0;
+    for(var i in chart.chart_data.emt){
+        // console.log(i)
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class)));
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
+        var sub_element = document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id);
+        chart.smt.push(sub_element);
+        udf_chart_update(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class);
+    }
+};
+
+var udf_get_class_name = function (class_) {
+    switch (+class_) {
+        case 0:
+            // code
+            return word_current.i18n_menu_sort_content_whole_partition
+        case 1:
+            // code
+            return word_current.i18n_menu_sort_content_sensor_partition
+        case 2:
+            // code
+            return word_current.i18n_menu_sort_content_data_partition
+        case 3:
+            // code
+            return word_current.i18n_menu_sort_content_whole_merge
+        default:
+            // code
+            return class_
     }
 };
 
@@ -244,29 +262,80 @@ var udf_chart_get_checked_id = function (chart,word) {
     return _list;
 };
 
+var udf_replace_options = function (id){
+    return id.replace('avg_','평균_').replace('min_','최소_').replace('max_','최대_');
+}
 
-// var udf_chart_get_dimension_length = function (chart) {
-//     return udf_chart_get_dimension(chart).length;
-// }
+var udf_separate_names = function (name) {
+    var return_name = name.replace('_','-').split('-')
+    var return_name_1 = ''
+    var return_name_2 = ''
+    for (var i = 0 ; i < return_name.length ; i++ ){
+        if(i==0){
+            return_name_1+= return_name[i];
+        }
+        else{
+            return_name_2+= return_name[i];
+        }
+    }
+    return document.getElementById('menu_sens_'+return_name_1).value+':'+word_current['i18n_menu_data_content_'+udf_replace_options(return_name_2)]
+}
 
-// var udf_chart_get_dimension = function (chart) {
-//     var sort = chart.chart_material.menu_sort;
-//     console.log(sort)
-//     var checked_id;
-//     for(var i in sort){
-//         if(sort[i].checked){
-//             checked_id = sort[i].id
-//         }
-//     }
-//     console.log(checked_id)
-//     var checked_word = checked_id.slice(19);
-//     console.log(checked_word)
-//     var checked_list = udf_chart_get_checked(chart,checked_word.slice(0,4));
-//     var _length = checked_list.length;
-//     console.log(checked_list)
-//     return checked_list;
-// }
+var udf_chart_get_node_nick = function (name,class_,id) {
+    // console.log(name, class_, id)
+    var return_value = '';
+    switch (+class_) {
+        case 0:
+            // code
+            return_value = udf_separate_names(name);
+            break;
+        case 1:
+            // code
+            return_value = /*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+            break;
+        case 2:
+            // code
+            return_value = document.getElementById('menu_sens_'+name).value/*+':'+word_current['i18n_menu_data_content_'+udf_replace_options(id)]*/;
+            break;
+        case 3:
+            // code
+            return_value = udf_separate_names(name);
+            break;
+        default:
+            // code
+            return_value = name+'-'+id;
+            break;
+    }
+    return return_value;
+};
 
+var udf_chart_get_sub_title = function (name,class_) {
+    // console.log(name, class_, id)
+    var return_value = '';
+    switch (+class_) {
+        case 0:
+            // code
+            return_value = udf_separate_names(name);
+            break;
+        case 1:
+            // code
+            return_value = document.getElementById('menu_sens_'+name).value;
+            break;
+        case 2:
+            // code
+            return_value =  word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+            break;
+        case 3:
+            // code
+            return_value = '전체';
+            break;
+        default:
+            // code
+            return_value = name;
+            break;
+    }
+    return return_value;
+};
 
 var udf_generate_chart_data = function(chart) {
     var res = chart.chart_res;
@@ -293,7 +362,7 @@ var udf_generate_chart_data = function(chart) {
     // console.log(selected_data_list);
     var data_root = {
         chart_id:chart.id
-        
+        ,chart_class:''
     }; // [smt] - emt - data (root)
     switch (get_check_data.sort[0].slice(19)) {
         case sort_list[0]: // whole_partition
@@ -319,14 +388,15 @@ var udf_generate_chart_data = function(chart) {
                     // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
-                        data_root.emt[whole_emt_id].smt[mt_name].id = mt_name;
-                        data_root.emt[whole_emt_id].smt[mt_name].data = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key = mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
                     }
                     if(res[i][data_name]!=null) {
-                        data_root.emt[whole_emt_id].smt[mt_name].data.push({Time:res[i].Time,Value:res[i][data_name]});
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
                     }
                 }
             }
+            data_root.chart_class='0';
             break;
         case sort_list[1]: // sensor_partition
             // data_root.emt = {
@@ -349,14 +419,15 @@ var udf_generate_chart_data = function(chart) {
                     // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
-                        data_root.emt[whole_emt_id].smt[mt_name].id = mt_name;
-                        data_root.emt[whole_emt_id].smt[mt_name].data = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
                     }
                     if(res[i][data_name]!=null) {
-                        data_root.emt[whole_emt_id].smt[mt_name].data.push({Time:res[i].Time,Value:res[i][data_name]});
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
                     }
                 }
             }
+            data_root.chart_class='1';
             break;
         case sort_list[2]: // data_partition
             // data_root.emt = {
@@ -379,14 +450,15 @@ var udf_generate_chart_data = function(chart) {
                     // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
-                        data_root.emt[whole_emt_id].smt[mt_name].id = mt_name;
-                        data_root.emt[whole_emt_id].smt[mt_name].data = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
                     }
                     if(res[i][data_name]!=null) {
-                        data_root.emt[whole_emt_id].smt[mt_name].data.push({Time:res[i].Time,Value:res[i][data_name]});
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
                     }
                 }
             }
+            data_root.chart_class='2';
             break;
         case sort_list[3]: // whole_merge
             // data_root.emt = {
@@ -407,14 +479,15 @@ var udf_generate_chart_data = function(chart) {
                     // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
-                        data_root.emt[whole_emt_id].smt[mt_name].id = mt_name;
-                        data_root.emt[whole_emt_id].smt[mt_name].data = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
                     }
                     if(res[i][data_name]!=null) {
-                        data_root.emt[whole_emt_id].smt[mt_name].data.push({Time:res[i].Time,Value:res[i][data_name]});
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
                     }
                 }
             }
+            data_root.chart_class='3';
             break;
         default:
             break;
@@ -605,12 +678,14 @@ var udf_get_selected_sensors = function (chart) {
 // sensors_ : ['sensornodeid', ...]
 
 var udf_get_selected_begin_date = function (chart) {
-    return word_symbol.double_quotes+chart.chart_material.menu_term[0].date+word_symbol.double_quotes;
+//    return word_symbol.double_quotes+chart.chart_material.menu_term[0].date+word_symbol.double_quotes;
+    return word_symbol.double_quotes+chart.chart_material.menu_term[0].date+'T'+menu_term_content_time_start.value+':00.000'+word_symbol.double_quotes;
 };
 // , begin_date_,end_date_:"2019-05-27"
 
 var udf_get_selected_end_date = function (chart) {
-    return word_symbol.double_quotes+chart.chart_material.menu_term[1].date+word_symbol.double_quotes;
+//    return word_symbol.double_quotes+chart.chart_material.menu_term[1].date+word_symbol.double_quotes;
+    return word_symbol.double_quotes+chart.chart_material.menu_term[1].date+'T'+menu_term_content_time_end.value+':00.000'+word_symbol.double_quotes;
 };
 
 var udf_charts_tab_attach = function (id,name) {
@@ -697,6 +772,7 @@ var udf_remove_element = function(element) {
 };
 
 var udf_i18n_menu_navigator_button_create_click = function() {
+    menu_button_shrink.click();
     udf_chart_add();
 };
 
@@ -708,14 +784,37 @@ var udf_chart_add = function() {
         return;
     }
     else {
-        return new ChartBase(menu_chart_name.value+word_symbol._+serve_count++);
+        
+        return new ChartBase(new Date().format('yyyy-MM-dd HH:mm:ss.ms'));
     }
 };
 
-var udf_alert = function(msg){
-    // alert(msg);
-    console.log(msg);
-}
+Date.prototype.format = function(f) {
+    if (!this.valueOf()) return " ";
+ 
+    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+    var d = this;
+     
+    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|ms|a\/p)/gi, function($1) {
+        switch ($1) {
+            case "yyyy": return d.getFullYear();
+            case "yy": return udf_zf((d.getFullYear() % 1000),2);
+            case "MM": return udf_zf((d.getMonth() + 1),2);
+            case "dd": return udf_zf(d.getDate(),2);
+            case "E": return weekName[d.getDay()];
+            case "HH": return udf_zf(d.getHours(),2);
+            case "hh": return udf_zf(((h = d.getHours() % 12) ? h : 12),2);
+            case "mm": return udf_zf(d.getMinutes(),2);
+            case "ss": return udf_zf(d.getSeconds(),2);
+            case "a/p": return d.getHours() < 12 ? "오전" : "오후";
+            case "ms" : return udf_zf(d.getMilliseconds(),3);
+            default: return $1;
+        }
+    });
+};
+var udf_string = function(String_,len){var s = '', i = 0; while (i++ < len) { s += String_; } return s;};
+var udf_szf = function(String_,len){return udf_string("0",len - String_.length) + String_;};
+var udf_zf = function(Number_,len){return udf_szf( Number_.toString(),len);};
 
 var udf_chart_is_unique = function (param_id) {
     return udf_duplication_check_id(param_id)==false;
@@ -816,9 +915,21 @@ var udf_init = function(res){
     udf_sort_list_release();
     udf_data_list_release();
     udf_words_apply_kr();
-    udf_init_date(0,0,-1);
+    // udf_init_date(0,0,-1);
+    menu_term_content_time_start.value="00:00"
+    menu_term_content_time_end.value="00:00"
     udf_init_select();
+    udf_init_last_date();
     udf_init_test();
+};
+
+var udf_init_last_date = function(res){
+    socket.emit('get_last_date');
+};
+
+var udf_set_last_date = function(res){
+    udf_init_date_search(res[0].time.slice(0,10));
+    // i18n_menu_term_content_label_preset_day.click();
 };
 
 var udf_init_select = function(res){
@@ -829,6 +940,11 @@ var udf_init_select = function(res){
 var udf_init_date = function(m,n,o){
     menu_term_content_date_end.value = udf_get_day(new Date);
     menu_term_content_date_start.value = udf_get_day(new Date,m,n,o);
+};
+
+var udf_init_date_search = function(date){
+    menu_term_content_date_end.value = udf_get_day(date,0,0,1);
+    menu_term_content_date_start.value = udf_get_day(date);
 };
 
 var udf_i18n_menu_term_content_label_preset_day_click = function () {

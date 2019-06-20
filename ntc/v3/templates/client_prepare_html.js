@@ -12,6 +12,8 @@ var preparedHTML = {
     ,chart_smt:'<div id="chart_smt_id_" class="chart chart_smt" >inner_html_</div>'
     ,charts_sort:'<label class="label wrap_checkbox" for="menu_sort_checkbox_id_"><div class="menu_content_column"><input name="menu_sort_radiobutton" id="menu_sort_checkbox_id_" type="radio" class="checkbox" checked></input><label class="label label_name" for="menu_sort_checkbox_id_" id="i18n_menu_sort_content_id_"></label></div></label>'
     ,charts_data:'<label class="label wrap_checkbox" for="menu_data_checkbox_id_"><div class="menu_content_column"><input id="menu_data_checkbox_id_" type="checkbox" class="checkbox"></input><label class="label label_name" for="menu_data_checkbox_id_" id="i18n_menu_data_content_id_"></label></div></label>'
+    ,chart_smt_title:'<label class="chart_smt_title">inner_html_</label>'
+    ,chart_emt_title:'<label class="chart_emt_title">inner_html_</label>'
 };
 /* global word_symbol */
 /* global menu_sens_content */
