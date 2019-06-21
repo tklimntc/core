@@ -7,11 +7,12 @@
 var word_kr = {
     "":""
     ,"lang":"kr"
+    ,"menu_button_shrink":"<< 창닫기"
     ,"i18n_language_global_korean":"한국어"
     ,"i18n_language_global_english":"English"
     ,"i18n_language_korean":"한국어"
     ,"i18n_language_english":"영어"
-    ,"i18n_nav_title_chart":"조회"
+    ,"i18n_nav_title_chart":"조회 >>"
     ,"i18n_nav_show_all":"모두 보기"
     ,"i18n_menu_navigator_button_create":"조회"
     ,"i18n_menu_navigator_button_modify":"수정"

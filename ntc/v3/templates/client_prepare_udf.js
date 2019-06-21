@@ -10,6 +10,9 @@
 
 var udf_alert = function(msg){
     // alert(msg);
+    if(msg=='duplicate chart'){
+        alert('조회조건이 중복되었습니다.');
+    }
     console.log(msg);
 }
 
@@ -35,7 +38,7 @@ var udf_init_test = function () {
     // menu_sort_checkbox_whole_merge.click()
     // udf_i18n_menu_navigator_button_create_click()
     // udf_i18n_nav_title_chart_click();
-    // udf_i18n_menu_navigator_button_create_click();
+    udf_i18n_menu_navigator_button_create_click();
 };
 
 var udf_ = function () {
@@ -109,9 +112,9 @@ var udf_chart_draw = function(element,data, chart_org,chart_class, chart){
         for (var i in data.smt){
             smt_list.push(i);
         }
-        var margin = {top: 0, right: 40, bottom: 30, left: 0},
-        		width = 960 - margin.left - margin.right,
-        		height = (500 - margin.top - margin.bottom)//emt_list.length;
+        var margin = {top: 0, right: 20, bottom: 10, left: 0},
+        		width = window.innerWidth - 120 - margin.left - margin.right,
+        		height = (window.innerHeight - 310 - margin.top - margin.bottom)//emt_list.length;
     
         // parse the date / time
         /*
@@ -581,8 +584,6 @@ var udf_generate_sql = function (chart) {
     return udf_generate_sql_other(chart);
 };
 
-udf_get_selected_limit
-
 var udf_generate_sql_other = function (chart) {
     /* global socket */
     var sql = preparedSQL.search_other.replace(
@@ -597,8 +598,8 @@ var udf_generate_sql_other = function (chart) {
     word_symbol.global_begin_date,udf_get_selected_begin_date(chart)).replace(
     word_symbol.global_end_date,udf_get_selected_end_date(chart))
     .replace(/val_/gi,'').replace(/val\(/gi,'(');
-    console.log(chart.chart_material.menu_valu[0].checked)
-    console.log(udf_get_date_format_other(chart))
+    // console.log(chart.chart_material.menu_valu[0].checked)
+    // console.log(udf_get_date_format_other(chart))
     // .replace(/\(Temperature/gi,'Temperature')
     // .replace(/\(Humidity/gi,'Humidity')
     // .replace(/\(Pressure/gi,'Pressure')

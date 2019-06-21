@@ -7,11 +7,12 @@
 var word_en = {
     "":""
     ,"lang":"kr"
+    ,"menu_button_shrink":"<< close"
     ,"i18n_language_global_korean":"한국어"
     ,"i18n_language_global_english":"English"
     ,"i18n_language_korean":"Korean"
     ,"i18n_language_english":"English"
-    ,"i18n_nav_title_chart":"search"
+    ,"i18n_nav_title_chart":"search >>"
     ,"i18n_nav_show_all":"show all"
     ,"i18n_menu_navigator_button_create":"search"
     ,"i18n_menu_navigator_button_modify":"modify"
