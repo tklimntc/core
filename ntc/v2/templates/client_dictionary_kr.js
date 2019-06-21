@@ -13,7 +13,7 @@ var word_kr = {
     ,"i18n_language_english":"영어"
     ,"i18n_nav_title_chart":"조회"
     ,"i18n_nav_show_all":"모두 보기"
-    ,"i18n_menu_navigator_button_create":"추가"
+    ,"i18n_menu_navigator_button_create":"조회"
     ,"i18n_menu_navigator_button_modify":"수정"
     ,"i18n_menu_term_title_term":"기간"
     ,"i18n_menu_term_content_label_begin_date":" 시작일자"

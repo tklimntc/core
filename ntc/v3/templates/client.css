@@ -44,7 +44,7 @@ article {
     left:80px;
     top:80px;
     height:650px;
-    width:955px;
+    width:980px;
     overflow:scroll;
     /*display: none;*/
 }
@@ -131,9 +131,9 @@ footer .logo {
     height:250px;
     overflow:scroll;
 }
-::-webkit-scrollbar {
-    /*display:none;*/
-}
+/*::-webkit-scrollbar {*/
+/*    display:none;*/
+/*}*/
 .menu_content_column {
     /*min-width: 100px;*/
     background: seashell;
@@ -167,7 +167,7 @@ footer .logo {
     
 }
 .displaynone {
-    display:none;
+    display:none !important;
 }
 #menu_navigator {
     display:flex;
@@ -199,7 +199,9 @@ label {
     font-size:12px;
 }
 #i18n_menu_navigator_button_create {
-    padding:5px;
+    width: 50px;
+    padding: 5px;
+    text-align: center;
 }
 #nav_charts_tab label {
     width:70px;
@@ -231,7 +233,7 @@ label {
 #menu_chart_name {
     float: right;
     position: absolute;
-    right: 35px;
+    right: 50px;
     width: 95px;
 }
 

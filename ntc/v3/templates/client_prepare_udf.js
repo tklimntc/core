@@ -81,7 +81,6 @@ var udf_show_only = function (id) {
 };
 
 var udf_chart_delete = function (chart){
-    // console.log(chart)
     try{
         chart.chart_tab.parentNode.removeChild(chart.chart_tab)
     }catch(e){}
@@ -91,17 +90,13 @@ var udf_chart_delete = function (chart){
     try{
         for(var i in charts){
             if(charts[i] == chart){
-                // console.log(chart)
                 charts.splice(i,1)
             }
         }
     }catch(e){}
 }
 
-    var countttt = 0;
-    var countt = 0;
-var udf_chart_draw = function(element,data, chart_org,chart_class){
-    // console.log(data)
+var udf_chart_draw = function(element,data, chart_org,chart_class, chart){
     /* global nv */
     try{
         /* global d3 */
@@ -117,7 +112,6 @@ var udf_chart_draw = function(element,data, chart_org,chart_class){
         var margin = {top: 0, right: 40, bottom: 30, left: 0},
         		width = 960 - margin.left - margin.right,
         		height = (500 - margin.top - margin.bottom)//emt_list.length;
-        // 		console.log(emt_list.length)
     
         // parse the date / time
         /*
@@ -144,8 +138,7 @@ var udf_chart_draw = function(element,data, chart_org,chart_class){
                 data.smt[i].values[j].x = parseTime.parse(sample_data_time)
                 data.smt[i].values[j].y = +data.smt[i].values[j].y
             }
-            console.log()
-            selected_Data.push({key:udf_chart_get_node_nick(data.smt[i].key,chart_class,data.id),values:data.smt[i].values});
+            selected_Data.push({key:udf_chart_get_node_nick(data.smt[i].key,chart_class,data.id, chart),values:data.smt[i].values});
         }
         nv.addGraph(function(){
             var chart = nv.models.lineWithFocusChart().width(width).height(height);
@@ -166,9 +159,6 @@ var udf_chart_draw = function(element,data, chart_org,chart_class){
                 .datum(selected_Data)
                 .transition().duration(500)
                 .call(chart);
-                
-                
-  
             nv.utils.windowResize(chart.update);
             return chart;
         });
@@ -188,12 +178,11 @@ var udf_chart_create = function (chart) {
     chart.smt = [];
     var countT = 0;
     for(var i in chart.chart_data.emt){
-        // console.log(i)
-        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class)));
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class, chart)));
         element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
         var sub_element = document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id);
         chart.smt.push(sub_element);
-        udf_chart_draw(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class);
+        udf_chart_draw(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class, chart);
     }
 };
 
@@ -211,8 +200,7 @@ var udf_chart_update = function (chart) {
     chart.smt = [];
     var countT = 0;
     for(var i in chart.chart_data.emt){
-        // console.log(i)
-        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class)));
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class, chart)));
         element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
         var sub_element = document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id);
         chart.smt.push(sub_element);
@@ -266,7 +254,7 @@ var udf_replace_options = function (id){
     return id.replace('avg_','평균_').replace('min_','최소_').replace('max_','최대_');
 }
 
-var udf_separate_names = function (name) {
+var udf_separate_names = function (name, insert_sentence) {
     var return_name = name.replace('_','-').split('-')
     var return_name_1 = ''
     var return_name_2 = ''
@@ -278,28 +266,67 @@ var udf_separate_names = function (name) {
             return_name_2+= return_name[i];
         }
     }
-    return document.getElementById('menu_sens_'+return_name_1).value+':'+word_current['i18n_menu_data_content_'+udf_replace_options(return_name_2)]
+    return document.getElementById('menu_sens_'+return_name_1).value+':'+insert_sentence+word_current['i18n_menu_data_content_'+udf_replace_options(return_name_2)]
 }
 
-var udf_chart_get_node_nick = function (name,class_,id) {
-    // console.log(name, class_, id)
+var udf_chart_get_node_nick = function (name,class_,id, chart) {
     var return_value = '';
+    // switch (+class_) {
+    //     case 0:
+    //         // code
+    //         return_value = udf_separate_names(name,'');
+    //         break;
+    //     case 1:
+    //         // code
+    //         return_value = word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+    //         break;
+    //     case 2:
+    //         // code
+    //         return_value = document.getElementById('menu_sens_'+name).value;
+    //         break;
+    //     case 3:
+    //         // code
+    //         return_value = udf_separate_names(name,'');
+    //         break;
+    //     default:
+    //         // code
+    //         return_value = name+'-'+id;
+    //         break;
+    // }
     switch (+class_) {
         case 0:
             // code
-            return_value = udf_separate_names(name);
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                 return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name));
+            }else{
+                return_value = udf_separate_names(name,'');
+            }
             break;
         case 1:
             // code
-            return_value = /*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+/*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name.replace('avg_','').replace('min_','').replace('max_',''))];
+            }else{
+                return_value = /*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+            }
             break;
         case 2:
             // code
-            return_value = document.getElementById('menu_sens_'+name).value/*+':'+word_current['i18n_menu_data_content_'+udf_replace_options(id)]*/;
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+ document.getElementById('menu_sens_'+name.replace('avg_','').replace('min_','').replace('max_','')).value
+            }else{
+                return_value = document.getElementById('menu_sens_'+name).value
+            }
             break;
         case 3:
             // code
-            return_value = udf_separate_names(name);
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name));
+                // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
+                console.log(udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)))
+            }else{
+                return_value = udf_separate_names(name,'');
+            }
             break;
         default:
             // code
@@ -309,21 +336,33 @@ var udf_chart_get_node_nick = function (name,class_,id) {
     return return_value;
 };
 
-var udf_chart_get_sub_title = function (name,class_) {
-    // console.log(name, class_, id)
+var udf_chart_get_sub_title = function (name,class_, chart) {
     var return_value = '';
     switch (+class_) {
         case 0:
             // code
-            return_value = udf_separate_names(name);
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name));
+                // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
+            }else{
+                return_value = udf_separate_names(name,'');
+            }
             break;
         case 1:
             // code
-            return_value = document.getElementById('menu_sens_'+name).value;
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+document.getElementById('menu_sens_'+name.replace('avg_','').replace('min_','').replace('max_','')).value;
+            }else{
+                return_value = document.getElementById('menu_sens_'+name).value;
+            }
             break;
         case 2:
             // code
-            return_value =  word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+            if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+/*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name.replace('avg_','').replace('min_','').replace('max_',''))];
+            }else{
+                return_value = /*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name)];
+            }
             break;
         case 3:
             // code
@@ -336,7 +375,12 @@ var udf_chart_get_sub_title = function (name,class_) {
     }
     return return_value;
 };
-
+var udf_replace_to_whole_words = function(name) {
+    if(name.search('avg_')!=-1)return'평균';
+    if(name.search('min_')!=-1)return'최소';
+    if(name.search('max_')!=-1)return'최대';
+    else return'';
+}
 var udf_generate_chart_data = function(chart) {
     var res = chart.chart_res;
     var sort_list = [
@@ -354,12 +398,10 @@ var udf_generate_chart_data = function(chart) {
         valu : udf_chart_get_checked_id(chart,'valu'),
     }
     chart.selection = get_check_data;
-    // console.log(get_check_data);
     var selected_data_list = [];
     for (var index_dd_list in get_check_data.data) {
         selected_data_list.push(get_check_data.valu[0].substr(19,4).replace('valu','')+get_check_data.data[index_dd_list].slice(19))
     }
-    // console.log(selected_data_list);
     var data_root = {
         chart_id:chart.id
         ,chart_class:''
@@ -373,7 +415,6 @@ var udf_generate_chart_data = function(chart) {
             // };
             // var whole_emt_id = '';
             data_root.emt = [];
-            // console.log(res)
             for (var i = 0 ; i < res.length ; i++){
                 for (var selected_data_list_index in selected_data_list) {
                     var data_name = selected_data_list[selected_data_list_index];
@@ -385,7 +426,6 @@ var udf_generate_chart_data = function(chart) {
                         data_root.emt[whole_emt_id].id=whole_emt_id;
                         data_root.emt[whole_emt_id].smt=[];
                     }
-                    // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
                         data_root.emt[whole_emt_id].smt[mt_name].key = mt_name;
@@ -404,7 +444,6 @@ var udf_generate_chart_data = function(chart) {
             //     smt:[]
             // };
             data_root.emt = [];
-            // console.log(res)
             for (var i = 0 ; i < res.length ; i++){
                 for (var selected_data_list_index in selected_data_list) {
                     var data_name = selected_data_list[selected_data_list_index];
@@ -416,7 +455,6 @@ var udf_generate_chart_data = function(chart) {
                         data_root.emt[whole_emt_id].id=whole_emt_id;
                         data_root.emt[whole_emt_id].smt=[];
                     }
-                    // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
                         data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
@@ -435,7 +473,6 @@ var udf_generate_chart_data = function(chart) {
             //     smt:[]
             // };
             data_root.emt = [];
-            // console.log(res)
             for (var i = 0 ; i < res.length ; i++){
                 for (var selected_data_list_index in selected_data_list) {
                     var data_name = selected_data_list[selected_data_list_index];
@@ -447,7 +484,6 @@ var udf_generate_chart_data = function(chart) {
                         data_root.emt[whole_emt_id].id=whole_emt_id;
                         data_root.emt[whole_emt_id].smt=[];
                     }
-                    // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
                         data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
@@ -470,13 +506,11 @@ var udf_generate_chart_data = function(chart) {
             data_root.emt[whole_emt_id] = [];
             data_root.emt[whole_emt_id].id=whole_emt_id;
             data_root.emt[whole_emt_id].smt=[];
-            // console.log(res)
             for (var i = 0 ; i < res.length ; i++){
                 for (var selected_data_list_index in selected_data_list) {
                     var data_name = selected_data_list[selected_data_list_index];
                     var node_name = res[i].id;
                     var mt_name = node_name +'_'+ data_name;
-                    // console.log(typeof(data_root.emt.smt[mt_name]));
                     if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
                         data_root.emt[whole_emt_id].smt[mt_name] = [];
                         data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
@@ -492,7 +526,6 @@ var udf_generate_chart_data = function(chart) {
         default:
             break;
     }
-    // console.log(data_root);
     return data_root;
 };
 
@@ -730,7 +763,6 @@ var udf_int_sum = function (int) {
 var udf_int_sum_ta = function (int) {
     var summary = '';
     var string = udf_itos(int);
-    // console.log(string)
     for (var i in string){
         summary += udf_itoa_ta(+string[i]);
     }
@@ -767,7 +799,6 @@ var udf_itos = function(i){
 };
 
 var udf_remove_element = function(element) {
-    // console.log(element);
     element.parentNode.removeChild(element);
 };
 
