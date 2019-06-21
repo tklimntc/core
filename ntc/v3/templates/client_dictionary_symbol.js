@@ -20,6 +20,7 @@ var word_symbol = {
     ,global_name            :/name_/gi
     ,global_inner_text      :/inner_text_/gi
     ,global_inner_html      :/inner_html_/gi
+    ,global_limit_count     :/limit_count_/gi
     ,beforeend              :'beforeend'
     ,cn_chart_smt           :'chart chart_smt'
     ,menu_                  :'menu_'

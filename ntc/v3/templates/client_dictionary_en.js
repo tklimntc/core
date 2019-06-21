@@ -43,12 +43,12 @@ var word_en = {
     ,"i18n_menu_data_content_Timestamp":"Timestamp"
     ,"i18n_menu_sort_title_sort":"sort"
 
-    ,"i18n_menu_sort_content_whole_partition":"전체 분리"
-    ,"i18n_menu_sort_content_sensor_partition":"센서기준 분리"
-    ,"i18n_menu_sort_content_data_partition":"데이터기준 분리"
-    ,"i18n_menu_sort_content_whole_merge":"전체 통합"
-    ,"i18n_menu_sort_content_sensor_merge":"센서기준 통합"
-    ,"i18n_menu_sort_content_data_merge":"데이터기준 통합"
+    ,"i18n_menu_sort_content_whole_partition":"Whole Partition"
+    ,"i18n_menu_sort_content_sensor_partition":"Sensor Partition"
+    ,"i18n_menu_sort_content_data_partition":"Data Partition"
+    ,"i18n_menu_sort_content_whole_merge":"Whole Merge"
+    ,"i18n_menu_sort_content_sensor_merge":"Sensor Merge"
+    ,"i18n_menu_sort_content_data_merge":"Data Merge"
 
     ,"i18n_menu_valu_title_value":"value"
     ,"i18n_menu_valu_content_value":"value"

@@ -11,10 +11,10 @@ none:'none'
 \ndata_\
 FROM(\
 \n SELECT JSON_EXTRACT(value,"$.SensorNodeId") AS id\
-\n ,time AS Time\
+\n ,date_format_ AS Time\
 \n data2_\
   FROM mobiusdb.sensdb\
-\n WHERE JSON_EXTRACT(value,"$.SensorNodeId") IN sensors_ AND begin_date_ <= time AND time <= end_date_ ORDER BY Time DESC LIMIT 99\
+\n WHERE JSON_EXTRACT(value,"$.SensorNodeId") IN sensors_ AND begin_date_ <= time AND time <= end_date_ ORDER BY Time DESC LIMIT limit_count_\
 \n) tab_a GROUP BY id, Time\
 '
 // select ID, Time, avg(Temperature) as AVT from (select JSON_EXTRACT(value,"$.SensorNodeId") as ID, DATE_FORMAT(time,'%Y-%m-%d') as Time, JSON_EXTRACT(value,"$.Temperature") as Temperature from mobiusdb.sensdb) tab_a group by Time;

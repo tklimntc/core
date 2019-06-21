@@ -35,7 +35,7 @@ var udf_init_test = function () {
     // menu_sort_checkbox_whole_merge.click()
     // udf_i18n_menu_navigator_button_create_click()
     // udf_i18n_nav_title_chart_click();
-    udf_i18n_menu_navigator_button_create_click();
+    // udf_i18n_menu_navigator_button_create_click();
 };
 
 var udf_ = function () {
@@ -560,17 +560,16 @@ var udf_check_value_order = function (chart) {
 };
 
 var udf_generate_sql = function (chart) {
-    /* global socket */
-    return preparedSQL.search.replace(
-    'values_',udf_get_selected_data(chart)).replace(
-    'sensors_',udf_get_selected_sensors(chart)).replace(
-    'begin_date_',udf_get_selected_begin_date(chart)).replace(
-    'end_date_',udf_get_selected_end_date(chart));
-    // if (chart.chart_material.menu_valu[0].checked==true){
-    // } else {
-    //     return udf_generate_sql_other;
-    // }
+    // /* global socket */
+    // return preparedSQL.search.replace(
+    // 'values_',udf_get_selected_data(chart)).replace(
+    // 'sensors_',udf_get_selected_sensors(chart)).replace(
+    // 'begin_date_',udf_get_selected_begin_date(chart)).replace(
+    // 'end_date_',udf_get_selected_end_date(chart));
+    return udf_generate_sql_other(chart);
 };
+
+udf_get_selected_limit
 
 var udf_generate_sql_other = function (chart) {
     /* global socket */
@@ -579,10 +578,66 @@ var udf_generate_sql_other = function (chart) {
     word_symbol.global_data2,udf_get_selected_data2_other(chart)).replace(
     word_symbol.global_values,udf_get_selected_valu_other(chart)).replace(
     word_symbol.global_sensors,udf_get_selected_sensors(chart)).replace(
-    word_symbol.global_date_format,udf_get_date_format_other(chart)).replace(
+    word_symbol.global_limit_count,udf_get_selected_limit(chart)).replace(
+    word_symbol.global_date_format,
+    chart.chart_material.menu_valu[0].checked?'time'
+    :'DATE_FORMAT(time,'+udf_get_date_format_other(chart)+')').replace(
     word_symbol.global_begin_date,udf_get_selected_begin_date(chart)).replace(
-    word_symbol.global_end_date,udf_get_selected_end_date(chart));
+    word_symbol.global_end_date,udf_get_selected_end_date(chart))
+    .replace(/val_/gi,'').replace(/val\(/gi,'(');
+    console.log(chart.chart_material.menu_valu[0].checked)
+    console.log(udf_get_date_format_other(chart))
+    // .replace(/\(Temperature/gi,'Temperature')
+    // .replace(/\(Humidity/gi,'Humidity')
+    // .replace(/\(Pressure/gi,'Pressure')
+    // .replace(/\(Ambient_light/gi,'Ambient_light')
+    // .replace(/\(AirQualityStatic/gi,'AirQualityStatic')
+    // .replace(/\(IAQaccuracyStatic/gi,'IAQaccuracyStatic')
+    // .replace(/\(Movement/gi,'Movement')
+    // .replace(/\(Hall/gi,'Hall')
+    // .replace(/\(\(/gi,'(')
+    // .replace(/\(Temperature\)/gi,       'JSON_EXTRACT(value,\'$.Temperature\')')
+    // .replace(/\(Humidity\)/gi,          'JSON_EXTRACT(value,\'$.Humidity\')')
+    // .replace(/\(Pressure\)/gi,          'JSON_EXTRACT(value,\'$.Pressure\')')
+    // .replace(/\(Ambient_light\)/gi,     'JSON_EXTRACT(value,\'$.Ambient_light\')')
+    // .replace(/\(AirQualityStatic\)/gi,  'JSON_EXTRACT(value,\'$.AirQualityStatic\')')
+    // .replace(/\(IAQaccuracyStatic\)/gi, 'JSON_EXTRACT(value,\'$.IAQaccuracyStatic\')')
+    // .replace(/\(Movement\)/gi,          'JSON_EXTRACT(value,\'$.Movement\')')
+    // .replace(/\(Hall\)/gi,              'JSON_EXTRACT(value,\'$.Hall\')')
+    ;
     return sql;
+    
+    
+    
+};
+
+var udf_get_selected_limit = function (chart) {
+    /* global sensors */
+    var selected_values = 200;
+    var n = 0;
+    for (var i in chart.chart_material.menu_valu){
+        var _data = chart.chart_material.menu_valu[i];
+        if (_data.checked){
+            var time_order = _data.id.slice(23)[0];
+            switch (time_order) {
+                case 'h': // *24
+                    selected_values *= 24;
+                    break;
+                case 'd': // 24
+                    selected_values *= 24*24;
+                    break;
+                case 'm': // 31
+                    selected_values *= 24*24*30;
+                    break;
+                case 'y': // 12
+                    selected_values *= 24*24*30*12;
+                    break;
+                default:
+                    selected_values *= 1;
+            }
+        }
+    }
+    return selected_values;
 };
 
 var udf_get_date_format_other = function (chart) {
@@ -595,19 +650,19 @@ var udf_get_date_format_other = function (chart) {
             var time_order = _data.id.slice(23)[0];
             switch (time_order) {
                 case 'h':
-                    return '"%Y-%m-%d %H"';
+                    selected_values = '"%Y-%m-%d %H"';
                     break;
                 case 'd':
-                    return '"%Y-%m-%d"';
+                    selected_values = '"%Y-%m-%d"';
                     break;
                 case 'm':
-                    return '"%Y-%m"';
+                    selected_values = '"%Y-%m"';
                     break;
                 case 'y':
-                    return '"%Y"';
+                    selected_values = '"%Y"';
                     break;
                 default:
-                    return '"%Y-%m-%d %H"';
+                    selected_values = '"%Y-%m-%d %T.%f"';
             }
         }
     }
