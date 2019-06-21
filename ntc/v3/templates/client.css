@@ -43,7 +43,7 @@ article {
     position:fixed;
     left:80px;
     top:80px;
-    height:650px;
+    height:625px;
     width:980px;
     overflow:scroll;
     /*display: none;*/
@@ -263,8 +263,8 @@ label {
 }
 
 .chart_smt{
-    height: 600px;
-    width:933px;
+    height: 465px;
+    width:935px;
 }
 
 .chart_emt_title {
@@ -272,6 +272,7 @@ label {
     font-size: xx-large;
     font-weight: bold;
     margin: 24px;
+    margin-bottom:12px;
 }
 
 .chart_smt_title {
@@ -279,4 +280,5 @@ label {
     font-size: x-large;
     font-weight: bold;
     margin-left: 24px;
+    margin-top: 44px;
 }

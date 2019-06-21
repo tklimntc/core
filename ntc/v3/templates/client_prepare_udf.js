@@ -165,6 +165,19 @@ var udf_chart_draw = function(element,data, chart_org,chart_class, chart){
     }catch(e){ console.log(e); chart_org.delete_chart(); }
 }
 
+var udf_generate_title_last_name = function (letter) {
+    return letter
+    .replace('value',':값')
+    .replace('avg_',':평균-')
+    .replace('min_',':최소-')
+    .replace('max_',':최대-')
+    .replace('hour','시간')
+    .replace('day','일간')
+    .replace('month','월간')
+    .replace('year','연간')
+    
+}
+
 var udf_chart_create = function (chart) {
     /* global chart_root */
     // 동일포맷 데이터 준비
@@ -172,7 +185,7 @@ var udf_chart_create = function (chart) {
     // 차트 최상위 엘리먼트 생성
     chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
     var element = document.getElementById('chart_emt_'+chart.id);
-    element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt_title.replace(word_symbol.global_inner_html,udf_get_class_name(chart.chart_data.chart_class)));
+    element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt_title.replace(word_symbol.global_inner_html,udf_get_class_name(chart.chart_data.chart_class)+udf_generate_title_last_name(chart.selection.valu[0].slice(19))));
     chart.generate_emt(element);
     // emt 갯수대로 차트 차상위 엘리먼트 생성
     chart.smt = [];
@@ -297,7 +310,7 @@ var udf_chart_get_node_nick = function (name,class_,id, chart) {
         case 0:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                 return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name));
+                 return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name));
             }else{
                 return_value = udf_separate_names(name,'');
             }
@@ -305,7 +318,7 @@ var udf_chart_get_node_nick = function (name,class_,id, chart) {
         case 1:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+/*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name.replace('avg_','').replace('min_','').replace('max_',''))];
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name)+/*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name.replace('avg_','').replace('min_','').replace('max_',''))];
             }else{
                 return_value = /*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name)];
             }
@@ -313,7 +326,7 @@ var udf_chart_get_node_nick = function (name,class_,id, chart) {
         case 2:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+ document.getElementById('menu_sens_'+name.replace('avg_','').replace('min_','').replace('max_','')).value
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name)+ document.getElementById('menu_sens_'+name.replace('avg_','').replace('min_','').replace('max_','')).value
             }else{
                 return_value = document.getElementById('menu_sens_'+name).value
             }
@@ -321,9 +334,9 @@ var udf_chart_get_node_nick = function (name,class_,id, chart) {
         case 3:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name));
-                // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
-                console.log(udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)))
+                return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name));
+                // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
+                console.log(udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name)))
             }else{
                 return_value = udf_separate_names(name,'');
             }
@@ -342,8 +355,8 @@ var udf_chart_get_sub_title = function (name,class_, chart) {
         case 0:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name));
-                // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
+                return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name));
+                // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
             }else{
                 return_value = udf_separate_names(name,'');
             }
@@ -351,7 +364,7 @@ var udf_chart_get_sub_title = function (name,class_, chart) {
         case 1:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+document.getElementById('menu_sens_'+name.replace('avg_','').replace('min_','').replace('max_','')).value;
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name)+document.getElementById('menu_sens_'+name.replace('avg_','').replace('min_','').replace('max_','')).value;
             }else{
                 return_value = document.getElementById('menu_sens_'+name).value;
             }
@@ -359,7 +372,7 @@ var udf_chart_get_sub_title = function (name,class_, chart) {
         case 2:
             // code
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
-                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+udf_replace_to_whole_words(name)+/*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name.replace('avg_','').replace('min_','').replace('max_',''))];
+                return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name)+/*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name.replace('avg_','').replace('min_','').replace('max_',''))];
             }else{
                 return_value = /*document.getElementById('menu_sens_'+id).value+':'+*/word_current['i18n_menu_data_content_'+udf_replace_options(name)];
             }
@@ -376,9 +389,9 @@ var udf_chart_get_sub_title = function (name,class_, chart) {
     return return_value;
 };
 var udf_replace_to_whole_words = function(name) {
-    if(name.search('avg_')!=-1)return'평균';
-    if(name.search('min_')!=-1)return'최소';
-    if(name.search('max_')!=-1)return'최대';
+    if(name.search('avg_')!=-1)return'평균 ';
+    if(name.search('min_')!=-1)return'최소 ';
+    if(name.search('max_')!=-1)return'최대 ';
     else return'';
 }
 var udf_generate_chart_data = function(chart) {
