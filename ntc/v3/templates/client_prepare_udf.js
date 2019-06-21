@@ -175,7 +175,6 @@ var udf_generate_title_last_name = function (letter) {
     .replace('day','일간')
     .replace('month','월간')
     .replace('year','연간')
-    
 }
 
 var udf_chart_create = function (chart) {

@@ -45,7 +45,7 @@ article {
     top:80px;
     height:625px;
     width:980px;
-    overflow:scroll;
+    overflow:auto;
     /*display: none;*/
 }
 footer {
@@ -129,7 +129,7 @@ footer .logo {
 }
 .menu_content {
     height:250px;
-    overflow:scroll;
+    overflow:auto;
 }
 /*::-webkit-scrollbar {*/
 /*    display:none;*/
@@ -256,7 +256,7 @@ label {
 }
 
 .chart_emt{
-    overflow:scroll;
+    overflow:auto;
     height: 600px;
     width:955px;
     top: 30px;
