@@ -28,11 +28,19 @@ module.exports=function(io, connection, sql){ io.on('connection', function(socke
     socket.on('req_search_data', function(msg){
         console.log(msg)
         connection.query(msg.sql, function (error, results, fields) { if (error) { console.log( error ) } else {
-            socket.emit('res_search_data', {id:msg.id,res:results});
+            console.log(results[0])
+            socket.emit('res_search_data', {id:msg.id,res:results,sql:msg.sql});
+        }});
+    });
+    socket.on('req_update_data', function(msg){
+        console.log(msg)
+        connection.query(msg.sql, function (error, results, fields) { if (error) { console.log( error ) } else {
+            console.log(results[0])
+            socket.emit('res_update_data', {id:msg.id,res:results,sql:msg.sql});
         }});
     });
     socket.on('get_last_date', function(msg){
-        connection.query(sql.get_last_date, function (error, results, fields) { if (error) { console.log( error ) } else {
+        connection.query(sql.get_time_top, function (error, results, fields) { if (error) { console.log( error ) } else {
             socket.emit('res_last_date', results);
         }});
     });

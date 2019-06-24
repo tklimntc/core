@@ -166,3 +166,24 @@ class ChartBase {
         // console.log(this.id)
     }
 }
+
+var worker;
+function udf_start_worker(){
+	if(typeof(Worker)!=="undefined"){
+		if(typeof(worker)=="undefined"){
+			worker = new Worker("client_prepare_worker.js");
+		}
+		worker.onmessage = function(event){
+			udf_check_realtime();
+		}
+	}
+}
+
+function udf_stop_worker(){
+	if(typeof(Worker)!=="undefined"){
+		if(typeof(worker)!=="undefined"){
+			worker.terminate();
+			worker = undefined;
+		}
+	}
+}

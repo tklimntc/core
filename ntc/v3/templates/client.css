@@ -222,16 +222,25 @@ label {
     text-align: center;
     border:1px solid gray;
 }
-#nav_charts_tab .label.display{
-    
+#nav_charts_tab .label:hover{
+    background:gray;
+}
+#nav_charts_tab .label:active{
+    background:#222 !important;
 }
 #nav_charts_tab .label{
+    display: block;
     overflow:hidden;
     width:74px;
     white-space:nowrap;
     padding: 3px;
-    border: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-bottom: 1px solid gray;
     text-align:center;
+}
+#i18n_nav_title_chart {
+    border-top: 1px solid gray;
 }
 #nav_charts_tab .chart_tab {
     text-align:left;
@@ -239,38 +248,13 @@ label {
     /*text-overflow:ellipsis;*/
     /*border-top: 1px;*/
 }
-#i18n_nav_title_chart:hover {
-    background:gray;
-}
-#i18n_nav_title_chart:active {
-    background:#222 !important;
-}
-#nav_charts_tab .chart_tab:active {
-    background:#222 !important;
-}
 #nav_charts_tab .chart_tab:hover {
     width:150px;
     height:26px;
     /*text-overflow:ellipsis;*/
     /*white-space:nowrap;*/
     overflow:visible;
-    background:gray;
     padding: 3px;
-}
-#i18n_nav_show_all:active{
-    background:#222 !important;
-}
-#i18n_nav_show_all:hover{
-    background:gray;
-}
-#i18n_nav_title_chart {
-    width:74px;
-    border: 1px solid gray;
-    text-overflow:ellipsis;
-    overflow:hidden;
-    white-space:nowrap;
-    padding: 3px;
-    text-align:center;
 }
 #menu_chart_name {
     float: right;

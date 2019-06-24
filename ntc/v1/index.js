@@ -294,6 +294,8 @@ function checkDB(){
 	socket.emit('data',AllFetchSQL);
 }
 socket.on('firstData', function(data){
+	console.log(data);
+	return;
 	/* global startWorker */
 	/* global dataInit */
 	dataInit();
@@ -304,6 +306,8 @@ socket.on('firstData', function(data){
 	// startWorker();
 });
 socket.on('data', function(data){
+	console.log(data);
+	return;
 	if(data.length){
 		Data.fetchedData = data;
 		releaseData();

@@ -26,7 +26,10 @@ var udf_init_test = function () {
     // menu_data_checkbox_Humidity.checked=true;
     // menu_sort_checkbox_data_partition.checked=true;
     // // menu_valu_checkbox_max_month.checked=true;
-    menu_term_content_date_start.value = '2018-01-01'
+    // menu_term_content_date_start.value = '2019-03-28'
+    // menu_term_content_date_end.value = '2019-03-28';
+    // menu_term_content_time_start.value = '10:21';
+    // menu_term_content_time_end.value = '10:22';
     menu_sens_checkbox_all.click()
     menu_data_checkbox_all.click()
     menu_sort_checkbox_data_partition.click()
@@ -44,6 +47,35 @@ var udf_init_test = function () {
 var udf_ = function () {
     
 };
+
+var udf_realtime_toggle = function (cbx) {
+    if(cbx.checked){
+        udf_start_worker();
+    } else {
+        udf_stop_worker();
+    }
+};
+
+var udf_check_realtime = function () {
+    if(charts[0].chart_res.length>1000){
+        document.location.reload();
+    }else{
+        udf_update_prepare();
+    }
+};
+
+var udf_update_prepare = function () {
+    for(var i in charts){
+        var current_chart = charts[i];
+        udf_update_emit(current_chart);
+    }
+}
+
+var udf_update_emit = function (chart) {
+    var sql = udf_generate_sql_real(chart)
+    socket.emit('req_update_data',{id:chart.id,sql:sql});
+};
+
 
 var udf_show_all = function (id) {
     var chartlist = chart_root.getElementsByClassName('chart_emt');
@@ -157,7 +189,75 @@ var udf_chart_draw = function(element,data, chart_org,chart_class, chart){
                 .tickFormat(d3.format(',.2f'));
             chart.y2Axis
                 .tickFormat(d3.format(',.2f'));
-            // console.log(selected_Data);
+            d3.select('#chart_smt_'+data.id+'_chart_emt_'+chart_org.id+' svg')
+                .datum(selected_Data)
+                .transition().duration(500)
+                .call(chart);
+            nv.utils.windowResize(chart.update);
+            return chart;
+        });
+    }catch(e){ console.log(e); chart_org.delete_chart(); }
+}
+
+
+var udf_chart_draw_update = function(element,data, chart_org,chart_class, chart){
+    /* global nv */
+    try{
+        /* global d3 */
+        // set the dimensions and margins of the graph
+        var emt_list = [];
+        for (var i in chart_org.chart_data.emt){
+            emt_list.push(i);
+        }
+        var smt_list = [];
+        for (var i in data.smt){
+            smt_list.push(i);
+        }
+        var margin = {top: 0, right: 20, bottom: 10, left: 0},
+        		width = window.innerWidth - 120 - margin.left - margin.right,
+        		height = (window.innerHeight - 310 - margin.top - margin.bottom)//emt_list.length;
+    
+        // parse the date / time
+        /*
+        chart_data . chart.id
+                   . emt . "name" . id
+                                  . smt . "name" . id
+                                                 . data [  ] . Time
+                                                             . Value
+        */
+        var time_parse_reserve = "%Y-%m-%d %H:%M:%S.%L"
+        var parseTime = {};
+        var sample_data_time = {};
+        var count_ = 0;
+        var selected_Data = [];
+        for (var i in data.smt){
+            if (data.smt[i].values.length==0){break;}
+            sample_data_time = data.smt[i].values[0].x.replace('T',' ').replace('Z','');
+            if(count_++ == 0){
+                parseTime = d3.time.format(time_parse_reserve.slice(0,(3*((sample_data_time.length-1)/3)-1)))
+                // parseTime = d3.timeParse(time_parse_reserve.slice(0,(3*((sample_data_time.replace('T',' ').replace('Z','').length-1)/3)-1)));
+            }
+            for (var j in data.smt[i].values){
+                sample_data_time = data.smt[i].values[j].x.replace('T',' ').replace('Z','');
+                data.smt[i].values[j].x = parseTime.parse(sample_data_time)
+                data.smt[i].values[j].y = +data.smt[i].values[j].y
+            }
+            selected_Data.push({key:udf_chart_get_node_nick(data.smt[i].key,chart_class,data.id, chart),values:data.smt[i].values});
+        }
+        nv.addGraph(function(){
+            var chart = nv.models.lineWithFocusChart().width(width).height(height);
+            chart.xAxis
+                .tickFormat(function(d) {
+                	return d3.time.format("[%H:%M]")(new Date(d));
+                });
+            chart.x2Axis
+                .tickFormat(function(d) {
+                    return d3.time.format("[%Y-%m-%d]")(new Date(d));
+                });
+            chart.yAxis
+                .tickFormat(d3.format(',.2f'));
+            chart.y2Axis
+                .tickFormat(d3.format(',.2f'));
             d3.select('#chart_smt_'+data.id+'_chart_emt_'+chart_org.id+' svg')
                 .datum(selected_Data)
                 .transition().duration(500)
@@ -191,7 +291,6 @@ var udf_chart_create = function (chart) {
     chart.generate_emt(element);
     // emt 갯수대로 차트 차상위 엘리먼트 생성
     chart.smt = [];
-    var countT = 0;
     for(var i in chart.chart_data.emt){
         element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class, chart)));
         element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
@@ -201,25 +300,28 @@ var udf_chart_create = function (chart) {
     }
 };
 
-var udf_chart_update = function (chart) {
-    // all create only when not exist
+var udf_chart_create_update = function (chart) {
     /* global chart_root */
     // 동일포맷 데이터 준비
-    chart.chart_data = udf_generate_chart_data(chart)
+    chart.chart_data = udf_generate_chart_data_update(chart)
     // 차트 최상위 엘리먼트 생성
-    chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
+    if (document.getElementById('chart_emt_'+chart.id)==null) {
+        chart_root.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt.replace(word_symbol.global_id,chart.id).replace(word_symbol.global_inner_html,word_symbol.empty_string));
+        var element = document.getElementById('chart_emt_'+chart.id);
+        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt_title.replace(word_symbol.global_inner_html,udf_get_class_name(chart.chart_data.chart_class)+udf_generate_title_last_name(chart.selection.valu[0].slice(19))));
+        chart.generate_emt(element);
+    }
     var element = document.getElementById('chart_emt_'+chart.id);
-    element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_emt_title.replace(word_symbol.global_inner_html,udf_get_class_name(chart.chart_data.chart_class)));
-    chart.generate_emt(element);
     // emt 갯수대로 차트 차상위 엘리먼트 생성
-    chart.smt = [];
-    var countT = 0;
+    chart.smt = chart.smt || [];
     for(var i in chart.chart_data.emt){
-        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class, chart)));
-        element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
-        var sub_element = document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id);
-        chart.smt.push(sub_element);
-        udf_chart_update(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class);
+        if (document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id)==null) {
+            element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt_title.replace(word_symbol.global_inner_html,udf_chart_get_sub_title(i,chart.chart_data.chart_class, chart)));
+            element.insertAdjacentHTML(word_symbol.beforeend, preparedHTML.chart_smt.replace(word_symbol.global_id,chart.chart_data.emt[i].id+'_chart_emt_'+chart.id).replace(word_symbol.global_inner_html,'<svg></svg>'));
+            var sub_element = document.getElementById('chart_smt_'+chart.chart_data.emt[i].id+'_chart_emt_'+chart.id);
+            chart.smt.push(sub_element);
+        }
+        udf_chart_draw_update(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class, chart);
     }
 };
 
@@ -286,28 +388,6 @@ var udf_separate_names = function (name, insert_sentence) {
 
 var udf_chart_get_node_nick = function (name,class_,id, chart) {
     var return_value = '';
-    // switch (+class_) {
-    //     case 0:
-    //         // code
-    //         return_value = udf_separate_names(name,'');
-    //         break;
-    //     case 1:
-    //         // code
-    //         return_value = word_current['i18n_menu_data_content_'+udf_replace_options(name)];
-    //         break;
-    //     case 2:
-    //         // code
-    //         return_value = document.getElementById('menu_sens_'+name).value;
-    //         break;
-    //     case 3:
-    //         // code
-    //         return_value = udf_separate_names(name,'');
-    //         break;
-    //     default:
-    //         // code
-    //         return_value = name+'-'+id;
-    //         break;
-    // }
     switch (+class_) {
         case 0:
             // code
@@ -338,7 +418,6 @@ var udf_chart_get_node_nick = function (name,class_,id, chart) {
             if(name.search('avg_')!=-1||name.search('min_')!=-1||name.search('max_')!=-1){
                 return_value = udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name));
                 // return_value = chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name) + udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''));
-                console.log(udf_separate_names(name.replace('avg_','').replace('min_','').replace('max_',''),chart.selection.valu[0].slice(22).replace('_hour','시간').replace('_day','일간').replace('_month','월간').replace('_year','연간')+'별 '+udf_replace_to_whole_words(name)))
             }else{
                 return_value = udf_separate_names(name,'');
             }
@@ -396,6 +475,156 @@ var udf_replace_to_whole_words = function(name) {
     if(name.search('max_')!=-1)return'최대 ';
     else return'';
 }
+
+var udf_generate_chart_data_update = function(chart) {
+    var res = chart.chart_res;
+    var sort_list = [
+          'whole_partition'
+        ,'sensor_partition'
+        ,  'data_partition'
+        , 'whole_merge'
+    ];
+
+    var get_check_data = {
+        char : udf_chart_get_checked_id(chart,'char'),
+        data : udf_chart_get_checked_id(chart,'data'),
+        sens : udf_chart_get_checked_id(chart,'sens'),
+        sort : udf_chart_get_checked_id(chart,'sort'),
+        valu : udf_chart_get_checked_id(chart,'valu'),
+    }
+    chart.selection = get_check_data;
+    var selected_data_list = [];
+    for (var index_dd_list in get_check_data.data) {
+        selected_data_list.push(get_check_data.valu[0].substr(19,4).replace('valu','')+get_check_data.data[index_dd_list].slice(19))
+    }
+    var data_root = {
+        chart_id:chart.id
+        ,chart_class:''
+    }; // [smt] - emt - data (root)
+    chart.data_root = data_root;
+    switch (get_check_data.sort[0].slice(19)) {
+        case sort_list[0]: // whole_partition
+            // preset for whole partition ( smt 1, emt n )
+            // data_root.emt = {
+            //     id:"whole",
+            //     smt:[]
+            // };
+            // var whole_emt_id = '';
+            data_root.emt = [];
+            for (var i = 0 ; i < res.length ; i++){
+                for (var selected_data_list_index in selected_data_list) {
+                    var data_name = selected_data_list[selected_data_list_index];
+                    var node_name = res[i].id;
+                    var mt_name = node_name +'_'+ data_name;
+                    var whole_emt_id = mt_name;
+                    if(typeof(data_root.emt[whole_emt_id])=='undefined'){
+                        data_root.emt[whole_emt_id] = [];
+                        data_root.emt[whole_emt_id].id=whole_emt_id;
+                        data_root.emt[whole_emt_id].smt=[];
+                    }
+                    if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
+                        data_root.emt[whole_emt_id].smt[mt_name] = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key = mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
+                    }
+                    if(res[i][data_name]!=null) {
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
+                    }
+                }
+            }
+            data_root.chart_class='0';
+            break;
+        case sort_list[1]: // sensor_partition
+            // data_root.emt = {
+            //     id:"whole",
+            //     smt:[]
+            // };
+            data_root.emt = [];
+            for (var i = 0 ; i < res.length ; i++){
+                for (var selected_data_list_index in selected_data_list) {
+                    var data_name = selected_data_list[selected_data_list_index];
+                    var node_name = res[i].id;
+                    var mt_name = data_name //+'_'+ node_name;
+                    var whole_emt_id = node_name;
+                    if(typeof(data_root.emt[whole_emt_id])=='undefined'){
+                        data_root.emt[whole_emt_id] = [];
+                        data_root.emt[whole_emt_id].id=whole_emt_id;
+                        data_root.emt[whole_emt_id].smt=[];
+                    }
+                    if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
+                        data_root.emt[whole_emt_id].smt[mt_name] = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
+                    }
+                    if(res[i][data_name]!=null) {
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
+                    }
+                }
+            }
+            data_root.chart_class='1';
+            break;
+        case sort_list[2]: // data_partition
+            // data_root.emt = {
+            //     id:"whole",
+            //     smt:[]
+            // };
+            data_root.emt = [];
+            for (var i = 0 ; i < res.length ; i++){
+                for (var selected_data_list_index in selected_data_list) {
+                    var data_name = selected_data_list[selected_data_list_index];
+                    var node_name = res[i].id;
+                    var mt_name = node_name //+'_'+ data_name;
+                    var whole_emt_id = data_name;
+                    if(typeof(data_root.emt[whole_emt_id])=='undefined'){
+                        data_root.emt[whole_emt_id] = [];
+                        data_root.emt[whole_emt_id].id=whole_emt_id;
+                        data_root.emt[whole_emt_id].smt=[];
+                    }
+                    if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
+                        data_root.emt[whole_emt_id].smt[mt_name] = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
+                    }
+                    if(res[i][data_name]!=null) {
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
+                    }
+                }
+            }
+            data_root.chart_class='2';
+            break;
+        case sort_list[3]: // whole_merge
+            // data_root.emt = {
+            //     id:"whole",
+            //     smt:{}
+            // };
+            var whole_emt_id = 'whole';
+            data_root.emt = [];
+            data_root.emt[whole_emt_id] = [];
+            data_root.emt[whole_emt_id].id=whole_emt_id;
+            data_root.emt[whole_emt_id].smt=[];
+            for (var i = 0 ; i < res.length ; i++){
+                for (var selected_data_list_index in selected_data_list) {
+                    var data_name = selected_data_list[selected_data_list_index];
+                    var node_name = res[i].id;
+                    var mt_name = node_name +'_'+ data_name;
+                    if(typeof(data_root.emt[whole_emt_id].smt[mt_name])=='undefined'){
+                        data_root.emt[whole_emt_id].smt[mt_name] = [];
+                        data_root.emt[whole_emt_id].smt[mt_name].key =  mt_name;
+                        data_root.emt[whole_emt_id].smt[mt_name].values = [];
+                    }
+                    if(res[i][data_name]!=null) {
+                        data_root.emt[whole_emt_id].smt[mt_name].values.push({x:res[i].Time,y:res[i][data_name]});
+                    }
+                }
+            }
+            data_root.chart_class='3';
+            break;
+        default:
+            break;
+    }
+    return data_root;
+};
+
 var udf_generate_chart_data = function(chart) {
     var res = chart.chart_res;
     var sort_list = [
@@ -421,6 +650,7 @@ var udf_generate_chart_data = function(chart) {
         chart_id:chart.id
         ,chart_class:''
     }; // [smt] - emt - data (root)
+    chart.data_root = data_root;
     switch (get_check_data.sort[0].slice(19)) {
         case sort_list[0]: // whole_partition
             // preset for whole partition ( smt 1, emt n )
@@ -546,11 +776,55 @@ var udf_generate_chart_data = function(chart) {
 
 var udf_res_search_data = function (res) {
     if(res.res.length>0){
+        for(var i in res.res){
+            res.res[i].Time=res.res[i].Time.slice(0,8)+
+            (parseInt(res.res[i].Time.slice(8,13).split('T')[0])+
+            parseInt((+res.res[i].Time.slice(8,13).split('T')[1]+9)/24))+
+            'T'+(+res.res[i].Time.slice(8,13).split('T')[1]+9)%24+res.res[i].Time.slice(13,24)
+        }
         return udf_chart_response_attach(res)
     }
     else{
         udf_alert('no result')
         udf_find_chart(res.id).delete_chart()
+    }
+};
+
+var udf_res_update_data = function (res) {
+    if(res.res.length>0){
+        for(var i in res.res){
+            res.res[i].Time=res.res[i].Time.slice(0,8)+
+            (parseInt(res.res[i].Time.slice(8,13).split('T')[0])+
+            parseInt((+res.res[i].Time.slice(8,13).split('T')[1]+9)/24))+
+            'T'+(+res.res[i].Time.slice(8,13).split('T')[1]+9)%24+res.res[i].Time.slice(13,24)
+        }
+        return udf_chart_response_update(res)
+    }
+    else{
+        // udf_alert('no result')
+    }
+};
+
+var udf_chart_response_update = function (res) {
+    var chart = udf_find_chart(res.id);
+    if (typeof(chart) != word_symbol.undefined) {
+        var temp_res = []
+        for(var i = res.res.length-1;i>0;i--){
+            temp_res.push(res.res[i])
+        }
+        for(var i = 0;i<chart.chart_res.length;i++){
+            temp_res.push(chart.chart_res[i])
+        }
+        chart.chart_res=temp_res
+        
+        // for (var i= res.res.length-1; i>-1;i--){
+        //     chart.chart_res.push(res.res[i])
+        // }
+        // for (var i = 0;i<chart.chart_res.length;i++){
+        //     res.res.push(chart.chart_res[i])
+        // }
+        // chart.chart_res=res.res
+        udf_chart_create_update(chart);
     }
 };
 
@@ -575,12 +849,6 @@ var udf_check_value_order = function (chart) {
 };
 
 var udf_generate_sql = function (chart) {
-    // /* global socket */
-    // return preparedSQL.search.replace(
-    // 'values_',udf_get_selected_data(chart)).replace(
-    // 'sensors_',udf_get_selected_sensors(chart)).replace(
-    // 'begin_date_',udf_get_selected_begin_date(chart)).replace(
-    // 'end_date_',udf_get_selected_end_date(chart));
     return udf_generate_sql_other(chart);
 };
 
@@ -598,30 +866,26 @@ var udf_generate_sql_other = function (chart) {
     word_symbol.global_begin_date,udf_get_selected_begin_date(chart)).replace(
     word_symbol.global_end_date,udf_get_selected_end_date(chart))
     .replace(/val_/gi,'').replace(/val\(/gi,'(');
-    // console.log(chart.chart_material.menu_valu[0].checked)
-    // console.log(udf_get_date_format_other(chart))
-    // .replace(/\(Temperature/gi,'Temperature')
-    // .replace(/\(Humidity/gi,'Humidity')
-    // .replace(/\(Pressure/gi,'Pressure')
-    // .replace(/\(Ambient_light/gi,'Ambient_light')
-    // .replace(/\(AirQualityStatic/gi,'AirQualityStatic')
-    // .replace(/\(IAQaccuracyStatic/gi,'IAQaccuracyStatic')
-    // .replace(/\(Movement/gi,'Movement')
-    // .replace(/\(Hall/gi,'Hall')
-    // .replace(/\(\(/gi,'(')
-    // .replace(/\(Temperature\)/gi,       'JSON_EXTRACT(value,\'$.Temperature\')')
-    // .replace(/\(Humidity\)/gi,          'JSON_EXTRACT(value,\'$.Humidity\')')
-    // .replace(/\(Pressure\)/gi,          'JSON_EXTRACT(value,\'$.Pressure\')')
-    // .replace(/\(Ambient_light\)/gi,     'JSON_EXTRACT(value,\'$.Ambient_light\')')
-    // .replace(/\(AirQualityStatic\)/gi,  'JSON_EXTRACT(value,\'$.AirQualityStatic\')')
-    // .replace(/\(IAQaccuracyStatic\)/gi, 'JSON_EXTRACT(value,\'$.IAQaccuracyStatic\')')
-    // .replace(/\(Movement\)/gi,          'JSON_EXTRACT(value,\'$.Movement\')')
-    // .replace(/\(Hall\)/gi,              'JSON_EXTRACT(value,\'$.Hall\')')
     ;
     return sql;
-    
-    
-    
+};
+
+var udf_generate_sql_real = function (chart) {
+    /* global socket */
+    var sql = preparedSQL.search_real.replace(
+    word_symbol.global_data,udf_get_selected_data_other(chart)).replace(
+    word_symbol.global_data2,udf_get_selected_data2_other(chart)).replace(
+    word_symbol.global_values,udf_get_selected_valu_other(chart)).replace(
+    word_symbol.global_sensors,udf_get_selected_sensors(chart)).replace(
+    word_symbol.global_limit_count,udf_get_selected_limit(chart)).replace(
+    word_symbol.global_date_format,
+    chart.chart_material.menu_valu[0].checked?'time'
+    :'DATE_FORMAT(time,'+udf_get_date_format_other(chart)+')').replace(
+    word_symbol.global_begin_date,"\""+chart.chart_res[0].Time.replace('Z','')+"\"").replace( // 
+    word_symbol.global_end_date,'')
+    .replace(/val_/gi,'').replace(/val\(/gi,'(');
+    ;
+    return sql;
 };
 
 var udf_get_selected_limit = function (chart) {
@@ -647,10 +911,24 @@ var udf_get_selected_limit = function (chart) {
                     break;
                 default:
                     selected_values *= 1;
+                    break;
             }
+            // switch (time_order) {
+            //     case 'y': // 12
+            //         selected_values *= 12;
+            //     case 'm': // 31
+            //         selected_values *= 30;
+            //     case 'd': // 24
+            //         selected_values *= 24;
+            //     case 'h': // *24
+            //         selected_values *= 24;
+            //     default:
+            //         selected_values *= 1;
+            //         break;
+            // }
         }
     }
-    return selected_values;
+    return 200;//selected_values;
 };
 
 var udf_get_date_format_other = function (chart) {
@@ -1027,7 +1305,7 @@ var udf_init_last_date = function(res){
 };
 
 var udf_set_last_date = function(res){
-    udf_init_date_search(res[0].time.slice(0,10));
+    udf_init_date_search(res);
     // i18n_menu_term_content_label_preset_day.click();
 };
 
@@ -1040,10 +1318,16 @@ var udf_init_date = function(m,n,o){
     menu_term_content_date_end.value = udf_get_day(new Date);
     menu_term_content_date_start.value = udf_get_day(new Date,m,n,o);
 };
-
 var udf_init_date_search = function(date){
-    menu_term_content_date_end.value = udf_get_day(date,0,0,1);
-    menu_term_content_date_start.value = udf_get_day(date);
+    console.log(date);
+    var mnt = date[0].mnt.replace('Z','').split('T');
+    var mxt = date[0].mxt.replace('Z','').split('T');
+    menu_term_content_date_start.value = mnt[0]
+    menu_term_content_time_start.value = mnt[1].slice(0,5)
+
+    menu_term_content_date_end.value = mxt[0]
+    menu_term_content_time_end.value = mxt[1].slice(0,5)
+
 };
 
 var udf_i18n_menu_term_content_label_preset_day_click = function () {

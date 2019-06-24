@@ -5,6 +5,6 @@
 */
 function fetchData() {
     postMessage("");
-    setTimeout("fetchData()", 1234);
+    setTimeout("fetchData()", 4321);
 }
 fetchData();

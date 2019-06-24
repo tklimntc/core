@@ -25,8 +25,15 @@ client html file
             </div>
         </header>
         <nav>
-            <label class="label display" id="i18n_nav_title_chart"></label>
             <div id="nav_charts_tab" class="chart_tab">
+                <label class="label" id="i18n_nav_title_chart"></label>
+                <label id="nav_realtime_toggle_wrapper" class="label" for="nav_checkbox_realtime_toggle" >
+                    <div id="nav_realtime_toggle_div" class="">
+                        <input id="nav_checkbox_realtime_toggle" type="checkbox" class="checkbox" onchange='udf_realtime_toggle(this)'></input>
+                        <label class="" id="i18n_nav_realtime_toggle_label" for="nav_checkbox_realtime_toggle"></label>
+                    </div>
+                </label>
+                
                 <label id="i18n_nav_show_all" class="label" onclick="udf_show_all()"></label>
             </div>
         </nav>

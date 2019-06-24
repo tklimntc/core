@@ -234,6 +234,7 @@ function drawChart(){
 			}
     	}
     }
+    console.log(tempData)
 	nv.addGraph(function() {
 	  var chart = nv.models.lineWithFocusChart();
 	  chart.xAxis
@@ -437,6 +438,8 @@ function checkDB(){
 	socket.emit('data',AllFetchSQL);
 }
 socket.on('firstData', function(data){
+	console.log(data);
+	// return;
 	/* global startWorker */
 	/* global dataInit */
 	dataInit();

@@ -14,6 +14,8 @@ var word_en = {
     ,"i18n_language_english":"English"
     ,"i18n_nav_title_chart":"search >>"
     ,"i18n_nav_show_all":"show all"
+    ,"i18n_nav_realtime_toggle_label":"realtime"
+    
     ,"i18n_menu_navigator_button_create":"search"
     ,"i18n_menu_navigator_button_modify":"modify"
     ,"i18n_menu_term_title_term":"term"
