@@ -36,7 +36,9 @@ module.exports=function(io, connection, sql){ io.on('connection', function(socke
         console.log(msg)
         connection.query(msg.sql, function (error, results, fields) { if (error) { console.log( error ) } else {
             console.log(results[0])
-            socket.emit('res_update_data', {id:msg.id,res:results,sql:msg.sql});
+            if(results.length>0){
+                socket.emit('res_update_data', {id:msg.id,res:results,sql:msg.sql});
+            }
         }});
     });
     socket.on('get_last_date', function(msg){

@@ -7,6 +7,7 @@
 /* global d3 */
 /* global socket */
 // udf_words_apply_en();
+
 socket.emit('req_node_list','');
 
 
