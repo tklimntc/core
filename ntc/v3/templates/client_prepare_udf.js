@@ -94,6 +94,13 @@ var udf_update_emit = function (chart) {
 };
 
 
+var udf_delete_all = function () {
+    for(var i in charts){
+        charts[i].delete_chart();
+    }
+};
+
+
 var udf_show_all = function (id) {
     var chartlist = chart_root.getElementsByClassName('chart_emt');
     var count = 0;
@@ -144,6 +151,10 @@ var udf_chart_delete = function (chart){
             if(charts[i] == chart){
                 charts.splice(i,1);
             }
+        }
+        var tooltip = document.getElementsByClassName('nvtooltip')        
+        for(var i in tooltip){
+            tooltip[0].parentElement.removeChild(tooltip[0])
         }
     }catch(e){}
 };
