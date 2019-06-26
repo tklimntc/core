@@ -43,6 +43,7 @@ var udf_chart_refresh = function () {
     for(var i in charts){
         udf_chart_create_update(charts[i]);
     }
+    udf_remove_tooltip_all()
 };
 
 var udf_res_change_node_name = function (res) {
@@ -82,7 +83,9 @@ var udf_check_realtime = function () {
 var udf_update_prepare = function () {
     for(var i in charts){
         var current_chart = charts[i];
-        udf_update_emit(current_chart);
+        if(typeof(charts[i].chart_emt)!='undefined' && charts[i].chart_emt.style.display!="none"){
+            udf_update_emit(current_chart);
+        }
     }
 };
 
@@ -95,9 +98,12 @@ var udf_update_emit = function (chart) {
 
 
 var udf_delete_all = function () {
-    for(var i in charts){
-        charts[i].delete_chart();
+    for(var a in [1,2,3]){
+        for(var i in charts){
+            charts[i].delete_chart();
+        }
     }
+    udf_remove_tooltip_all()
 };
 
 
@@ -152,12 +158,20 @@ var udf_chart_delete = function (chart){
                 charts.splice(i,1);
             }
         }
-        var tooltip = document.getElementsByClassName('nvtooltip')        
-        for(var i in tooltip){
-            tooltip[0].parentElement.removeChild(tooltip[0])
-        }
+        udf_remove_tooltip_all()
     }catch(e){}
 };
+
+var udf_remove_tooltip_all = function (){
+    try{
+        var tooltip = document.getElementsByClassName('nvtooltip')
+        for(var a in [1,2,3]){
+            for(var i in tooltip){
+                tooltip[i].parentElement.removeChild(tooltip[i])
+            }
+        }
+    }catch(e){}
+}
 
 var udf_chart_draw = function(element,data, chart_org,chart_class, chart){
     /* global nv */
@@ -304,6 +318,7 @@ var udf_chart_create = function (chart) {
         chart.smt.push(sub_element);
         udf_chart_draw(sub_element, chart.chart_data.emt[i], chart, chart.chart_data.chart_class, chart);
     }
+    chart.chart_tab.click();
 };
 
 var udf_chart_create_update = function (chart) {
