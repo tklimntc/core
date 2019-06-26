@@ -15,6 +15,7 @@ var word_kr = {
     ,"i18n_nav_title_chart":"조회 >>"
     ,"i18n_nav_show_all":"모두 보기"
     ,"i18n_nav_delete_all":"전체 삭제"
+    ,"i18n_nav_legend":"범례"
     ,"i18n_nav_realtime_toggle_label":"실시간"
     
     ,"i18n_menu_navigator_button_create":"조회"
@@ -53,6 +54,8 @@ var word_kr = {
     ,"i18n_menu_sort_content_whole_merge":"전체 통합"
     ,"i18n_menu_sort_content_sensor_merge":"센서기준 통합"
     ,"i18n_menu_sort_content_data_merge":"데이터기준 통합"
+    
+    ,"i18n_search_bar":"탐색 바"
     
     ,"i18n_menu_valu_title_value":"값"
     ,"i18n_menu_valu_content_value":"값"

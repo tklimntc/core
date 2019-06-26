@@ -15,6 +15,7 @@ var word_en = {
     ,"i18n_nav_title_chart":"search >>"
     ,"i18n_nav_show_all":"show all"
     ,"i18n_nav_delete_all":"delete all"
+    ,"i18n_nav_legend":"legend"
     ,"i18n_nav_realtime_toggle_label":"realtime"
     
     ,"i18n_menu_navigator_button_create":"search"
@@ -53,6 +54,8 @@ var word_en = {
     ,"i18n_menu_sort_content_whole_merge":"Whole Merge"
     ,"i18n_menu_sort_content_sensor_merge":"Sensor Merge"
     ,"i18n_menu_sort_content_data_merge":"Data Merge"
+    
+    ,"i18n_search_bar":"search bar"
 
     ,"i18n_menu_valu_title_value":"value"
     ,"i18n_menu_valu_content_value":"value"

@@ -22,7 +22,7 @@ nav {
     position: fixed;
     left: 0;
     top: 80px;
-    height: 100%;
+    height: calc(100% - 160px);
     width: 84px;
     padding: 5px;
     z-index:2;
@@ -328,4 +328,34 @@ g .nv-focus, g .nv-focusWrap .nvd3-svg{
 }
 .menu_title:active{
     background:goldenrod !important;
+}
+.label_search_bar{
+    position: relative;
+    bottom: 65px;
+    left: 25px;
+}
+#i18n_nav_legend{
+    display: inline-block;
+    position: absolute;
+    bottom: 5px;
+    border-top: 1px solid gray;
+}
+#menu_legend{
+    position: fixed;
+    left: 84px;
+    bottom: 80px;
+    z-index: 10000;
+    margin: 5px;
+    width: calc(100% - 93px);
+    background: white;
+    border:1px solid gray;
+}
+#dataDescription{
+    width:100%;
+    background: #fafbfc;
+    color: #000000;
+}
+#dataDescription p{
+    width:300px;
+    display: inline;
 }

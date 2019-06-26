@@ -1370,6 +1370,10 @@ var udf_chart_add_click = function(){
     udf_menu_wrapper_open();
 };
 
+var i18n_nav_legend_click = function(){
+    udf_nav_legend_toggle();
+};
+
 var udf_i18n_nav_title_chart_click = function(){
     udf_menu_wrapper_toggle();
 };
@@ -1386,6 +1390,11 @@ var udf_menu_wrapper_open = function(){
 var udf_menu_wrapper_close = function(){
     /* global menu_wrapper */
     udf_display_none(menu_wrapper);
+};
+
+var udf_nav_legend_toggle = function(){
+    /* global menu_legend */
+    udf_display_toggle(menu_legend);
 };
 
 var udf_menu_wrapper_toggle = function(){
