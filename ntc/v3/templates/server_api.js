@@ -12,9 +12,9 @@ module.exports=function(io, connection, sql){ io.on('connection', function(socke
     socket.on('reconnect', function(){
         socket.emit('reconnect');
     });
-    socket.on('test', function(msg){    // for debugging, will be deleted.
-        socket.emit('test',eval(msg));  // for debugging, will be deleted.
-    });                                 // for debugging, will be deleted.
+    // socket.on('test', function(msg){    // for debugging, will be deleted.
+    //     socket.emit('test',eval(msg));  // for debugging, will be deleted.
+    // });                                 // for debugging, will be deleted.
     socket.on('req', function(msg){
         connection.query(msg, function (error, results, fields) { if (error) { console.log( error ) } else {
             socket.emit('res', results);
