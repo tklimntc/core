@@ -25,6 +25,7 @@
 /* global udf_i18n_menu_term_content_label_preset_week_click */
 /* global udf_i18n_menu_term_content_label_preset_month_click */
 /* global udf_i18n_menu_term_content_label_preset_year_click */
+/* global udf_chart_refresh */
 i18n_language_global_korean.addEventListener('click',udF_i18n_language_global_korean_click);
 i18n_language_global_english.addEventListener('click',udf_i18n_language_global_english_click);
 i18n_menu_navigator_button_create.addEventListener('click',udf_i18n_menu_navigator_button_create_click);
@@ -36,3 +37,4 @@ i18n_menu_term_content_label_preset_day.addEventListener('click',udf_i18n_menu_t
 i18n_menu_term_content_label_preset_week.addEventListener('click',udf_i18n_menu_term_content_label_preset_week_click);
 i18n_menu_term_content_label_preset_month.addEventListener('click',udf_i18n_menu_term_content_label_preset_month_click);
 i18n_menu_term_content_label_preset_year.addEventListener('click',udf_i18n_menu_term_content_label_preset_year_click);
+window.onresize = function(event) { udf_chart_refresh(); };

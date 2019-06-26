@@ -39,13 +39,17 @@ var udf_ = function () {
     
 };
 
+var udf_chart_refresh = function () {
+    for(var i in charts){
+        udf_chart_create_update(charts[i]);
+    }
+};
+
 var udf_res_change_node_name = function (res) {
     var node = document.getElementById('menu_sens_'+res.serial);
     if(node!=null){
         node.value = res.name;
-        for(var i in charts){
-            udf_chart_create_update(charts[i]);
-        }
+        udf_chart_refresh();
     }
 };
 
@@ -259,7 +263,7 @@ var udf_chart_draw_update = function(element,data, chart_org,chart_class, chart)
             nv.utils.windowResize(chart.update);
             return chart;
         });
-    }catch(e){ console.log(e); chart_org.delete_chart(); }
+    }catch(e){ console.log(e); }
 };
 
 var udf_generate_title_last_name = function (letter) {
