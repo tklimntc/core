@@ -994,7 +994,7 @@ var udf_get_date_format_other = function (chart) {
 
 var udf_get_selected_valu_other = function (chart) {
     /* global sensors */
-    var selected_values = ''//'JSON_EXTRACT(value,"$.SensorNodeId") as "id", JSON_EXTRACT(value,"$.Timestamp") as "uxtime", ';
+    var selected_values = '';//'JSON_EXTRACT(value,"$.SensorNodeId") as "id", JSON_EXTRACT(value,"$.Timestamp") as "uxtime", ';
     for (var i in chart.chart_material.menu_valu){
         var _data = chart.chart_material.menu_valu[i];
         if (_data.checked){
@@ -1005,8 +1005,8 @@ var udf_get_selected_valu_other = function (chart) {
 };
 
 var udf_capitalize = function(s) {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
+  if (typeof s !== 'string') return '';
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 var udf_get_selected_data_other = function (chart) {
