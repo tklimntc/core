@@ -28,10 +28,16 @@ client html file
         <nav id="main_nav" style="width: 84px;">
             <div id="nav_charts_tab" class="chart_tab">
                 <label class="label" id="i18n_nav_title_chart"><div></div></label>
-                <label id="nav_realtime_toggle_wrapper" class="label" for="nav_checkbox_realtime_toggle" >
+                <label id="nav_realtime_toggle_wrapper" class="label" for="nav_checkbox_realtime_toggle">
                     <div id="nav_realtime_toggle_div" class="">
                         <input id="nav_checkbox_realtime_toggle" type="checkbox" class="checkbox" onchange='udf_realtime_toggle(this)'></input>
                         <label class="" id="i18n_nav_realtime_toggle_label" for="nav_checkbox_realtime_toggle"></label>
+                    </div>
+                </label>
+                <label id="nav_limit_toggle_wrapper" class="label" for="nav_checkbox_limit_toggle" >
+                    <div id="nav_limit_toggle_div" class="">
+                        <input id="nav_checkbox_limit_toggle" type="checkbox" class="checkbox" onchange='udf_limit_toggle(this)' checked></input>
+                        <label class="" id="i18n_nav_limit_toggle_label" for="nav_checkbox_limit_toggle"></label>
                     </div>
                 </label>
                 <label class="label" id="i18n_nav_size_toggle"></label>
@@ -137,7 +143,7 @@ client html file
                     <div id="menu_sort_content" class="menu_content">
                     </div>
                 </div>
-                <div id="menu_char" class="menu">
+                <div id="menu_char" class="menu"  style="display:none">
                     <div id="menu_char_title" class="menu_title">
                         <label class="label label_name" id="i18n_menu_char_title_chart"></label>
                     </div>

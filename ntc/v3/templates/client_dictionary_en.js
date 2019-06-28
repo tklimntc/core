@@ -17,6 +17,7 @@ var word_en = {
     ,"i18n_nav_delete_all":"reset"
     ,"i18n_nav_legend":"legend"
     ,"i18n_nav_realtime_toggle_label":"realtime"
+    ,"i18n_nav_limit_toggle_label":"limit"
     
     ,"i18n_nav_size_toggle":"zoom-in/out"
     ,"i18n_menu_navigator_button_create":"search"

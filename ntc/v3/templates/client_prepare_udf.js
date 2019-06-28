@@ -74,6 +74,12 @@ var udf_realtime_toggle = function (cbx) {
     }
 };
 
+var limit = true;
+var udf_limit_toggle = function (cbx) {
+    limit = cbx.checked
+    
+};
+
 var udf_check_realtime = function () {
     if(charts.length<1){
         udf_update_prepare();
@@ -872,7 +878,7 @@ var udf_get_selected_limit = function (chart) {
             // }
         }
     }
-    return 200;
+    return limit==true?200:9999999999;
 };
 
 var udf_get_date_format_other = function (chart) {

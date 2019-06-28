@@ -17,6 +17,7 @@ var word_kr = {
     ,"i18n_nav_delete_all":"초기화"
     ,"i18n_nav_legend":"범례"
     ,"i18n_nav_realtime_toggle_label":"실시간"
+    ,"i18n_nav_limit_toggle_label":"제한"
     
     ,"i18n_nav_size_toggle":"확대/축소"
     ,"i18n_menu_navigator_button_create":"조회"
