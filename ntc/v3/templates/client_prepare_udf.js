@@ -39,6 +39,10 @@ var udf_ = function () {
     
 };
 
+i18n_nav_size_toggle_click = function () {
+    main_nav.style.width = main_nav.style.width=='84px'?'160px':'84px'
+}
+
 var udf_chart_refresh = function () {
     for(var i in charts){
         udf_chart_create_update(charts[i]);

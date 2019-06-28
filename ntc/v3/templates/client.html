@@ -10,7 +10,7 @@ client html file
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Language" content="en">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Nexturecom charts</title>
+        <title>Nexturecom Smart IoT Dash Board</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <meta name="msapplication-tap-highlight" content="no">
     	<link href="/nv.d3.css" rel="stylesheet" type="text/css"/>
@@ -20,19 +20,21 @@ client html file
     <body>
         <header>
             <img id="header_logo" src="/logo.png" class="logo"></img>
-            <div id="haeder_language_select">
+            <label id="i18n_document_title">Smart&nbsp;<p>I</p>o<p>T</p>&nbsp;Dash&nbsp;Board</label>
+            <div id="haeder_language_select" style="display:none">
                 <label id="i18n_language_global_korean" ></label>&nbsp;/&nbsp;<label id="i18n_language_global_english" ></label>
             </div>
         </header>
-        <nav>
+        <nav id="main_nav" style="width: 84px;">
             <div id="nav_charts_tab" class="chart_tab">
-                <label class="label" id="i18n_nav_title_chart"></label>
+                <label class="label" id="i18n_nav_title_chart"><div></div></label>
                 <label id="nav_realtime_toggle_wrapper" class="label" for="nav_checkbox_realtime_toggle" >
                     <div id="nav_realtime_toggle_div" class="">
                         <input id="nav_checkbox_realtime_toggle" type="checkbox" class="checkbox" onchange='udf_realtime_toggle(this)'></input>
                         <label class="" id="i18n_nav_realtime_toggle_label" for="nav_checkbox_realtime_toggle"></label>
                     </div>
                 </label>
+                <label class="label" id="i18n_nav_size_toggle"></label>
                 
                 <label id="i18n_nav_show_all" class="label" onclick="udf_show_all()"></label>
                 <label id="i18n_nav_delete_all" class="label" onclick="udf_delete_all()"></label>
@@ -40,18 +42,25 @@ client html file
             </div>
         </nav>
         <div id="menu_legend" style="display:none">
-            <div id="dataDescription">온도 : 단위:℃</div>
-            <div id="dataDescription">습도 : 단위:％</div>
-            <div id="dataDescription">기압 : 단위:hPa</div>
-            <div id="dataDescription">조도 : 단위:lx</div>
-            <div id="dataDescription">공기질(VOC) ㎍/㎡ : <p style="color:#000000; background-color:#00ff00;">0-50:좋음</p>,&nbsp;<p style="color:#000000; background-color:#ffff00;">51~100:보통</p>,&nbsp;<p style="color:#000000; background-color:#ff9000;">101~150:약간 나쁨</p>,&nbsp;<p style="color:#ffff00; background-color:#ff0000;">151~200:나쁨</p>,&nbsp;<p style="color:#ffffff; background-color:#a000ff;">201~300:많이 나쁨</p>,&nbsp;<p style="color:#ffffff; background-color:#000000;">301~500:최악</p></div>
-            <div id="dataDescription">실내 공기 질 : 단위:0, 1, 2, 3</div>
-            <div id="dataDescription">진동 : 단위:0(정지), 4(진동)</div>
-            <div id="dataDescription">자력 : 단위:0(접근), 2(이탈)</div>
+            <div class="dataDescription dd_bigger">단위</div>
+            <div class="dataDescription">온도 : ℃</div>
+            <div class="dataDescription">습도 : ％</div>
+            <div class="dataDescription">기압 : hPa</div>
+            <div class="dataDescription">조도 : lx</div>
+            <div class="dataDescription">공기질(VOC) ㎍/㎡ : 
+                <p style="color:#000000; background-color:#00ff00;">0-50:좋음</p>,&nbsp;
+                <p style="color:#000000; background-color:#ffff00;">51~100:보통</p>,&nbsp;
+                <p style="color:#000000; background-color:#ff6000;">101~150:약간 나쁨</p>,&nbsp;
+                <p style="color:#ffff00; background-color:#ff0000;">151~200:나쁨</p>,&nbsp;
+                <p style="color:#ffffff; background-color:#a000ff;">201~300:많이 나쁨</p>,&nbsp;
+                <p style="color:#ffffff; background-color:#000000;">301~500:최악</p></div>
+            <div class="dataDescription">실내 공기 질 : 0, 1, 2, 3</div>
+            <div class="dataDescription">진동 : 0(정지), 4(진동)</div>
+            <div class="dataDescription">자력 : 0(접근), 2(이탈)</div>
         </div>
         <div id="menu_wrapper">
             <div id="menu_navigator">
-                <div id="menu_button_shrink"><<</div>
+                <div id="menu_button_shrink" class="label display"></div>
                 <input id="menu_chart_name" class="writable_label" placeholder="chart_name" value="chart_name">
                 <div id="menu_button_show">
                     <label class="label display" id="i18n_menu_navigator_button_create"></label>

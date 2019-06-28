@@ -38,4 +38,5 @@ i18n_menu_term_content_label_preset_week.addEventListener('click',udf_i18n_menu_
 i18n_menu_term_content_label_preset_month.addEventListener('click',udf_i18n_menu_term_content_label_preset_month_click);
 i18n_menu_term_content_label_preset_year.addEventListener('click',udf_i18n_menu_term_content_label_preset_year_click);
 i18n_nav_legend.addEventListener('click',i18n_nav_legend_click);
+i18n_nav_size_toggle.addEventListener('click',i18n_nav_size_toggle_click);
 window.onresize = function(event) { udf_chart_refresh(); };

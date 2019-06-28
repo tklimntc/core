@@ -15,6 +15,7 @@ header {
     width: 100%;
     height:80px;
     border-bottom: solid 20px #0064C9;
+    text-align:center;
 }
 nav {
     background: #555;
@@ -38,6 +39,7 @@ nav #nav_charts_tab {
     /*width: 35px;*/
     /*list-style:none;*/
     /*border-top:1px solid gray;*/
+    margin-top:4px;
 }
 article {
     position:fixed;
@@ -69,11 +71,13 @@ footer small {
 }
 footer .logo {
     height:52px;
+    position:relative;
 }
 .logo {
     height: 60px;
-    position: relative;
+    position: absolute;
     padding:10px;
+    left: 0px;
 }
 #menu_wrapper {
     position:fixed;
@@ -89,12 +93,19 @@ footer .logo {
     border:1px solid gray;
     min-height:20px;
 }
+#menu_button_shrink:hover {
+    background:lightgray;
+}
+#menu_button_shrink:active {
+    background:gray;
+}
 #menu_button_shrink {
     font-size: 13px;
     margin: -1px;
     border: 1px solid gray;
     padding: 4px;
-    height: 29px;
+    height: 27px;
+    padding-top: 3px;
 }
 #menu_query {
     /*position:fixed;*/
@@ -118,6 +129,9 @@ footer .logo {
     display: table-cell;
 }
 .menu_title {
+    text-align: center;
+    color: #464964;
+    font-weight: bold;
     /*min-width: 100px;*/
     background: gold;
     height: 30px;
@@ -216,11 +230,12 @@ label {
 }
 #i18n_menu_navigator_button_create {
     width: 50px;
-    height:29px;
+    height:27px;
     padding: 5px;
     margin:4px;
     text-align: center;
     border:1px solid gray;
+    padding-top: 3px;
 }
 #nav_charts_tab .label:hover{
     background:gray;
@@ -231,7 +246,7 @@ label {
 #nav_charts_tab .label{
     display: block;
     overflow:hidden;
-    width:74px;
+    /*width:74px;*/
     white-space:nowrap;
     padding: 3px;
     border-left: 1px solid gray;
@@ -312,16 +327,17 @@ g .nv-focus, g .nv-focusWrap .nvd3-svg{
     font-size: xx-large;
     font-weight: bold;
     padding: 24px;
-    padding-bottom:12px;
+    padding-bottom:2px;
 }
 
 .chart_smt_title {
-    background:oldlace;
+    background: oldlace;
     display: block;
     font-size: x-large;
     font-weight: bold;
     padding-left: 24px;
-    padding-top: 44px;
+    padding-top: 14px;
+    padding-bottom: 10px;
 }
 .menu_title:hover{
     background:khaki;
@@ -339,6 +355,7 @@ g .nv-focus, g .nv-focusWrap .nvd3-svg{
     position: absolute;
     bottom: 5px;
     border-top: 1px solid gray;
+    width: calc(100% - 10px);
 }
 #menu_legend{
     position: fixed;
@@ -346,16 +363,68 @@ g .nv-focus, g .nv-focusWrap .nvd3-svg{
     bottom: 80px;
     z-index: 10000;
     margin: 5px;
-    width: calc(100% - 93px);
     background: white;
     border:1px solid gray;
+    padding:10px;
 }
-#dataDescription{
+.dataDescription{
     width:100%;
     background: #fafbfc;
     color: #000000;
 }
-#dataDescription p{
-    width:300px;
+.dataDescription p{
     display: inline;
+}
+.dd_bigger{
+    font-size: 20px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+  #menu_term_title
+, #menu_sens_title
+, #menu_data_title
+, #menu_valu_title
+, #menu_sort_title
+, #menu_char_title
+{
+    
+}
+
+  #i18n_menu_term_title_term
+, #i18n_menu_sens_title_sens
+, #i18n_menu_data_title_data
+, #i18n_menu_valu_title_valu
+, #i18n_menu_sort_title_sort
+, #i18n_menu_char_title_char
+{
+  
+}
+
+#menu_data_checkbox_all {
+    left:-22px;
+}
+#menu_sens_checkbox_all {
+    left:-26px;
+}
+#i18n_menu_data_title_data {
+    left: -8px;
+    position: relative;
+}
+#i18n_menu_sensor_title_sensor {
+    left: -10px;
+    position: relative;
+}
+#i18n_document_title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #464964;
+    /* width: 467px; */
+    display: inline-flex;
+    text-align: center;
+    position: relative;
+    top: 8px;
+}
+#i18n_document_title > p {
+    color:#FF7F00;
 }
